@@ -11,17 +11,17 @@ stages:
   - Push to Docker Hub
   - Publish
 
-build_and_docker_push_client:
-  stage: Push to Docker Hub
-  image: docker:20.10.17
-  services:
-    - docker:20.10.17-dind
-  only:
-    - main
-  script:
-    - docker build -t $container_image_client -f apps/client/Dockerfile .
-    - docker login -u admin -p redhat registry.infralastic.com:443
-    - docker push $container_image_client
+#build_and_docker_push_client:
+#  stage: Push to Docker Hub
+#  image: docker:20.10.17
+#  services:
+#    - docker:20.10.17-dind
+#  only:
+#    - main
+#  script:
+#    - docker build -t $container_image_client -f apps/client/Dockerfile .
+#    - docker login -u admin -p redhat registry.infralastic.com:443
+#    - docker push $container_image_client
 
 build_and_docker_push_app_store:
   stage: Push to Docker Hub

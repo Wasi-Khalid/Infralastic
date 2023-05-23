@@ -1,0 +1,125 @@
+import {Button, Col, Form, Row} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
+import logo from '../../../../assets/logo.png';
+import google from '../../../../assets/Google.png';
+import facebook from '../../../../assets/Facebook.png';
+import CarouselComponent from "../../../components/Slider";
+import { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import './login.scss';
+import {useAppDispatch, useAppSelector} from "../../../services/store/hooks";
+import {userLogin} from "../../../services/store/actions/Auth";
+import {toast} from "react-toastify";
+import axios from "axios";
+
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const router = useNavigate()
+    const dispatch = useAppDispatch();
+    const { userInfo } = useAppSelector((state) => state.user);
+
+
+    const checkFleet = () => {
+      axios.get('http://fleet.flashcitytours.com/user').then((res: any)  => {
+        console.log(res)
+      })
+    }
+
+    useEffect(() => {
+      checkFleet();
+    })
+    const handleSubmit = () => {
+        const formData: any = {
+            login: email,
+            password: password,
+        };
+        try {
+            dispatch(userLogin(formData)).then(async (res:any) => {
+                if (res.payload.result.success === true) {
+                    toast.success(res.payload.result.msg);
+                    setTimeout(() => {
+                        router('/')
+                    }, 3000)
+                } else{
+                    toast.error(res.payload.result.msg);
+                }
+            })
+        } catch (err: any) {
+            console.error(err);
+            toast.error('Access Denied');
+        }
+    }
+
+    return (
+        <div className='h-100vh'>
+            <Row className='h-100vh'>
+                <Col md={6}>
+                    <div className='d-flex justify-content-center align-items-center h-100 p-4 w-100'>
+                        <div className='login-width d-flex flex-column'>
+                            <img src={logo} className='w-50' alt=""/>
+                            <h2 className='theme-font py-5'>Welcome to <span className='theme-danger'>Infralastic!</span> 👋</h2>
+                            <h3 className='theme-font pb-3'>Login to your account</h3>
+                            <Form>
+                                <Form.Group className="pb-3" controlId="formBasicEmail">
+                                    <label className='fs-7 pb-1 theme-font'>Email</label>
+                                    <Form.Control
+                                        className='fs-7 theme-font'
+                                        type="email"
+                                        placeholder="Enter email"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="pb-3" controlId="formBasicPassword">
+                                    <label className='fs-7 pb-1 theme-font'>Password</label>
+                                    <Form.Control
+                                        className='fs-7 theme-font'
+                                        type="password"
+                                        placeholder="Password"
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="pb-3" controlId="formBasicCheckbox">
+                                    <Form.Check className='fs-7 theme-font' type="checkbox" label="Remember Me" />
+                                </Form.Group>
+                                <Button
+                                    className='bg-theme-danger border-0 w-100 theme-font'
+                                    type="button"
+                                    onClick={() => handleSubmit()}
+                                >
+                                    Login
+                                </Button>
+                            </Form>
+                            <div className='text-center py-3'>
+                                <a
+                                    className='text-black text-muted fs-7'
+                                    href=""
+                                    onClick={() => router('/reset-password')}
+                                >Reset Password?</a>
+                            </div>
+                            <hr/>
+                            <div className='d-flex justify-content-center py-2'>
+                                <div className='px-2'>
+                                    <img src={facebook} className='w-75' alt=""/>
+                                </div>
+                                <div className='px-2'>
+                                    <img src={google} className='w-75' alt=""/>
+                                </div>
+                            </div>
+                            <div>
+                                <p className='fs-7 text-center py-3'>By clicking <span className='fw-bold'>“Login”</span>  you agree to <span className='theme-danger'>Infralastic’s</span> user Terms of Services and <span className='theme-danger'>Privacy Policy</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </Col>
+                <Col md={6}>
+                    <div className='login-bg h-100'>
+                        <CarouselComponent />
+                    </div>
+                </Col>
+            </Row>
+        </div>
+    )
+}
+export default Login;

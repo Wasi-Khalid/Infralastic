@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from "../../../api";
 
 
-export const fetchProductList = createAsyncThunk(
-  "device/products",
+export const fetchAllCategoryList = createAsyncThunk(
+  "device/category",
   async (
     {formData}: {formData: any},
     { getState, rejectWithValue }
@@ -11,7 +11,7 @@ export const fetchProductList = createAsyncThunk(
     try {
       let data = {};
       const { user }: any = getState();
-      await api.getProductList({formData}).then((res: any) => {
+      await api.getCategoryList({formData}).then((res: any) => {
         console.log(res)
         data = res.data;
       });

@@ -6,5 +6,5 @@ const API = axios.create({
   }
 });
 
-export const getProductList = (formData: any) =>
-  API.post('/api/', formData)
+export const getCategoryList = (formData: any) =>
+  API.post('/api/get_all_product_category_api', formData)

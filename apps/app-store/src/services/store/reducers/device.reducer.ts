@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ProductActionType } from "../constants/DeviceStore";
+import { AllCategoryActionType } from "../constants/DeviceStore";
 
 const initialState: any = {
     loading: false,
@@ -14,15 +14,15 @@ const deviceSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [ProductActionType.ProductPending]: (state: any) => {
+        [AllCategoryActionType.AllCategoryPending]: (state: any) => {
             state.loading = true;
             state.error = null;
         },
-        [ProductActionType.ProductSuccess]: (state, { payload }) => {
+        [AllCategoryActionType.AllCategorySuccess]: (state, { payload }) => {
             state.loading = false;
             state.deviceStoreInfo = payload;
         },
-        [ProductActionType.ProductFail]: (state, { payload }) => {
+        [AllCategoryActionType.AllCategoryFail]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

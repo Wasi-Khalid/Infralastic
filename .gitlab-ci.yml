@@ -23,6 +23,14 @@ build_and_docker_push_client:
     - docker login -u admin -p redhat registry.infralastic.com:443
     - docker push $container_image_client
 
+publish to Client VPS:
+  stage: Publish
+  only:
+    - main
+  trigger:
+    project: arsalan.yasin/secure-pipelines
+    branch: main
+
 build_and_docker_push_app_store:
   stage: Push to Docker Hub
   image: docker:20.10.17
@@ -35,7 +43,7 @@ build_and_docker_push_app_store:
     - docker login -u admin -p redhat registry.infralastic.com:443
     - docker push $container_image_app_store
 
-publish to VPS:
+publish to Store VPS:
   stage: Publish
   only:
     - main

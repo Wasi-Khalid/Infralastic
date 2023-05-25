@@ -125,7 +125,7 @@ const CheckOutFormComponent = () => {
                                           onChange={(e) => setAssignee(e.target.value)}
                                       >
                                           <option value=''>Select Assignee</option>
-                                          {employeeData.map((item: any) => (
+                                          {employeeData?.map((item: any) => (
                                               <option value={item.employee_id}>{item.employee_name}</option>
                                           ))}
                                       </Form.Select>
@@ -142,7 +142,7 @@ const CheckOutFormComponent = () => {
                                           onChange={(e) => setDepartmentId(e.target.value)}
                                       >
                                           <option value=''>Select Department</option>
-                                          {department.map((item: any) => (
+                                          {department?.map((item: any) => (
                                               <option value={item.department_id}>{item.department_name}</option>
                                           ))}
                                       </Form.Select>
@@ -177,7 +177,7 @@ const CheckOutFormComponent = () => {
                                           onChange={(e) => setAssets(e.target.value)}
                                       >
                                           <option value=''>Select Assets</option>
-                                          {assetData.map((item: any) => (
+                                          {assetData?.map((item: any) => (
                                               <option value={item.asset_unique_id}>{item.asset_name}</option>
                                           ))}
                                       </Form.Select>

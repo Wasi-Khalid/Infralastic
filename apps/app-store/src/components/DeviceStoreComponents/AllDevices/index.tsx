@@ -1,9 +1,22 @@
 import './all-devices.scss';
 import { Card, Col, Row } from "react-bootstrap";
 import ProductCard from "../ProductCard";
-import bogus from '../../../assets/products/fwebp.png'
+import bogus from '../../../assets/products/fwebp.png';
+import { useNavigate } from 'react-router-dom'
+import {useAppDispatch} from "../../../services/store/hooks";
+import {useEffect} from "react";
+import {fetchAllCategoryList} from "../../../services/store/actions/DeviceStore";
 
 const AllDevices = () => {
+  const router = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const config: any =  {}
+    dispatch(fetchAllCategoryList(config)).then((res: any) => {
+      console.log(res)
+    })
+  }, [])
   return(
     <div className='mb-3'>
       <Card className='p-2 rounded-4'>
@@ -22,12 +35,20 @@ const AllDevices = () => {
             </div>
           </div>
           <Row>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
-            <Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>
+            <Col md={4}>
+              <ProductCard
+                click={() => router('/device-detail')}
+                image={bogus}
+                description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
+                cost='$1,499.99'
+                inch='16"'
+              />
+            </Col>
+            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
+            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
+            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
+            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
+            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
           </Row>
         </Card.Body>
       </Card>

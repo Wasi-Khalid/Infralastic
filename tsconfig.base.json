@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@infralastic/loader": ["libs/loader/src/index.ts"],
-      "@infralastic/shared-ui": ["libs/shared-ui/src/index.ts"]
+      "@infralastic/loader": ["libs/loader/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

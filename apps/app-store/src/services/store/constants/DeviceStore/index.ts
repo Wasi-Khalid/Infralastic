@@ -1,7 +1,7 @@
-import { fetchProductList } from "../../actions/DeviceStore";
+import {fetchAllCategoryList} from "../../actions/DeviceStore";
 
-export const ProductActionType: any = {
-  ProductPending: [fetchProductList.pending],
-  ProductSuccess: [fetchProductList.fulfilled],
-  ProductFail: [fetchProductList.rejected]
+export const AllCategoryActionType: any = {
+  AllCategoryPending: [fetchAllCategoryList.pending],
+  AllCategorySuccess: [fetchAllCategoryList.fulfilled],
+  AllCategoryFail: [fetchAllCategoryList.rejected]
 }

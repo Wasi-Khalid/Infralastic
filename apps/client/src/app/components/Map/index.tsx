@@ -45,7 +45,7 @@ const Map: React.FC<IMapProps> = ({ mapboxToken }) => {
             mapboxAccessToken={mapboxToken}
             onMove={(e: any) => setViewport(e.viewState)}
         >
-            {location.map((item: any) => (
+            {location?.map((item: any) => (
                 <Marker
                     children={
                         <div>

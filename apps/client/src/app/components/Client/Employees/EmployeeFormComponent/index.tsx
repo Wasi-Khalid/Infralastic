@@ -29,14 +29,14 @@ const EmployeeFormComponent = () => {
     const [job, setJob] = useState('');
     const [company, setCompany] = useState<any>('');
     const [phone, setPhone] = useState('');
-    const [department, setDepartment] = useState<any>('');
-    const [manager, setManager] = useState<any>(0);
+    const [department, setDepartment] = useState<any>(null);
+    const [manager, setManager] = useState<any>(null);
     const [file, setFile] = useState<any>(null);
     const [imageFile, setImageFile] = useState('');
     const [imageURL, setImageURL] = useState('');
-    const [companyData, setCompanyData] = useState([]);
-    const [departmentData, setDepartmentData] = useState([]);
-    const [managerData, setManagerData] = useState([]);
+    const [companyData, setCompanyData] = useState<any>([]);
+    const [departmentData, setDepartmentData] = useState<any>([]);
+    const [managerData, setManagerData] = useState<any>([]);
     const [employmentStatus, setEmploymentStatus] = useState('');
     const [fileData, setFileData]  = useState<any>(null)
     const [searchParams, setSearchParams] = useSearchParams();
@@ -149,7 +149,9 @@ const EmployeeFormComponent = () => {
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
-        () => {},
+        (res: any) => {
+          console.log(res)
+        },
         (error: any) => {
           alert(error);
         },
@@ -167,19 +169,19 @@ const EmployeeFormComponent = () => {
                 image_url: url,
                 job_title: job,
                 company_id: JSON.parse(company),
-                manager_id: JSON.parse(manager),
-                department_id: JSON.parse(department),
+                manager_id: JSON.parse(manager) ? manager !== null : 0,
+                department_id: JSON.parse(department) ? department !== null : 0,
                 employee_status: JSON.parse(employmentStatus)
               }
               try {
                 dispatch(addEmployee(formData)).then(async (res: any) => {
-                  if (res.payload.success === true) {
-                    toast.success(res.payload.msg);
+                  if (res?.payload?.success === true) {
+                    toast.success(res?.payload?.msg);
                     setTimeout(() => {
                       router('/employee-view')
                     }, 3000)
                   } else {
-                    toast.error(res.payload.msg);
+                    toast.error(res?.payload);
                   }
                 });
               } catch (err: any) {
@@ -192,13 +194,13 @@ const EmployeeFormComponent = () => {
                 last_name: lastName,
                 email: email,
                 phone: phone,
-                image_url: imageURL,
+                image_url: url,
                 employee_id: JSON.parse(id),
                 job_title: job,
                 company_id: JSON.parse(company),
-                manager_id: JSON.parse(manager),
-                department_id: JSON.parse(department),
-                employee_status: JSON.parse(employmentStatus),
+                manager_id: JSON.parse(manager) ? manager !== null : 0,
+                department_id: JSON.parse(department) ? department !== null : 0,
+                employee_status: JSON.parse(employmentStatus)
               }
               try {
                 dispatch(updateEmployeeById(formData)).then(async (res: any) => {

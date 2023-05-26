@@ -4,6 +4,7 @@ import DeviceStore from "../pages/DeviceStore";
 import OrderTracking from "../pages/OrderTracking";
 import DeviceDetail from "../pages/DeviceStore/DeviceDetail";
 import DeviceCheckout from "../pages/DeviceStore/DeviceCheckout";
+import CheckoutComplete from "../pages/DeviceStore/CheckoutComplete";
 
 const ProductRoutes = () => {
   return (
@@ -20,6 +21,10 @@ const ProductRoutes = () => {
         <Route
           path="/device-checkout"
           element={<DeviceCheckout />}
+        />
+        <Route
+          path="/checkout-complete"
+          element={<CheckoutComplete />}
         />
         <Route
           path="/app-store"

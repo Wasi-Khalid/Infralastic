@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import './app.module.scss';
 import AppRoutes from "./routes/route";
 import Layout from "./components/layout";
-// import { Loader } from "@infralastic/loader";
+import { Loader } from "@infralastic/loader";
 import { useAppSelector } from "./services/store/hooks";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      {/*<Loader visible={userLoading || employeeLoading || companyLoading || departmentLoading || assetLoading} />*/}
+      <Loader visible={userLoading || employeeLoading || companyLoading || departmentLoading || assetLoading} />
       <Layout children={<AppRoutes />} />
     </div>
   );

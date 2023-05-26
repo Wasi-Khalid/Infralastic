@@ -20,7 +20,7 @@ COPY --from=client-builder /app/dist/apps/client /usr/share/nginx/html/client
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY nginx/nginx.conf /etc/nginx/conf.d
+COPY apps/client/nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 80
 

@@ -5,17 +5,28 @@ import bogus from '../../../assets/products/fwebp.png';
 import { useNavigate } from 'react-router-dom'
 import {useAppDispatch} from "../../../services/store/hooks";
 import {useEffect} from "react";
-import {fetchAllCategoryList} from "../../../services/store/actions/DeviceStore";
+import {fetchAllCategoryList, fetchAllProductList} from "../../../services/store/actions/DeviceStore";
 
 const AllDevices = () => {
   const router = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  function getCategory() {
     const config: any =  {}
     dispatch(fetchAllCategoryList(config)).then((res: any) => {
       console.log(res)
     })
+  }
+  function getProduct() {
+    const config: any =  {}
+    dispatch(fetchAllProductList(config)).then((res: any) => {
+      console.log(res)
+    })
+  }
+
+  useEffect(() => {
+   getCategory();
+   getProduct();
   }, [])
   return(
     <div className='mb-3'>

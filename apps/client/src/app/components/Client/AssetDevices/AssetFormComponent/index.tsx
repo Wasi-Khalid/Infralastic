@@ -193,8 +193,8 @@ const AssetFormComponent = () => {
                                         onChange={(e) => setCategory(e.target.value)}
                                     >
                                         <option value='0'>Select Category</option>
-                                        {categoryData.map((item: any) => (
-                                            <option value={item.categ_id}>{item.categ_name}</option>
+                                        {categoryData?.map((item: any) => (
+                                            <option value={item?.categ_id}>{item?.categ_name}</option>
                                         ))}
                                     </Form.Select>
                                 </Form.Group>
@@ -424,8 +424,8 @@ const AssetFormComponent = () => {
                                         onChange={(e) => setLocation(e.target.value)}
                                     >
                                         <option value=''>Select Location</option>
-                                        {locationData.map((item: any) => (
-                                            <option value={item.site_id}>{item.state_name}</option>
+                                        {locationData?.map((item: any) => (
+                                            <option value={item?.site_id}>{item?.state_name}</option>
                                         ))}
                                     </Form.Select>
                                 </Form.Group>

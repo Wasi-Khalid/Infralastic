@@ -19,7 +19,7 @@ const DepartmentFormComponent = () => {
     const router = useNavigate();
     const dispatch = useAppDispatch();
     const [name, setName] = useState('');
-    const [departmentHead, setDepartmentHead] = useState('Select Department Head');
+    const [departmentHead, setDepartmentHead] = useState('');
     const [employeeData, setEmployeeData] = useState<any>(null);
     const [file, setFile] = useState<any>(null);
     const [imageFile, setImageFile] = useState('');
@@ -181,7 +181,7 @@ const DepartmentFormComponent = () => {
                                             value={departmentHead}
                                             onChange={(e) => setDepartmentHead(e.target.value)}
                                         >
-                                            <option value=''>{departmentHead}</option>
+                                            <option value=''>Select Department Head</option>
                                             {employeeData?.map((item: any) => (
                                                 <option value={item.employee_id}>{item.employee_name}</option>
                                             ))}

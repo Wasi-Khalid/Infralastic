@@ -2,30 +2,48 @@ import './all-devices.scss';
 import { Card, Col, Row } from "react-bootstrap";
 import ProductCard from "../ProductCard";
 import bogus from '../../../assets/products/fwebp.png';
-import { useNavigate } from 'react-router-dom'
+import {createSearchParams, useNavigate} from 'react-router-dom'
 import {useAppDispatch} from "../../../services/store/hooks";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {fetchAllCategoryList, fetchAllProductList} from "../../../services/store/actions/DeviceStore";
 
-const AllDevices = () => {
+interface filterInterface {
+  hardwareCategory: any;
+  brandData: any;
+}
+
+const AllDevices = (props: filterInterface) => {
   const router = useNavigate();
   const dispatch = useAppDispatch();
-
-  function getCategory() {
-    const config: any =  {}
-    dispatch(fetchAllCategoryList(config)).then((res: any) => {
-      console.log(res)
-    })
-  }
+  const [originalData, setOriginalData] = useState<any>([])
+  const [productData, setProductData] = useState<any>([])
   function getProduct() {
     const config: any =  {}
     dispatch(fetchAllProductList(config)).then((res: any) => {
-      console.log(res)
+      setProductData(res?.payload?.result?.product_details);
+      setOriginalData(res?.payload?.result?.product_details);
     })
   }
 
+  const applyFilters = () => {
+    setProductData((prevAssets: any) => {
+      let filteredData = [...originalData];
+
+      if (props.hardwareCategory !== '') {
+        filteredData = filteredData.filter((res) => res.category_name === props.hardwareCategory);
+      }
+      if (props.brandData !== '') {
+        filteredData = filteredData.filter((res) => res.brand === props.brandData);
+      }
+
+      return filteredData;
+    });
+  };
   useEffect(() => {
-   getCategory();
+    applyFilters();
+  }, [props.hardwareCategory, props.brandData]);
+
+  useEffect(() => {
    getProduct();
   }, [])
   return(
@@ -46,20 +64,22 @@ const AllDevices = () => {
             </div>
           </div>
           <Row>
-            <Col md={4}>
-              <ProductCard
-                click={() => router('/device-detail')}
-                image={bogus}
-                description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
-                cost='$1,499.99'
-                inch='16"'
-              />
-            </Col>
-            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
-            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
-            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
-            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
-            {/*<Col md={4}><ProductCard image={bogus} description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)' cost='$1,499.99' inch='16"' /></Col>*/}
+            {productData?.map((item: any) => (
+              <Col md={4}>
+                <ProductCard
+                  click={() => router({
+                    pathname: '/device-detail',
+                    search: `?${createSearchParams({
+                      productId: item?.product_id
+                    })}`
+                  })}
+                  image={item?.image}
+                  description={item?.product_name}
+                  cost={`$${item?.price}`}
+                  inch='16"'
+                />
+              </Col>
+            ))}
           </Row>
         </Card.Body>
       </Card>

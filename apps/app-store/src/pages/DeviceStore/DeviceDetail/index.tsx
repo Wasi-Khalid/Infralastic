@@ -3,9 +3,30 @@ import bogus from '../../../assets/laptop-image.png'
 import bogus2 from '../../../assets/lap2.png'
 import bogus3 from '../../../assets/products/fwebp.png';
 import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {useAppDispatch} from "../../../services/store/hooks";
+import {fetchProductById} from "../../../services/store/actions/DeviceStore";
+import {useEffect, useState} from "react";
 const DeviceDetail  = () => {
-  const router = useNavigate()
+  const router = useNavigate();
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [productData, setProductData] = useState<any>(null)
+  const id: any = searchParams.get('product_id')
+
+  const fetchProduct = () => {
+    const fromData = {
+      product_id: id
+    }
+    dispatch(fetchProductById(fromData)).then((res: any) => {
+      setProductData(res.payload.result);
+    })
+  }
+
+  useEffect(() => {
+    fetchProduct()
+  }, [])
+
   return(
     <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
       <div>

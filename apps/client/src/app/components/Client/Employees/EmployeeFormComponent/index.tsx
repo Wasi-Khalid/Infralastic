@@ -170,7 +170,7 @@ const EmployeeFormComponent = () => {
                 job_title: job,
                 company_id: JSON.parse(company),
                 manager_id: JSON.parse(manager) ? manager !== null : 0,
-                department_id: JSON.parse(department) ? department !== null : 0,
+                department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }
               try {
@@ -199,7 +199,7 @@ const EmployeeFormComponent = () => {
                 job_title: job,
                 company_id: JSON.parse(company),
                 manager_id: JSON.parse(manager) ? manager !== null : 0,
-                department_id: JSON.parse(department) ? department !== null : 0,
+                department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }
               try {
@@ -374,7 +374,7 @@ const EmployeeFormComponent = () => {
                                             value={department}
                                             onChange={(e) => setDepartment(e.target.value)}
                                         >
-                                            <option value=''>Select Department</option>
+                                            <option value='0'>Select Department</option>
                                             {departmentData?.map((item: any) => (
                                                 <option value={item?.department_id}>{item?.department_name}</option>
                                             ))}

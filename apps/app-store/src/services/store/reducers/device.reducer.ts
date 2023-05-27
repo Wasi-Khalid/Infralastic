@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {AllCategoryActionType, AllProductsActionType} from "../constants/DeviceStore";
+import {AllCategoryActionType, AllProductsActionType, ProductActionType} from "../constants/DeviceStore";
 
 const initialState: any = {
     loading: false,
@@ -37,6 +37,19 @@ const deviceSlice = createSlice({
             state.deviceStoreInfo = payload;
         },
         [AllProductsActionType.AllProductsFail]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+
+        [ProductActionType.ProductPending]: (state: any) => {
+            state.loading = true;
+            state.error = null;
+        },
+        [ProductActionType.ProductSuccess]: (state, { payload }) => {
+            state.loading = false;
+            state.deviceStoreInfo = payload;
+        },
+        [ProductActionType.ProductFail]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

@@ -11,8 +11,18 @@ import RamFilter from "../../components/DeviceStoreComponents/Filters/RamFilter"
 import ScreenSizeFilter from "../../components/DeviceStoreComponents/Filters/ScreenSizeFilter";
 import GenerationFilter from "../../components/DeviceStoreComponents/Filters/GenerationFilter";
 import WarrantyFilter from "../../components/DeviceStoreComponents/Filters/WarrantyFilter";
+import {useState} from "react";
 
 const DeviceStore = () => {
+  const [hardData, setHardData] = useState('');
+  const [brandData, setBrandData] = useState('');
+
+  const handleHardwareData = (childData: any) => {
+    setHardData(childData);
+  };
+  const handleBrandData = (childData: any) => {
+    setBrandData(childData);
+  };
   return(
     <>
       <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
@@ -21,8 +31,8 @@ const DeviceStore = () => {
           <Row>
             <Col md={3}>
               <div className="d-flex flex-column">
-                <HardwareFilter />
-                <BrandFilter />
+                <HardwareFilter onData={handleHardwareData} />
+                <BrandFilter onData={handleBrandData} />
                 <PriceFilter />
                 <OperatingSystemFilter />
                 <MemoryFilter />
@@ -33,7 +43,10 @@ const DeviceStore = () => {
               </div>
             </Col>
             <Col md={9}>
-              <AllDevices />
+              <AllDevices
+                hardwareCategory={hardData}
+                brandData={brandData}
+              />
             </Col>
           </Row>
         </div>

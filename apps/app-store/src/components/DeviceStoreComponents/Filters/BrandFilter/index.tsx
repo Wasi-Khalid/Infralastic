@@ -2,56 +2,139 @@ import { Card } from "react-bootstrap";
 import { BiChevronDown } from "react-icons/bi";
 import { useState } from "react";
 
-const BrandFilter = () => {
+const BrandFilter = ({ onData }: { onData: any }) => {
   const [show, setShow] = useState(true);
-  return(
-    <div className='mb-3'>
-      <Card className='p-2 rounded-4'>
+
+  const sendDataToParent = (data: any) => {
+    onData(data);
+  };
+
+  return (
+    <div className="mb-3">
+      <Card className="p-2 rounded-4">
         <Card.Body>
-          <span className='d-flex w-100'><h5 className='theme-font w-75 m-0'>Brand</h5><span className='w-25 d-flex justify-content-end align-items-center'><BiChevronDown onClick={() => setShow(!show)} /></span></span>
-          {show &&
-            <form className='mt-2'>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Apple (15)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>APC (1)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Acer (4)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Asus (3)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Belkin (8)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>BenQ (8)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Dell (17)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>HP (5)</label>
-            </div>
-            <div className='d-flex py-1'>
-              <input type="checkbox" className='form-check-input' />
-              <label className='text-muted fs-7 ms-2'>Jabra (4)</label>
-            </div>
-          </form>
-          }
+          <span className="d-flex w-100">
+            <h5 className="theme-font w-75 m-0">Brand</h5>
+            <span className="w-25 d-flex justify-content-end align-items-center">
+              <BiChevronDown onClick={() => setShow(!show)} />
+            </span>
+          </span>
+          {show && (
+            <form className="mt-2">
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Apple")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Apple (15)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Apc")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">APC (1)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Acer")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Acer (4)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Asus")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Asus (3)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Belkin")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Belkin (8)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("BenQ")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">BenQ (8)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Dell")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Dell (17)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("HP")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">HP (5)</label>
+              </div>
+              <div className="d-flex py-1">
+                <input
+                  onClick={(e: any) =>
+                    e.target.checked
+                      ? sendDataToParent("Jabra")
+                      : sendDataToParent("")
+                  }
+                  type="checkbox"
+                  className="form-check-input"
+                />
+                <label className="text-muted fs-7 ms-2">Jabra (4)</label>
+              </div>
+            </form>
+          )}
         </Card.Body>
       </Card>
     </div>
-  )
-}
+  );
+};
+
 export default BrandFilter;

@@ -1,5 +1,5 @@
 variables:
-  container_name_client: inflastic-client
+  container_name_client: inflastic-app
   container_image_client: registry.infralastic.com:443/inflastic:app-test1
   additional_params_client: -p 8011:80
 

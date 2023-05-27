@@ -1,11 +1,11 @@
 variables:
-  container_name_client: inflastic-client
+  container_name_client: inflastic-app
   container_image_client: registry.infralastic.com:443/inflastic:app-test1
-  additional_params_client: -p 8013:80
+  additional_params_client: -p 8011:80
 
-  container_name_app_store: inflastic-app-store
+  container_name_app_store: inflastic-shop
   container_image_app_store: registry.infralastic.com:443/inflastic:app-test2
-  additional_params_app_store: -p 8014:80
+  additional_params_app_store: -p 8012:80
 
 stages:
   - Push to Docker Hub
@@ -50,3 +50,4 @@ publish to Store VPS:
   trigger:
     project: arsalan.yasin/secure-pipelines
     branch: main
+    

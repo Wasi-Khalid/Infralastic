@@ -11,3 +11,6 @@ export const getCategoryList = (formData: any) =>
 
 export const getAllProducts = (formData: any) =>
   API.post('/api/get_all_products_api', formData)
+
+export const getProductById = (formData: any) =>
+  API.post('/api/get_product_api_by_id', formData)

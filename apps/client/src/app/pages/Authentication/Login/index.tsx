@@ -21,15 +21,15 @@ const Login = () => {
     const { userInfo } = useAppSelector((state) => state.user);
 
 
-    const checkFleet = () => {
-      axios.get('http://fleet.flashcitytours.com/user').then((res: any)  => {
-        console.log(res)
-      })
-    }
-
-    useEffect(() => {
-      checkFleet();
-    })
+    // const checkFleet = () => {
+    //   axios.get('http://fleet.flashcitytours.com/user').then((res: any)  => {
+    //     console.log(res)
+    //   })
+    // }
+    //
+    // useEffect(() => {
+    //   checkFleet();
+    // }, [])
     const handleSubmit = () => {
         const formData: any = {
             login: email,

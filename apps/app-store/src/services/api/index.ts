@@ -8,3 +8,6 @@ const API = axios.create({
 
 export const getCategoryList = (formData: any) =>
   API.post('/api/get_all_product_category_api', formData)
+
+export const getAllProducts = (formData: any) =>
+  API.post('/api/get_all_products_api', formData)

@@ -7,9 +7,9 @@ variables:
   container_image_app_store: registry.infralastic.com:443/inflastic:app-test2
   additional_params_app_store: -p 8012:80
 
-#stages:
-  #- Push to Docker Hub
-  #- Publish
+stages:
+  - Push to Docker Hub
+  - Publish
 
 #build_and_docker_push_client:
   #stage: Push to Docker Hub

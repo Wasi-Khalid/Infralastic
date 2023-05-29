@@ -19,7 +19,7 @@ COPY --from=app-store-builder /app/dist/apps/app-store /usr/share/nginx/html/app
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY apps/client/nginx/nginx.conf /etc/nginx/conf.d
+COPY apps/app-store/nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 80
 

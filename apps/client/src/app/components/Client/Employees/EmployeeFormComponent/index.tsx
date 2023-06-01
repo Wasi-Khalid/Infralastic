@@ -169,7 +169,7 @@ const EmployeeFormComponent = () => {
                 image_url: url,
                 job_title: job,
                 company_id: JSON.parse(company),
-                manager_id: JSON.parse(manager) ? manager !== null : 0,
+                manager_id: JSON.parse(manager),
                 department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }
@@ -198,7 +198,7 @@ const EmployeeFormComponent = () => {
                 employee_id: JSON.parse(id),
                 job_title: job,
                 company_id: JSON.parse(company),
-                manager_id: JSON.parse(manager) ? manager !== null : 0,
+                manager_id: JSON.parse(manager),
                 department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }

@@ -1,18 +1,17 @@
 import {Breadcrumb, Card, Col, Row} from "react-bootstrap";
-import bogus from '../../../assets/laptop-image.png'
-import bogus2 from '../../../assets/lap2.png'
-import bogus3 from '../../../assets/products/fwebp.png';
 import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {useAppDispatch} from "../../../services/store/hooks";
-import {fetchProductById} from "../../../services/store/actions/DeviceStore";
+import {fetchAllProductList, fetchProductById} from "../../../services/store/actions/DeviceStore";
 import {useEffect, useState} from "react";
 const DeviceDetail  = () => {
   const router = useNavigate();
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [productData, setProductData] = useState<any>(null)
-  const id: any = searchParams.get('product_id')
+  const [productData, setProductData] = useState<any>(null);
+  const [allProductData, setAllProductData] = useState<any>(null);
+
+  const id: any = searchParams.get('productId')
 
   const fetchProduct = () => {
     const fromData = {
@@ -23,8 +22,16 @@ const DeviceDetail  = () => {
     })
   }
 
+  function getProduct() {
+    const config: any =  {}
+    dispatch(fetchAllProductList(config)).then((res: any) => {
+      setAllProductData(res?.payload?.result?.product_details);
+    })
+  }
+
   useEffect(() => {
-    fetchProduct()
+    fetchProduct();
+    getProduct();
   }, [])
 
   return(
@@ -32,7 +39,7 @@ const DeviceDetail  = () => {
       <div>
         <Breadcrumb>
           <Breadcrumb.Item href="">Device Store</Breadcrumb.Item>
-          <Breadcrumb.Item active>Ausu Vivobook pro 16x  (N7601,12th Gen Intel)</Breadcrumb.Item>
+          <Breadcrumb.Item active>{productData?.product_name}</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Card>
@@ -41,32 +48,32 @@ const DeviceDetail  = () => {
             <Col md={6}>
               <div className='d-flex flex-column justify-content-center align-items-center p-4'>
                 <div className='mb-5'>
-                  <img src={bogus} width='440' height='250' alt=""/>
+                  <img src={productData?.image} width='440' height='250' alt=""/>
                 </div>
-                <Row>
-                  <Col md={3}>
-                    <img className='mx-3' src={bogus2} width='120' height='120'  alt=""/>
-                  </Col>
-                  <Col md={3}>
-                    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>
-                  </Col>
-                  <Col md={3}>
-                    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>
-                  </Col>
-                  <Col md={3}>
-                    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>
-                  </Col>
-                </Row>
+                {/*<Row>*/}
+                {/*  <Col md={3}>*/}
+                {/*    <img className='mx-3' src={bogus2} width='120' height='120'  alt=""/>*/}
+                {/*  </Col>*/}
+                {/*  <Col md={3}>*/}
+                {/*    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>*/}
+                {/*  </Col>*/}
+                {/*  <Col md={3}>*/}
+                {/*    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>*/}
+                {/*  </Col>*/}
+                {/*  <Col md={3}>*/}
+                {/*    <img className='mx-3' src={bogus2} width='120' height='120' alt=""/>*/}
+                {/*  </Col>*/}
+                {/*</Row>*/}
               </div>
             </Col>
             <Col md={6}>
               <div className="d-flex flex-column justify-content-center h-100 px-3">
-                <p className='theme-font fs-7 text-muted'>ASUS, Laptops</p>
-                <h4 className='theme-font'>ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)</h4>
+                <p className='theme-font fs-7 text-muted'>{productData?.brand}</p>
+                <h4 className='theme-font'>{productData?.product_name}</h4>
                 <p className='theme-font m-0'>Availability: <span className='theme-danger'>Available</span></p>
                 <hr/>
                 <p className='theme-font text-muted fs-7'>Lorem ipsum dolor sit amet consectetur. Tincidunt lacus id ornare elementum. Fames integer lectus nisi senectus vitae ipsum libero. In aliquet dolor nibh ullamcorper porta pellentesque. Imperdiet lacus penatibus enim tristique massa tellus. Facilisis nunc faucibus metus volutpat rhoncus est blandit. Magna sem congue et ac in. Ipsum enim in elit suscipit libero tempor et. Morbi posuere posuere molestie vel.</p>
-                <h2 className='theme-danger fw-semibold'>$1,499.99</h2>
+                <h2 className='theme-danger fw-semibold'>${productData?.price}</h2>
               </div>
             </Col>
           </Row>
@@ -81,85 +88,75 @@ const DeviceDetail  = () => {
               <tbody>
               <tr>
                 <th className='theme-font'>Product number</th>
-                <td></td>
+                <td>{productData?.product_id}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Product name</th>
-                <td>Microsoft Surface Laptop Go</td>
+                <td>{productData?.product_name}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Microprocessor</th>
-                <td>Intel® Core™ i5-1035G1 (1.0 GHz base frequency, up to 3.6 GHz with Intel® Turbo Boost Technology, 6 MB cache, 4 cores)  </td>
+                <td>{productData?.microprocessor}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Chipset</th>
-                <td>Intel® Integrated SoC</td>
+                <td>{productData?.chipset}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Memory, standard</th>
-                <td>8 GB DDR4</td>
+                <td>{productData?.memory}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Video graphics</th>
-                <td>Intel® Iris™ Plus Graphics</td>
+                <td>{productData?.video_graphics}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Hard drive</th>
-                <td>128 GB PCIe® NVMe™ M.2 SSD</td>
+                <td>{productData?.hard_drive}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Display</th>
-                <td>12.4” PixelSense™ Display, Resolution: 2736 x 1824 (267 PPI) 10 point multi-touch</td>
+                <td>{productData?.display}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Wireless connectivity</th>
-                <td>Wi-Fi 6: 802.11ax compatible <br/> Bluetooth Wireless 5.0 technology</td>
+                <td>{productData?.wireless_connectivity}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Network interface</th>
-                <td>None</td>
+                <td>{productData?.network_interface}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Expansion slots</th>
-                <td>MicroSDXC card reader</td>
+                <td>{productData?.expansion_slots}</td>
               </tr>
               <tr>
                 <th className='theme-font'>External ports</th>
-                <td>
-                  1 x USB-C® <br/>
-                  1 x USB-A <br/>
-                  3.5 mm headphone jack <br/>
-                  1 x Surface Connect port <br/>
-                  Surface Type Cover port⁴ <br/>
-                  Compatible with Surface Dial off-screen interaction* <br/>
-                </td>
+                <td>{productData?.external_ports}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Minimum dimensions (W x D x H)</th>
-                <td>11.5” x 7.9” x 0.33” (292 mm x 201 mm x 8.5 mm)</td>
+                <td>{productData?.minimum_dimension}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Weight</th>
-                <td>1.70 lb (775 g)</td>
+                <td>{productData?.device_weight}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Power supply type</th>
-                <td>5702mAh</td>
+                <td>{productData?.power_supply_type}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Battery type</th>
-                <td>Non-removable</td>
+                <td>{productData?.battery_type}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Webcam</th>
-                <td>
-                  5.0MP front-facing camera with 1080p full HD video <br/>
-                  8.0MP rear-facing autofocus camera with 1080p full HD video
-                </td>
+                <td>{productData?.web_cam}</td>
               </tr>
               <tr>
                 <th className='theme-font'>Audio features</th>
-                <td>1.6W stereo speakers with Dolby® Audio™</td>
+                <td>{productData?.audio_features}</td>
               </tr>
               </tbody>
             </table>
@@ -172,42 +169,28 @@ const DeviceDetail  = () => {
           <div className="p-3">
             <h5 className='theme-font'>Related Devices</h5>
             <Row>
-              <Col md={3}>
-                <ProductCard
-                  click={() => router('/device-detail')}
-                  image={bogus3}
-                  description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
-                  cost='$1,499.99'
-                  inch='16"'
-                />
-              </Col>
-              <Col md={3}>
-                <ProductCard
-                  click={() => router('/device-detail')}
-                  image={bogus3}
-                  description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
-                  cost='$1,499.99'
-                  inch='16"'
-                />
-              </Col>
-              <Col md={3}>
-                <ProductCard
-                  click={() => router('/device-detail')}
-                  image={bogus3}
-                  description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
-                  cost='$1,499.99'
-                  inch='16"'
-                />
-              </Col>
-              <Col md={3}>
-                <ProductCard
-                  click={() => router('/device-detail')}
-                  image={bogus3}
-                  description='ASUS Vivobook Pro 16X (N7601, 12th Gen Intel)'
-                  cost='$1,499.99'
-                  inch='16"'
-                />
-              </Col>
+              {allProductData?.map((item: any) => (
+                <Col md={3}>
+                  <ProductCard
+                    click={() => router({
+                      pathname: '/device-detail',
+                      search: `?${createSearchParams({
+                        productId: item?.product_id
+                      })}`
+                    })}
+                    image={item?.image}
+                    description={item?.product_name}
+                    cost={`$${item?.price}`}
+                    inch='16"'
+                    purchase={() => router({
+                      pathname: '/device-checkout',
+                      search: `?${createSearchParams({
+                        productId: item?.product_id
+                      })}`
+                    })}
+                  />
+                </Col>
+              ))}
             </Row>
           </div>
         </Card.Body>

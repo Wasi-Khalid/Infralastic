@@ -31,9 +31,9 @@ const Map: React.FC<IMapProps> = ({ mapboxToken }) => {
         fetchSites()
     }, [])
     const [viewport, setViewport] = useState<IViewport>({
-        latitude: 40.7127281,
-        longitude: -74.0060152,
-        zoom: 20,
+        latitude: 51.5072,
+        longitude: 0.1276,
+        zoom: 10,
         width: '100%',
         height: '100%',
     });

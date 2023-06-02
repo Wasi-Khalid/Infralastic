@@ -77,6 +77,12 @@ const AllDevices = (props: filterInterface) => {
                   description={item?.product_name}
                   cost={`$${item?.price}`}
                   inch='16"'
+                  purchase={() => router({
+                    pathname: '/device-checkout',
+                    search: `?${createSearchParams({
+                      productId: item?.product_id
+                    })}`
+                  })}
                 />
               </Col>
             ))}

@@ -11,7 +11,7 @@ import {createAsset, getAllCategories, getSites} from "../../../../services/api"
 const AssetFormComponent = () => {
     const [imageFile, setImageFile] = useState('');
     const [file, setFile] = useState<any>(null);
-    const [assetId, setAssetId] = useState<any>('');
+    const [assetId, setAssetId] = useState<any>(null);
     const [category, setCategory] = useState<any>('');
     const [categoryData, setCategoryData] = useState<any>([]);
     const [description, setDescription] = useState('');
@@ -174,7 +174,7 @@ const AssetFormComponent = () => {
                                     <Form.Label className='fs-7 mb-1 theme-font'>Asset ID</Form.Label>
                                     <Form.Control
                                         className='px-2 py-1 fs-7'
-                                        type="name"
+                                        type="number"
                                         value={assetId}
                                         placeholder="Asset Id"
                                         onChange={(e) => setAssetId(e.target.value)}

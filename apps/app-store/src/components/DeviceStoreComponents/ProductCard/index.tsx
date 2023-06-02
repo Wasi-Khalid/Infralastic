@@ -9,6 +9,7 @@ interface productProps {
   inch: string;
   cost: string;
   click: any;
+  purchase: any
 }
 
 const ProductCard = (props: productProps) => {
@@ -29,7 +30,7 @@ const ProductCard = (props: productProps) => {
           <span className='fs-7'><del>$1,699.99</del><span className='ms-2 theme-danger'>SAVE $200.00</span></span>
           <p className='py-3 theme-font fs-7'>This price may not refer to the specifications below.</p>
           <div className='d-flex justify-content-end'>
-            <button onClick={() => router('/device-checkout')} className='bg-theme-danger border-0 rounded px-2 py-1'><BsCart2 className='text-white' /></button>
+            <button onClick={props.purchase} className='bg-theme-danger border-0 rounded px-2 py-1'><BsCart2 className='text-white' /></button>
           </div>
         </Card.Body>
       </Card>

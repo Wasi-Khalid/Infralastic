@@ -59,7 +59,7 @@ export const fetchProductById = createAsyncThunk(
     try {
       let data = {};
       const { user }: any = getState();
-      await api.getAllProducts({product_id}).then((res: any) => {
+      await api.getProductById({product_id}).then((res: any) => {
         console.log(res)
         data = res.data;
       });

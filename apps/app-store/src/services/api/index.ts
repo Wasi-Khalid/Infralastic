@@ -17,3 +17,6 @@ export const getProductById = (formData: any) =>
 
 export const checkoutOrder = (formData: any) =>
   API.post('/api/checkout_order_api', formData)
+
+export const getOrder = (formData: any) =>
+  API.post('/api/get_products_by_order_api', formData)

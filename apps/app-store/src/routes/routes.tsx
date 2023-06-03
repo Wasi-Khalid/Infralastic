@@ -5,6 +5,7 @@ import OrderTracking from "../pages/OrderTracking";
 import DeviceDetail from "../pages/DeviceStore/DeviceDetail";
 import DeviceCheckout from "../pages/DeviceStore/DeviceCheckout";
 import CheckoutComplete from "../pages/DeviceStore/CheckoutComplete";
+import OrderDetail from "../pages/OrderTracking/OrderDetail";
 
 const ProductRoutes = () => {
   return (
@@ -33,6 +34,10 @@ const ProductRoutes = () => {
         <Route
           path="/order-tracking"
           element={<OrderTracking />}
+        />
+        <Route
+          path="/order-detail"
+          element={<OrderDetail />}
         />
       </Routes>
     </>

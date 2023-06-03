@@ -1,13 +1,14 @@
 import {Breadcrumb, Card, Col, Form, InputGroup, Row} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import creditCard from '../../../assets/payment/credit-card.png';
 import debitCard from '../../../assets/payment/debit-card.png';
 import paypalCard from '../../../assets/payment/paypal.png';
-import product from '../../../assets/fake.png'
 import {CiShoppingCart} from "react-icons/ci";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {checkoutOrder} from "../../../services/api";
-import {HiFilter} from "react-icons/hi";
+import {fetchProductById} from "../../../services/store/actions/DeviceStore";
+import {useAppDispatch} from "../../../services/store/hooks";
+import {toast} from "react-toastify";
 
 const DeviceCheckout = () => {
   const router = useNavigate()
@@ -24,7 +25,9 @@ const DeviceCheckout = () => {
   const [creditCardNumber, setCreditCardNumber] = useState<any>(null);
   const [exp, setExp] = useState('');
   const [cvv, setCvv] = useState<any>(null);
+  const [productData, setProductData] = useState<any>(null)
   const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const id: any = searchParams.get('productId')
 
@@ -43,9 +46,28 @@ const DeviceCheckout = () => {
       product_ids:[{"product_id": id}]}
 
     checkoutOrder(formData).then((res: any) => {
-      console.log(res)
+      if (res.data?.result?.success === true) {
+        toast.success(res.data.result.msg)
+        setTimeout(() => {
+          router('/checkout-complete')
+        }, 3000)
+      } else {
+        toast.error(res.data.error.message)
+      }
     })
   }
+  const fetchProduct = () => {
+    const fromData = {
+      product_id: id
+    }
+    dispatch(fetchProductById(fromData)).then((res: any) => {
+      setProductData(res.payload.result);
+    })
+  }
+
+  useEffect(() => {
+    fetchProduct();
+  }, [])
 
 
   return(
@@ -72,7 +94,7 @@ const DeviceCheckout = () => {
                         <Form.Control
                           type="name"
                           value={firstName}
-                          className='bg-white shadow'
+                          className='bg-white shadow fs-7 theme-font p-2 px-3'
                           onChange={(e) => setFirstName(e.target.value)}
                           required={true}
                         />
@@ -84,7 +106,7 @@ const DeviceCheckout = () => {
                         <Form.Control
                           type="name"
                           value={lastName}
-                          className='bg-white shadow'
+                          className='bg-white shadow fs-7 theme-font p-2 px-3'
                           onChange={(e) => setLastName(e.target.value)}
                           required={true}
                         />
@@ -143,44 +165,50 @@ const DeviceCheckout = () => {
                         </Form.Group>
                       </Col>
                     <Col md={4}>
-                      <Form.Group className="mb-3" controlId="category">
-                          <Form.Label className='fs-7 mb-1 theme-font'>Country</Form.Label>
-                          <Form.Select
-                            className='bg-white shadow fs-7 theme-font p-2'
-                            aria-label="Default select example"
-                            required={true}
-                            onChange={(e: any) => setCountry(e.target.value)}
-                          >
-                            <option value='0'>Select Country</option>
-                            <option value='1'>London</option>
-                            <option value='2'>USA</option>
-                          </Form.Select>
+                      <Form.Group className="mb-3" controlId="country">
+                        <Form.Label className='fs-7 mb-1 theme-font'>Country</Form.Label>
+                        <Form.Select
+                          className='bg-white shadow fs-7 theme-font p-2 px-3'
+                          aria-label="Default select example"
+                          required={true}
+                          onChange={(e: any) => setCountry(e.target.value)}
+                        >
+                          <option value='0'>Select Country</option>
+                          <option value='1'>London</option>
+                          <option value='2'>Barcelona</option>
+                        </Form.Select>
                       </Form.Group>
                     </Col>
                     <Col md={4}>
-                        <Form.Group className="mb-3" controlId="formBasicFirstName">
-                          <Form.Label className='fs-7 mb-1 theme-font'>State</Form.Label>
-                          <Form.Control
-                            type="name"
-                            value={state}
-                            className='bg-white shadow fs-7 theme-font p-2'
-                            onChange={(e) => setState(e.target.value)}
-                            required={true}
-                          />
-                        </Form.Group>
+                      <Form.Group className="mb-3" controlId="state">
+                        <Form.Label className='fs-7 mb-1 theme-font'>State</Form.Label>
+                        <Form.Select
+                          className='bg-white shadow fs-7 theme-font p-2 px-3'
+                          aria-label="Default select example"
+                          required={true}
+                          onChange={(e: any) => setState(e.target.value)}
+                        >
+                          <option value='0'>Select State</option>
+                          <option value='1'>Europe</option>
+                          <option value='2'>USA</option>
+                        </Form.Select>
+                      </Form.Group>
                       </Col>
                     <Col md={4}>
-                        <Form.Group className="mb-3" controlId="formBasicFirstName">
-                          <Form.Label className='fs-7 mb-1 theme-font'>Zip</Form.Label>
-                          <Form.Control
-                            type="number"
-                            value={zip}
-                            className='bg-white shadow fs-7 theme-font p-2'
-                            onChange={(e) => setZip(e.target.value)}
-                            required={true}
-                          />
-                        </Form.Group>
-                      </Col>
+                      <Form.Group className="mb-3" controlId="country">
+                        <Form.Label className='fs-7 mb-1 theme-font'>Zip</Form.Label>
+                        <Form.Select
+                          className='bg-white shadow fs-7 theme-font p-2 px-3'
+                          aria-label="Default select example"
+                          required={true}
+                          onChange={(e: any) => setZip(e.target.value)}
+                        >
+                          <option value='0'>Select Zip</option>
+                          <option value='39350'>39350</option>
+                          <option value='39898'>39898</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
                   </Row>
                   <br/>
                   <Form.Check
@@ -276,7 +304,8 @@ const DeviceCheckout = () => {
                 <br/>
                 <button
                   className='bg-theme-danger border-0 w-100 py-2 theme-font my-4 text-white rounded'
-                  onClick={() => router('/checkout-complete')}
+                  type='button'
+                  onClick={() => handleSubmit()}
                 >
                   Continue to checkout
                 </button>
@@ -295,45 +324,21 @@ const DeviceCheckout = () => {
                       </div>
                     </div>
                     <div className="py-3">
-                      <div className="d-flex w-100">
-                        <div className="d-flex justify-content-start w-75">
-                          <img src={product} width='60' height='60' alt=""/>
-                          <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
-                            <p className='theme-font mb-1'>Product name</p>
-                            <p className='theme-font fs-7 text-muted'>Brief description </p>
+                        <>
+                          <div className="d-flex w-100">
+                            <div className="d-flex justify-content-start w-75">
+                              <img src={productData?.image} width='60' height='60' alt=""/>
+                              <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
+                                <p className='theme-font mb-1'>{productData?.product_name}</p>
+                                <p className='theme-font fs-7 text-muted'>Brief description </p>
+                              </div>
+                            </div>
+                            <div className="d-flex justify-content-end w-25">
+                              <h5 className='m-0 fw-semibold  theme-danger text-end'>${productData?.price}</h5>
+                            </div>
                           </div>
-                        </div>
-                        <div className="d-flex justify-content-end w-25">
-                          <h5 className='m-0 fw-semibold  theme-danger text-end'>$12</h5>
-                        </div>
-                      </div>
-                      <hr/>
-                      <div className="d-flex w-100">
-                        <div className="d-flex justify-content-start w-75">
-                          <img src={product} width='60' height='60' alt=""/>
-                          <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
-                            <p className='theme-font mb-1'>Second product</p>
-                            <p className='theme-font fs-7 text-muted'>Brief description </p>
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-end w-25">
-                          <h5 className='m-0 fw-semibold  theme-danger text-end'>$8</h5>
-                        </div>
-                      </div>
-                      <hr/>
-                      <div className="d-flex w-100">
-                        <div className="d-flex justify-content-start w-75">
-                          <img src={product} width='60' height='60' alt=""/>
-                          <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
-                            <p className='theme-font mb-1'>Third item</p>
-                            <p className='theme-font fs-7 text-muted'>Brief description</p>
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-end w-25">
-                          <h5 className='m-0 fw-semibold  theme-danger text-end'>$5</h5>
-                        </div>
-                      </div>
-                      <hr/>
+                          <hr/>
+                        </>
                       <div className="d-flex w-100 p-2 redeem theme-danger rounded">
                         <div className="d-flex justify-content-start align-items-center w-75">
                           <div className='d-flex flex-column h-100 ms-2  justify-content-center'>
@@ -342,7 +347,7 @@ const DeviceCheckout = () => {
                           </div>
                         </div>
                         <div className="d-flex justify-content-end align-items-center w-25">
-                          <h5 className='m-0 fw-semibold  theme-danger text-end'>-$5</h5>
+                          <h5 className='m-0 fw-semibold  theme-danger text-end'>$0</h5>
                         </div>
                       </div>
                       <div className='mt-4 d-flex w-100'>
@@ -350,7 +355,7 @@ const DeviceCheckout = () => {
                           <h5 className='theme-font'>Total</h5>
                         </div>
                         <div className="w-50 text-end">
-                          <h5 className='theme-font theme-danger m-0'>$20</h5>
+                          <h5 className='theme-font theme-danger m-0'>${productData?.price}</h5>
                         </div>
                       </div>
                     </div>

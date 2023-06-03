@@ -1,10 +1,16 @@
 import { Card } from "react-bootstrap";
 import { BiChevronDown } from "react-icons/bi";
 import Form from 'react-bootstrap/Form';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
-const PriceFilter = () => {
+const PriceFilter = ({onData}: {onData: any}) => {
   const [show, setShow] = useState(true);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+
+  useEffect(() => {
+    onData({ minPrice, maxPrice });
+  }, [minPrice, maxPrice]);
   return(
     <div className='mb-3'>
       <Card className='p-2 rounded-4'>
@@ -15,12 +21,12 @@ const PriceFilter = () => {
               <Form.Range />
               <div className='d-flex w-100 align-items-center'>
               <span className='w-50 m-2'>
-                <input type="number" className='w-100' />
+                <input value={minPrice} onChange={(e) => setMinPrice(e.target.value)} type="number" className='w-100' />
                 <p className='m-0 theme-font fs-8 mt-1 text-muted'>MIN</p>
               </span>
               -
               <span className='w-50 m-2'>
-                <input type="number" className='w-100' />
+                <input className='w-100' value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} type="number" />
                 <p className='m-0 theme-font fs-8 mt-1 text-muted'>MAX</p>
               </span>
             </div>

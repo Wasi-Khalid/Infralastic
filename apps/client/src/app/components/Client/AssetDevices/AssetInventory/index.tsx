@@ -251,7 +251,7 @@ const AssetInventory = () => {
                                     {asset?.employee_id ?
                                         <div className='d-flex align-items-center'>
                                             <img src={asset.employee_image} alt="" width='32' height='32' className='rounded-circle' />
-                                            <p className='m-0 ms-2 fs-7 text-muted'>Joseph Wheeler</p>
+                                            <p className='m-0 ms-2 fs-7 text-muted'>{asset.employee_name}</p>
                                         </div> :
                                         <button className='bg-danger fs-7 text-white border-0 rounded px-2'>un-assigned</button>
                                     }

@@ -10,6 +10,8 @@ import {fetchAllCategoryList, fetchAllProductList} from "../../../services/store
 interface filterInterface {
   hardwareCategory: any;
   brandData: any;
+  priceData: any;
+  categoryData: any
 }
 
 const AllDevices = (props: filterInterface) => {
@@ -35,13 +37,22 @@ const AllDevices = (props: filterInterface) => {
       if (props.brandData !== '') {
         filteredData = filteredData.filter((res) => res.brand === props.brandData);
       }
-
+      if (props.priceData && props.priceData.minPrice !== '' && props.priceData.maxPrice !== '') {
+        filteredData = filteredData.filter((res: any) => res.price >= parseInt(props.priceData.minPrice) && res.price <= parseInt(props.priceData.maxPrice));
+      }
+      if (props.categoryData !== '') {
+        if (props.categoryData === 1) {
+          filteredData = [...originalData]
+        } else {
+          filteredData = filteredData.filter((res) => res.category_id === JSON.parse(props.categoryData));
+        }
+      }
       return filteredData;
     });
   };
   useEffect(() => {
     applyFilters();
-  }, [props.hardwareCategory, props.brandData]);
+  }, [props.hardwareCategory, props.brandData, props.priceData, props.categoryData]);
 
   useEffect(() => {
    getProduct();

@@ -4,16 +4,15 @@ import resetPic from '../../../../assets/reset-illustration.png';
 import {useState} from "react";
 import './reset-password.scss';
 import {useNavigate} from "react-router-dom";
-import { userReset} from "../../../services/store/actions/Auth";
+import {useGlobalDispatch, userReset} from "@infralastic/global-state";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {useAppDispatch} from "../../../services/store/hooks";
 
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
     const router = useNavigate();
-    const dispatch = useAppDispatch()
+    const dispatch = useGlobalDispatch()
 
     const handleSubmit = () => {
         const formData: any = {

@@ -7,18 +7,16 @@ import CarouselComponent from "../../../components/Slider";
 import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import './login.scss';
-import {useAppDispatch, useAppSelector} from "../../../services/store/hooks";
-import {userLogin} from "../../../services/store/actions/Auth";
+import {useGlobalDispatch, useGlobalSelector, userLogin} from "@infralastic/global-state";
 import {toast} from "react-toastify";
-import axios from "axios";
 
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useNavigate()
-    const dispatch = useAppDispatch();
-    const { userInfo } = useAppSelector((state) => state.user);
+    const dispatch = useGlobalDispatch();
+    const { userInfo } = useGlobalSelector((state) => state.user);
 
 
     // const checkFleet = () => {

@@ -8,6 +8,8 @@ COPY apps/app-store ./apps/app-store
 
 COPY libs/loader ./libs/loader
 
+COPY libs/global-state ./libs/global-state
+
 RUN yarn install --frozen-lockfile
 
 RUN yarn nx build app-store --prod

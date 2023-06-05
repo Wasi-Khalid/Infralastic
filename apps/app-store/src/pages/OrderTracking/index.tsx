@@ -1,12 +1,11 @@
 import './order-tracking.scss';
 import {useState} from "react";
-import {useAppDispatch} from "../../services/store/hooks";
-import {getOrderById} from "../../services/store/actions/OrderTracking";
+import {getOrderById, useGlobalDispatch} from "@infralastic/global-state";
 import {createSearchParams, useNavigate} from "react-router-dom";
 
 const OrderTracking = () => {
   const [value, setValue] = useState<any>(null);
-  const dispatch = useAppDispatch();
+  const dispatch = useGlobalDispatch();
   const router = useNavigate()
 
   const handleSubmit = () => {

@@ -18,6 +18,12 @@ const DeviceStore = () => {
   const [brandData, setBrandData] = useState('');
   const [priceData, setPriceData] = useState<any>(null);
   const [categoryData, setCategoryData] = useState<any>('');
+  const [operatingData, setOperatingData] = useState<any>('');
+  const [memoryData, setMemoryData] = useState<any>('');
+  const [ramData, setRamData] = useState<any>('');
+  const [screenData, setScreenData] = useState<any>('');
+  const [generationData, setGenerationData] = useState<any>('');
+  const [warrantyData, setWarrantyData] = useState<any>('');
 
 
   const handleHardwareData = (childData: any) => {
@@ -32,6 +38,24 @@ const DeviceStore = () => {
   const handleCategoryData = (childData: any) => {
     setCategoryData(childData);
   };
+  const handleOperatingData = (childData: any) => {
+    setOperatingData(childData);
+  };
+  const handleMemoryData = (childData: any) => {
+    setMemoryData(childData);
+  };
+  const handleRamData = (childData: any) => {
+    setRamData(childData);
+  };
+  const handleScreenData = (childData: any) => {
+    setScreenData(childData);
+  };
+  const handleGenerationData = (childData: any) => {
+    setGenerationData(childData);
+  };
+  const handleWarrantyData = (childData: any) => {
+    setWarrantyData(childData);
+  };
   return(
     <>
       <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
@@ -43,12 +67,12 @@ const DeviceStore = () => {
                 <HardwareFilter onData={handleHardwareData} />
                 <BrandFilter onData={handleBrandData} />
                 <PriceFilter onData={handlePriceData} />
-                <OperatingSystemFilter />
-                <MemoryFilter />
-                <RamFilter />
-                <ScreenSizeFilter />
-                <GenerationFilter />
-                <WarrantyFilter />
+                <OperatingSystemFilter onData={handleOperatingData} />
+                <MemoryFilter onData={handleMemoryData} />
+                <RamFilter onData={handleRamData} />
+                <ScreenSizeFilter onData={handleScreenData} />
+                <GenerationFilter onData={handleGenerationData} />
+                <WarrantyFilter onData={handleWarrantyData} />
               </div>
             </Col>
             <Col md={9}>
@@ -57,6 +81,12 @@ const DeviceStore = () => {
                 brandData={brandData}
                 priceData={priceData}
                 categoryData={categoryData}
+                operatingData={operatingData}
+                memoryData={memoryData}
+                ramData={ramData}
+                screenData={screenData}
+                generationData={generationData}
+                warrantyData={warrantyData}
               />
             </Col>
           </Row>

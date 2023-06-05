@@ -8,20 +8,19 @@ import {AiOutlinePlus} from "react-icons/ai";
 import {useEffect, useState} from "react";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
-import {useAppDispatch} from "../../../../services/store/hooks";
 import {
-    addEmployee,
-    fetchAllEmployee,
-    fetchEmployee,
-    updateEmployeeById
-} from "../../../../services/store/actions/Employees";
-import {fetchAllCompany} from "../../../../services/store/actions/Company";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
+  addEmployee,
+  fetchAllEmployee,
+  fetchEmployee,
+  updateEmployeeById, useGlobalDispatch
+} from "@infralastic/global-state";
+import {fetchAllCompany} from "@infralastic/global-state";
+import {fetchAllDepartment} from "@infralastic/global-state";
 import Papa from "papaparse";
 
 const EmployeeFormComponent = () => {
     const router = useNavigate();
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const [employeeData, setEmployeeData] = useState<any>(null);
     const [firstName, setFirstName] = useState<any>('');
     const [lastName, setLastName] = useState('');

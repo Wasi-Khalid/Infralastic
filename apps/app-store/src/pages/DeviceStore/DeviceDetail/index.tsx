@@ -1,12 +1,11 @@
 import {Breadcrumb, Card, Col, Row} from "react-bootstrap";
 import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {useAppDispatch} from "../../../services/store/hooks";
-import {fetchAllProductList, fetchProductById} from "../../../services/store/actions/DeviceStore";
+import {fetchAllProductList, fetchProductById, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 const DeviceDetail  = () => {
   const router = useNavigate();
-  const dispatch = useAppDispatch();
+  const dispatch = useGlobalDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const [productData, setProductData] = useState<any>(null);
   const [allProductData, setAllProductData] = useState<any>(null);
@@ -179,6 +178,7 @@ const DeviceDetail  = () => {
                       })}`
                     })}
                     image={item?.image}
+                    productId={item?.product_id}
                     description={item?.product_name}
                     cost={`$${item?.price}`}
                     inch='16"'

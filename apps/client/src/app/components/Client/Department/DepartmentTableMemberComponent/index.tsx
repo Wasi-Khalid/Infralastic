@@ -3,13 +3,12 @@ import './department-table-member-component.scss'
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiChevronUpDown} from "react-icons/hi2";
-import {useAppDispatch} from "../../../../services/store/hooks";
-import {fetchDepartmentEmployees} from "../../../../services/store/actions/Department";
+import {fetchDepartmentEmployees, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 
 const DepartmentTableMemberComponent = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const router = useNavigate();
     const [department, setDepartment] = useState<any>([])
     const [searchParams, setSearchParams] = useSearchParams();

@@ -7,27 +7,23 @@ import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
 import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
+import {fetchAllDepartment} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
-import {useAppDispatch} from "../../../../services/store/hooks";
-import {createSearchParams, Link, useNavigate, useSearchParams} from "react-router-dom";
+import {createSearchParams, useNavigate } from "react-router-dom";
 import {
     deleteAsset,
     getAllAssets,
     getAllCategories,
-    getAssetById,
-    getAssetBySite,
     getSites
-} from "../../../../services/api";
+} from "@infralastic/global-state";
 import {toast} from "react-toastify";
+import {useGlobalDispatch} from "@infralastic/global-state";
 
 const AssetInventory = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const router = useNavigate()
     const [department, setDepartment] = useState<any>([]);
     const [location, setLocation] = useState<any>([]);
-    const [assetTitle, setAssetTitle] = useState<any>('Select Category');
-    const [departmentTitle, setDepartmentTitle] = useState<any>('Select Department');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [locationFilter, setLocationFilter] = useState('');
     const [assets, setAssets] = useState<any>([]);

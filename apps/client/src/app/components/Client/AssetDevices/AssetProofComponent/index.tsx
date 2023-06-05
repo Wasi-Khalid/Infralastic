@@ -2,7 +2,7 @@ import './asset-proof-component.scss';
 import {Card, Col, Row} from "react-bootstrap";
 import {BsPlus} from "react-icons/bs";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {getAssetImages} from "../../../../services/api";
+import {getAssetImages} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 
 const AssetProofComponent = () => {

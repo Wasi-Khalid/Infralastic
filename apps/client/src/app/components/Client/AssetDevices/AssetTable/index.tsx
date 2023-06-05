@@ -7,15 +7,13 @@ import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
 import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
 import {useEffect, useState} from "react";
-import {useAppDispatch} from "../../../../services/store/hooks";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {deleteAsset, getAssetBySite, getSites} from "../../../../services/api";
+import {deleteAsset, getAssetBySite, getSites, fetchAllDepartment, useGlobalDispatch} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 
 const AssetTable = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const router = useNavigate()
     const [department, setDepartment] = useState<any>([]);
     const [location, setLocation] = useState<any>([]);

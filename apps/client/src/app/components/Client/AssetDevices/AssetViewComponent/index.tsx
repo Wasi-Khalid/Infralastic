@@ -3,9 +3,8 @@ import {Card, Col, Row} from "react-bootstrap";
 import avatar from "../../../../../assets/employees/Avatar.png";
 import {useEffect, useState} from "react";
 import {BiPencil} from "react-icons/bi";
-import {BsArrowLeft} from "react-icons/bs";
 import {useSearchParams} from "react-router-dom";
-import {getAssetById} from "../../../../services/api";
+import {getAssetById} from "@infralastic/global-state";
 
 const AssetViewComponent = () => {
     const [imageFile, setImageFile] = useState('');

@@ -2,8 +2,8 @@ import './asset-change-component.scss';
 import {Card} from "react-bootstrap";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {useSearchParams} from "react-router-dom";
-import {getAssetLog} from "../../../../services/api";
 import {useEffect, useState} from "react";
+import {getAssetLog} from "@infralastic/global-state";
 
 const AssetChangeComponent = () => {
     const [searchParams, setSearchParams] = useSearchParams();

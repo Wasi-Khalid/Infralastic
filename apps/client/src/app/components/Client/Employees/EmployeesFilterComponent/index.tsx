@@ -3,13 +3,12 @@ import './employees-filter-component.scss';
 import {FiMapPin} from "react-icons/fi";
 import {BsBuildings} from "react-icons/bs";
 import {BiSearch, BiSitemap, BiUserCheck} from "react-icons/bi";
-import {getLocation} from "../../../../services/api";
+import {getLocation} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
-import {fetchAllCompany} from "../../../../services/store/actions/Company";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
-import {useAppDispatch} from "../../../../services/store/hooks";
+import {fetchAllCompany, useGlobalDispatch} from "@infralastic/global-state";
+import {fetchAllDepartment} from "@infralastic/global-state";
 const EmployeesComponent = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const [location, setLocation] = useState<any>([]);
     const [company, setCompany] = useState<any>([])
     const [department, setDepartment] = useState<any>([])

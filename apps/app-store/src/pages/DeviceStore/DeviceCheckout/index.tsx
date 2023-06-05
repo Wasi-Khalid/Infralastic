@@ -5,13 +5,14 @@ import debitCard from '../../../assets/payment/debit-card.png';
 import paypalCard from '../../../assets/payment/paypal.png';
 import {CiShoppingCart} from "react-icons/ci";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {checkoutOrder} from "../../../services/api";
-import {fetchProductById} from "../../../services/store/actions/DeviceStore";
-import {useAppDispatch} from "../../../services/store/hooks";
+import {checkoutOrder, useGlobalDispatch} from "@infralastic/global-state";
+import {fetchProductById} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 
 const DeviceCheckout = () => {
-  const router = useNavigate()
+  const router = useNavigate();
+  const dispatch = useGlobalDispatch();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
@@ -27,7 +28,6 @@ const DeviceCheckout = () => {
   const [cvv, setCvv] = useState<any>(null);
   const [productData, setProductData] = useState<any>(null)
   const [searchParams, setSearchParams] = useSearchParams();
-  const dispatch = useAppDispatch();
 
   const id: any = searchParams.get('productId')
 
@@ -43,6 +43,7 @@ const DeviceCheckout = () => {
       zip_code: JSON.parse(zip),
       country_id: JSON.parse(country),
       state_id: JSON.parse(state),
+      user: 1,
       product_ids:[{"product_id": id}]}
 
     checkoutOrder(formData).then((res: any) => {

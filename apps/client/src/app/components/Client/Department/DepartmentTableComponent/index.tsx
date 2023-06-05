@@ -6,15 +6,14 @@ import computer from '../../../../../assets/computer.png';
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiChevronUpDown} from "react-icons/hi2";
-import {useAppDispatch} from "../../../../services/store/hooks";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
+import {fetchAllDepartment, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
-import {deleteDepartment, deleteEmployee} from "../../../../services/api";
+import {deleteDepartment} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 
 const DepartmentTableComponent = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const router = useNavigate();
     const [department, setDepartment] = useState<any>([])
 

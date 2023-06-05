@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import SiteCard from "../Client/AssetDevices/SiteCard";
-import {getSites} from "../../services/api";
+import {getSites} from "@infralastic/global-state";
 
 interface IViewport {
     latitude: number;

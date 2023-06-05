@@ -2,15 +2,14 @@ import './check-in-form-component.scss';
 import {Card, Col, Form, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import bogus from '../../../../../assets/assign-stamp.png'
-import {checkIn, getAllAssets, getAllEmployee} from "../../../../services/api";
+import {checkIn, getAllAssets, getAllEmployee, useGlobalDispatch} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
-import {useAppDispatch} from "../../../../services/store/hooks";
+import {fetchAllDepartment} from "@infralastic/global-state";
 
 const CheckInFormComponent = () => {
     const router = useNavigate();
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const [department, setDepartment]  = useState<any>([])
     const [email, setEmail] = useState('');
     const [checkInDate, setCheckInDate] = useState('');

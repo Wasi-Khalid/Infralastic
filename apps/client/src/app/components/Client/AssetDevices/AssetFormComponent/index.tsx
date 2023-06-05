@@ -6,7 +6,7 @@ import {BsArrowLeft} from "react-icons/bs";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
-import {createAsset, getAllCategories, getSites} from "../../../../services/api";
+import {createAsset, getAllCategories, getSites} from "@infralastic/global-state";
 
 const AssetFormComponent = () => {
     const [imageFile, setImageFile] = useState('');

@@ -7,17 +7,16 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
-import {useAppDispatch} from "../../../../services/store/hooks";
 import {
     addNewDepartment,
     fetchDepartmentById,
-    fetchDepartmentEmployees
-} from "../../../../services/store/actions/Department";
-import {fetchAllEmployee} from "../../../../services/store/actions/Employees";
+} from "@infralastic/global-state";
+import {fetchAllEmployee} from "@infralastic/global-state";
+import {useGlobalDispatch} from "@infralastic/global-state";
 
 const DepartmentFormComponent = () => {
     const router = useNavigate();
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const [name, setName] = useState('');
     const [departmentHead, setDepartmentHead] = useState('');
     const [employeeData, setEmployeeData] = useState<any>(null);

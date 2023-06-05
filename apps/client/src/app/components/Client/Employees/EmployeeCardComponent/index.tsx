@@ -6,10 +6,9 @@ import EmployeeModalComponent from "../../../Modals/EmployeeModal";
 import {AiOutlineEdit} from "react-icons/ai";
 import {MdDelete} from "react-icons/md";
 import {HiBars3} from "react-icons/hi2";
-import {fetchEmployee, fetchEmployeeAsset} from "../../../../services/store/actions/Employees";
-import {useAppDispatch} from "../../../../services/store/hooks";
+import {fetchEmployee, fetchEmployeeAsset, useGlobalDispatch} from "@infralastic/global-state";
 import {toast} from "react-toastify";
-import {deleteEmployee} from "../../../../services/api";
+import {deleteEmployee} from "@infralastic/global-state";
 import {createSearchParams, useNavigate} from "react-router-dom";
 const EmployeeCardComponent = ({name, employee_id, image, designation, handleClick}: {name: any, employee_id: any, image: any, designation: any, handleClick: any}) => {
     const [visible, setVisible] = useState(false);
@@ -17,7 +16,7 @@ const EmployeeCardComponent = ({name, employee_id, image, designation, handleCli
     const [show, setShow] = useState(false);
     const [data, setData] = useState<any>(null);
     const [assetData, setAssetData] = useState<any>(null);
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const getEmployee = () => {
         const formData: any = {
             employee_id: employee_id

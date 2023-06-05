@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@infralastic/global-state": ["libs/global-state/src/index.ts"],
       "@infralastic/loader": ["libs/loader/src/index.ts"]
     }
   },

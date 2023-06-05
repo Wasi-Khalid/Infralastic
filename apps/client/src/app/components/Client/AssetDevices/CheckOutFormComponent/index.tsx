@@ -2,14 +2,13 @@ import './check-out-form-component.scss'
 import {Card, Col, Form, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import bogus from '../../../../../assets/assign-stamp.png'
-import {checkOut, getAllAssets, getAllEmployee} from "../../../../services/api";
+import {checkOut, getAllAssets, getAllEmployee} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
-import {fetchAllDepartment} from "../../../../services/store/actions/Department";
-import {useAppDispatch} from "../../../../services/store/hooks";
+import {fetchAllDepartment, useGlobalDispatch} from "@infralastic/global-state";
 
 const CheckOutFormComponent = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const router = useNavigate();
     const [email, setEmail] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');

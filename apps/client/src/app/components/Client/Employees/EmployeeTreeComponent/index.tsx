@@ -1,13 +1,12 @@
 import './employee-tree-component.scss';
 import EmployeeCardComponent from "../EmployeeCardComponent";
 import bogus from '../../../../../assets/employees/one.png'
-import {fetchAllCompany, fetchCompanyEmployee} from "../../../../services/store/actions/Company";
-import {useAppDispatch} from "../../../../services/store/hooks";
+import {fetchAllCompany, fetchCompanyEmployee, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
-import {fetchAllEmployee, fetchManager} from "../../../../services/store/actions/Employees";
+import {fetchAllEmployee, fetchManager} from "@infralastic/global-state";
 
 const EmployeeTreeComponent = () => {
-    const dispatch = useAppDispatch();
+    const dispatch = useGlobalDispatch();
     const [companyData, setCompanyData] = useState([])
     const [managerEmp, setManagerEmp] = useState(false)
     const [employeeData, setEmployeeData] = useState([])

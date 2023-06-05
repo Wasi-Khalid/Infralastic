@@ -9,6 +9,8 @@ COPY apps/client ./apps/client
 
 COPY libs/loader ./libs/loader
 
+COPY libs/global-state ./libs/global-state
+
 RUN yarn install --frozen-lockfile
 
 RUN yarn nx build client --prod

@@ -1,4 +1,5 @@
 import './app-store.scss';
+import React from "react";
 
 const AppStore = () => {
   return(

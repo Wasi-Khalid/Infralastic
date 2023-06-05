@@ -6,9 +6,9 @@ import {useCallback, useState} from "react";
 import {Col, Row} from "react-bootstrap";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
-import {addAssetImages} from "../../../../services/api";
 import {toast} from "react-toastify";
 import {IoTrashBinSharp} from "react-icons/io5";
+import {addAssetImages} from "@infralastic/global-state";
 
 
 

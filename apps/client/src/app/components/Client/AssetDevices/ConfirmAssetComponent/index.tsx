@@ -3,14 +3,12 @@ import {Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {useEffect, useState} from "react";
-import {useAppDispatch} from "../../../../services/store/hooks";
-import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {confirmAllAssets, confirmAsset, getUnconfirmedAssets} from "../../../../services/api";
+import {useNavigate} from "react-router-dom";
+import {confirmAllAssets, confirmAsset, getUnconfirmedAssets} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import Swal from 'sweetalert2'
 
 const ConfirmAssetComponent = () => {
-    const dispatch = useAppDispatch();
     const router = useNavigate();
     const [assets, setAssets] = useState<any>([]);
 
@@ -49,7 +47,6 @@ const ConfirmAssetComponent = () => {
                 asset_ids: [{asset_unique_id: item.asset_unique_id, employee_id: item.employee_id}]
             }
             confirmAllAssets(formData).then((res: any) => {
-                debugger;
                 toast.success(res.data.result.msg);
             })
         });

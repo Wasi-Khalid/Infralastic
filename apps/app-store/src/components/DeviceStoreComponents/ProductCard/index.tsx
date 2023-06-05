@@ -2,9 +2,12 @@ import './product-card.scss';
 import { Card } from "react-bootstrap";
 import { BsCart2 } from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
+import {useDrag} from "react-dnd";
+import {ItemTypes} from "../../ItemTypes";
 
 interface productProps {
   image: any;
+  productId: any;
   description: string;
   inch: string;
   cost: string;
@@ -14,8 +17,18 @@ interface productProps {
 
 const ProductCard = (props: productProps) => {
   const router = useNavigate();
+  const [{ isDragging }, drag] = useDrag<any, any, { isDragging: boolean }>({
+    item: {
+      type: ItemTypes.BOX,
+      productProps: props,
+    },
+    collect: monitor => ({
+      isDragging: monitor.isDragging()
+    }),
+    type: ItemTypes.BOX
+  });
   return(
-    <div>
+    <div ref={drag}>
       <Card className='product-card-bg mb-3'>
         <Card.Body>
           <span className='theme-border-danger theme-danger fs-7 p-1 px-2 rounded text-uppercase'>Deal</span>

@@ -7,7 +7,11 @@ import TimelineComponent from "../../../components/Client/Dashbaord/TimelineComp
 import AssetDetailComponent from "../../../components/Client/Dashbaord/AssetDetailComponent";
 import AlertComponent from "../../../components/Client/Dashbaord/AlertComponent";
 import {useEffect} from "react";
+import {useGlobalSelector} from "@infralastic/global-state";
+
 const Dashboard = () => {
+  const userInfo = useGlobalSelector((state) => state.user.userInfo);
+  console.log(userInfo, 'userInfo data')
     useEffect(() => {
 
     }, [])

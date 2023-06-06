@@ -120,7 +120,7 @@ const AllDevices = (props: filterInterface) => {
                   image={item?.image}
                   productId={item?.product_id}
                   description={item?.product_name}
-                  cost={`$${item?.price}`}
+                  cost={item?.price}
                   inch='16"'
                   purchase={() => router({
                     pathname: '/device-checkout',

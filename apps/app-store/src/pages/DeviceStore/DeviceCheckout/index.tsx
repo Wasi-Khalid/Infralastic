@@ -1,13 +1,13 @@
 import {Breadcrumb, Card, Col, Form, InputGroup, Row} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import creditCard from '../../../assets/payment/credit-card.png';
 import debitCard from '../../../assets/payment/debit-card.png';
 import paypalCard from '../../../assets/payment/paypal.png';
 import {CiShoppingCart} from "react-icons/ci";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {checkoutOrder, useGlobalDispatch} from "@infralastic/global-state";
-import {fetchProductById} from "@infralastic/global-state";
+import { cartDelete, checkoutOrder, useGlobalDispatch, useGlobalSelector } from "@infralastic/global-state";
 import {toast} from "react-toastify";
+import {AiOutlineDelete} from "react-icons/ai";
 
 const DeviceCheckout = () => {
   const router = useNavigate();
@@ -26,10 +26,17 @@ const DeviceCheckout = () => {
   const [creditCardNumber, setCreditCardNumber] = useState<any>(null);
   const [exp, setExp] = useState('');
   const [cvv, setCvv] = useState<any>(null);
-  const [productData, setProductData] = useState<any>(null)
   const [searchParams, setSearchParams] = useSearchParams();
+  const cartData = useGlobalSelector((state) => state.cart);
+  const totalCost = cartData?.cartInfo.reduce((total: number, item: any) => total + item?.cost, 0);
 
-  const id: any = searchParams.get('productId')
+  console.log(cartData, 'cart data')
+
+  const id: any = searchParams.get('productId');
+
+  const product = cartData?.cartInfo.map((item: any) => ({
+    product_id: item.productId
+  }));
 
 
   const handleSubmit = () => {
@@ -44,8 +51,8 @@ const DeviceCheckout = () => {
       country_id: JSON.parse(country),
       state_id: JSON.parse(state),
       user: 1,
-      product_ids:[{"product_id": id}]}
-
+      product_ids: product
+    }
     checkoutOrder(formData).then((res: any) => {
       if (res.data?.result?.success === true) {
         toast.success(res.data.result.msg)
@@ -57,18 +64,20 @@ const DeviceCheckout = () => {
       }
     })
   }
-  const fetchProduct = () => {
-    const fromData = {
-      product_id: id
-    }
-    dispatch(fetchProductById(fromData)).then((res: any) => {
-      setProductData(res.payload.result);
-    })
-  }
 
-  useEffect(() => {
-    fetchProduct();
-  }, [])
+  const handleDelete = async (index: any) => {
+    const formData: any = {
+      cart_data: cartData?.cartInfo,
+      index: index
+    }
+    try {
+      await dispatch(cartDelete(formData)).then(() => {
+        toast.success('Item Removed Successfully')
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   return(
@@ -321,25 +330,34 @@ const DeviceCheckout = () => {
                         <p className='theme-font'>Your cart</p>
                       </div>
                       <div className='w-50 d-flex justify-content-end'>
-                        <span className='theme-font'><CiShoppingCart size={22} /><span className='ms-1 m-0'>3 item</span></span>
+                        <span className='theme-font'><CiShoppingCart size={22} /><span className='ms-1 m-0'>{cartData?.cartInfo?.length} item</span></span>
                       </div>
                     </div>
                     <div className="py-3">
+                      {cartData?.cartInfo.map((item: any, index: any) => (
                         <>
                           <div className="d-flex w-100">
                             <div className="d-flex justify-content-start w-75">
-                              <img src={productData?.image} width='60' height='60' alt=""/>
+                              <img src={item?.image} width='60' height='60' alt=""/>
+                              <div className='position-absolute d-flex justify-content-end'>
+                                <button
+                                  className='bg-theme-danger border-0 w-auto rounded text-white'
+                                  type='button'
+                                  onClick={() => handleDelete(index)}
+                                ><AiOutlineDelete /></button>
+                              </div>
                               <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
-                                <p className='theme-font mb-1'>{productData?.product_name}</p>
+                                <p className='theme-font mb-1'>{item?.description}</p>
                                 <p className='theme-font fs-7 text-muted'>Brief description </p>
                               </div>
                             </div>
-                            <div className="d-flex justify-content-end w-25">
-                              <h5 className='m-0 fw-semibold  theme-danger text-end'>${productData?.price}</h5>
+                            <div className="d-flex flex-column justify-content-end w-25">
+                              <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.cost}</h5>
                             </div>
                           </div>
                           <hr/>
                         </>
+                      ))}
                       <div className="d-flex w-100 p-2 redeem theme-danger rounded">
                         <div className="d-flex justify-content-start align-items-center w-75">
                           <div className='d-flex flex-column h-100 ms-2  justify-content-center'>
@@ -356,7 +374,7 @@ const DeviceCheckout = () => {
                           <h5 className='theme-font'>Total</h5>
                         </div>
                         <div className="w-50 text-end">
-                          <h5 className='theme-font theme-danger m-0'>${productData?.price}</h5>
+                          <h5 className='theme-font theme-danger m-0'>${totalCost}</h5>
                         </div>
                       </div>
                     </div>

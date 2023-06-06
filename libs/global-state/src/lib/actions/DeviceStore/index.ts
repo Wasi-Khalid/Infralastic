@@ -12,7 +12,6 @@ export const fetchAllCategoryList = createAsyncThunk(
       let data = {};
       const { user }: any = getState();
       await api.getCategoryList({formData}).then((res: any) => {
-        console.log(res)
         data = res.data;
       });
       return data;
@@ -36,7 +35,6 @@ export const fetchAllProductList = createAsyncThunk(
       let data = {};
       const { user }: any = getState();
       await api.getAllProducts({formData}).then((res: any) => {
-        console.log(res)
         data = res.data;
       });
       return data;

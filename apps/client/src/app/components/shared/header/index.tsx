@@ -6,15 +6,15 @@ import {AiOutlineAppstoreAdd} from "react-icons/ai";
 import {CiHeadphones} from "react-icons/ci";
 import avatar from '../../../../assets/Avatar.png'
 import {useNavigate} from "react-router-dom";
-import {useGlobalSelector} from "@infralastic/global-state";
-import {useEffect} from "react";
+
 const HeaderComponent = () => {
   const router = useNavigate();
-  // const { cartInfo } = useGlobalSelector((state) => state.cart);
   const logout = async () => {
     localStorage.clear();
     await router("/login");
   };
+
+
   return(
       <div>
           <div className='d-flex w-100'>
@@ -42,7 +42,7 @@ const HeaderComponent = () => {
                       <div className="shadow d-flex bg-white rounded p-2">
                           <button className='bg-transparent border-0'>
                             <div className='d-flex justify-content-end'>
-                              <p className='m-0 bg-theme-danger text-white rounded-circle position-absolute px-1 fs-7'>0</p>
+                              {/*<p className='m-0 bg-theme-danger text-white rounded-circle position-absolute px-1 fs-7'>{cartLength}</p>*/}
                             </div>
                             <IoBasketOutline className='my-1 mx-2' size={26}/>
                           </button>

@@ -131,3 +131,6 @@ export const checkoutOrder = (formData: any) =>
 export const getOrder = (formData: any) =>
   API.post('/api/get_products_by_order_api', formData)
 
+export const getOrderByUser = (formData: any) =>
+  API.post('/api/get_order_by_user_api', formData)
+

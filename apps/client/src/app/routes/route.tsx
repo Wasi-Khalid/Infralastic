@@ -23,6 +23,8 @@ import CheckOut from "../pages/Client/AssetDevices/CheckOut";
 import AppStore from "../pages/Client/ProductStore/AppStore";
 import DeviceStore from "../pages/Client/ProductStore/DeviceStore";
 import OrderTracking from "../pages/Client/ProductStore/OrderTracking";
+import Admin from "../pages/Client/Admin";
+import GlobalSetting from "../pages/Client/Admin/GlobalSetting";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -123,6 +125,14 @@ const AppRoutes = () => {
               <Route
                     path="/order-tracking"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<OrderTracking />} />}
+                />
+              <Route
+                    path="/admin"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Admin />} />}
+                />
+              <Route
+                    path="/global-setting"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<GlobalSetting />} />}
                 />
             </Routes>
         </>

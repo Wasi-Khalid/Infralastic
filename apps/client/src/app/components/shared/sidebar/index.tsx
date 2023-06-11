@@ -19,6 +19,7 @@ const SideBarComponent = () => {
     const [people, setPeople] = useState(false);
     const [assets, setAssets] = useState(false);
     const [store, setStore] = useState(false);
+    const [admin, setAdmin] = useState(false);
 
   return(
       <div className='px-2'>
@@ -73,7 +74,18 @@ const SideBarComponent = () => {
                           <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Order Tracking</p>
                         </Link>
                       </>}
-                      <p className='theme-font m-0 hover d-flex align-items-center mb-2 p-1 fs-7'><HiUser className='me-2' size={18} />Admin</p>
+                      <p className={admin ? 'bg-theme-danger theme-font text-white m-0 rounded d-flex align-items-center mb-2 p-1 fs-7' :'theme-font m-0 hover d-flex align-items-center mb-2 p-1 fs-7'} onClick={() => setAdmin(!admin)}><span className="d-flex w-50"><HiUser  className='me-2' size={18} />Admin</span><span className='w-50 d-flex justify-content-end'><BiChevronDown /></span></p>
+                      {admin && <>
+                        <Link to='/admin'>
+                          <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Admin</p>
+                        </Link>
+                        <Link to='/device-store'>
+                          <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Reports</p>
+                        </Link>
+                        <Link to='/device-store'>
+                          <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Alerts</p>
+                        </Link>
+                      </>}
                   </div>
               </>
           }

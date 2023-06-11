@@ -134,3 +134,15 @@ export const getOrder = (formData: any) =>
 export const getOrderByUser = (formData: any) =>
   API.post('/api/get_order_by_user_api', formData)
 
+export const addAdminUser  = (formData: any) =>
+  API.post('/api/add_user_api', formData)
+
+export const getAllRoles  = (formData: any) =>
+  API.post('/api/get_roles_api', formData)
+
+export const getAllUser = (formData: any) =>
+  API.post('/api/get_users_api', formData)
+
+export const addRoleControl = (formData: any) =>
+  API.post('/api/add_role_access_api', formData)
+

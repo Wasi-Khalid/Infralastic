@@ -56,7 +56,7 @@ const AdminUserTable = () => {
           <td>
             <div className='d-flex justify-content-end align-items-center'>
               <DropdownButton
-                className="bg-transparent custom-btn"
+                className="bg-transparent custom-btn "
                 id="dropdown-item-button"
                 title={<BiDotsVerticalRounded className='me-2' size={20} />}
               >

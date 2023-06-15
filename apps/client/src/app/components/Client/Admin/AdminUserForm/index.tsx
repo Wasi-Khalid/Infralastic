@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 const AdminUserForm = () => {
 
   const [roles, setRoles] = useState<any>('');
+  const [roleData, setRoleData] = useState<any>([]);
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
   const [phone, setPhone] = useState<any>('');
@@ -14,7 +15,7 @@ const AdminUserForm = () => {
   const fetchRoles = () => {
     const config = {}
     getAllRoles(config).then((res) => {
-      console.log(res)
+      setRoleData(res.data.result.role_details)
     })
   }
   function handleSubmit() {
@@ -23,7 +24,7 @@ const AdminUserForm = () => {
       login: email,
       password:"password",
       phone: phone,
-      role_id:"1"
+      role_id: JSON.parse(roles)
     }
     addAdminUser(formData).then((res: any) => {
       toast.success(res.data.result.msg)
@@ -46,7 +47,15 @@ const AdminUserForm = () => {
             </div>
             <div className='d-flex align-items-center py-2 w-100'>
               <label className='w-25 fs-7' htmlFor="">Role *</label>
-              <input onChange={(e) => setRoles(e.target.value)} className='w-75 form-control fs-7' type="text" placeholder='Select Role'/>
+              <select
+                className='w-75 form-control fs-7'
+                onChange={(e) => setRoles(e.target.value)}
+              >
+                <option value="">none</option>
+                {roleData?.map((item: any) => (
+                  <option value={item?.role_id}>{item?.role_name}</option>
+                ))}
+              </select>
             </div>
             <div className='d-flex align-items-center py-2 w-100'>
               <label className='w-25 fs-7' htmlFor="">Email *</label>

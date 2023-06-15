@@ -25,6 +25,8 @@ import DeviceStore from "../pages/Client/ProductStore/DeviceStore";
 import OrderTracking from "../pages/Client/ProductStore/OrderTracking";
 import Admin from "../pages/Client/Admin";
 import GlobalSetting from "../pages/Client/Admin/GlobalSetting";
+import DeviceManagement from "../pages/Client/DeviceManagement";
+import DeviceDetail from "../pages/Client/DeviceManagement/DeviceDetail";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -133,6 +135,14 @@ const AppRoutes = () => {
               <Route
                     path="/global-setting"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<GlobalSetting />} />}
+                />
+              <Route
+                    path="/device-management"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceManagement />} />}
+                />
+              <Route
+                    path="/device-detail"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceDetail />} />}
                 />
             </Routes>
         </>

@@ -20,6 +20,7 @@ const SideBarComponent = () => {
     const [assets, setAssets] = useState(false);
     const [store, setStore] = useState(false);
     const [admin, setAdmin] = useState(false);
+    const [security, setSecurity] = useState(false);
 
   return(
       <div className='px-2'>
@@ -61,7 +62,12 @@ const SideBarComponent = () => {
                               <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Check Out</p>
                           </Link>
                       </>}
-                      <p className='theme-font m-0 hover d-flex align-items-center mb-2 p-1 fs-7'><CiSquareAlert className='me-2' size={18} />Security </p>
+                    <p className={security ? 'bg-theme-danger theme-font text-white m-0 rounded d-flex align-items-center mb-2 p-1 fs-7 w-100' :'theme-font m-0 hover d-flex align-items-center mb-2 p-1 fs-7 w-100'} onClick={() => setSecurity(!security)}><span className="d-flex w-50"><CiSquareAlert className='me-2' size={18} />Security </span><span className='w-50 d-flex justify-content-end'><BiChevronDown /></span></p>
+                      {security && <>
+                        <Link to='/device-management'>
+                          <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Device Management</p>
+                        </Link>
+                      </>}
                       <p className={store ? 'bg-theme-danger theme-font text-white m-0 rounded d-flex align-items-center mb-2 p-1 fs-7' :'theme-font m-0 hover d-flex align-items-center mb-2 p-1 fs-7'} onClick={() => setStore(!store)}><span className="d-flex"><AiOutlineAppstoreAdd className='me-2' size={18} />Procurement</span><span className='w-50 d-flex justify-content-end'><BiChevronDown /></span></p>
                       {store && <>
                         <Link to='/app-store'>

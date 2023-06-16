@@ -1,5 +1,5 @@
-import {Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
-import {addRoleControl} from "@infralastic/global-state";
+import {Card, Table} from "react-bootstrap";
+import {addRoleControl, useGlobalSelector} from "@infralastic/global-state";
 import {useState} from "react";
 import {toast} from "react-toastify";
 
@@ -7,11 +7,12 @@ import {toast} from "react-toastify";
 const AdminRoleForm = () => {
   const [role, setRole] = useState('')
   const [description, setDescription] = useState('')
+  const { userInfo } = useGlobalSelector((state) => state.user);
   function handleSubmit() {
     const formData: any = {
       role_name: role,
       description: description,
-      user_id: 1,
+      user_id: userInfo?.result?.user_id,
       access_control: [
         {"model_id": 419, "read": "False", "write": "True", "create": "True", "delete": "True"}, {
           "model_id": 420,
@@ -87,6 +88,74 @@ const AdminRoleForm = () => {
               <tr>
               <td>
                 <h6 className='text-muted fs-7 m-0'>Profile Management</h6>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+            </tr>
+              <tr>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>App Management</h6>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+            </tr>
+              <tr>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>Content Management</h6>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+            </tr>
+              <tr>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>Group Management</h6>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+              <td>
+                <input type="checkbox" className='form-check'/>
+              </td>
+            </tr>
+              <tr>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>Inventory</h6>
               </td>
               <td>
                 <input type="checkbox" className='form-check'/>

@@ -17,3 +17,4 @@ export * from './lib/actions/DeviceStore';
 export * from './lib/actions/OrderTracking';
 export * from './lib/actions/Cart';
 export * from './lib/api';
+export * from './lib/DeviceManagementApi';

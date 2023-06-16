@@ -4,13 +4,14 @@ import {addAdminUser, getAllRoles} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 
-const AdminUserForm = () => {
+const AdminUserForm = (id: any) => {
 
   const [roles, setRoles] = useState<any>('');
   const [roleData, setRoleData] = useState<any>([]);
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
   const [phone, setPhone] = useState<any>('');
+
 
   const fetchRoles = () => {
     const config = {}

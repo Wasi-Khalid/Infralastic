@@ -2,21 +2,47 @@ import {Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
 import fakeUsr from "../../../../../assets/Avatar.png";
 import {BiDotsVerticalRounded} from "react-icons/bi";
-import {getAllUser} from "@infralastic/global-state";
+import {deleteAdminUser, getAllUser} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import AdminUserForm from "../AdminUserForm";
 
 const AdminUserTable = () => {
-  const [data, setData] = useState<any>([])
+  const [data, setData] = useState<any>([]);
+  const [editForm, setEditForm] = useState(false);
+  const [editId, setEditId] = useState<any>(null)
   function fetchAllUsers() {
     const formData: any = {}
     getAllUser(formData).then((res: any) => {
       setData(res.data.result.role_details)
     })
   }
+  function removeUser(id:any) {
+    const formData:any = {
+      user_id: id
+    }
+    deleteAdminUser(formData).then((res: any) => {
+      if (res?.data.error) {
+        toast.error(res.data.error.message)
+      }
+      toast.success(res.data.result?.msg);
+      fetchAllUsers();
+    })
+  }
+
+  function handleEdit(id: any) {
+    setEditForm(true)
+    setEditId(id)
+  }
 
   useEffect(() => {
     fetchAllUsers();
   }, [])
+
+  if(editForm) {
+    return <AdminUserForm id={editId}/>
+  }
+
   return(
     <Table striped className='theme-font p-2' id='departmentTable'>
       <thead className='p-3'>
@@ -60,8 +86,8 @@ const AdminUserTable = () => {
                 id="dropdown-item-button"
                 title={<BiDotsVerticalRounded className='me-2' size={20} />}
               >
-                <Dropdown.Item className='theme-font fs-7' as="button">Edit</Dropdown.Item>
-                <Dropdown.Item className='theme-font fs-7' as="button">Delete</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleEdit(item?.user_id)} className='theme-font fs-7' as="button">Edit</Dropdown.Item>
+                <Dropdown.Item onClick={() => removeUser(item?.user_id)} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
               </DropdownButton>
             </div>
           </td>

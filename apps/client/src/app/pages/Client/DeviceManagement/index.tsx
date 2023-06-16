@@ -8,11 +8,23 @@ import {GoSettings} from "react-icons/go";
 import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getHosts} from "@infralastic/global-state";
 
 const DeviceManagement = () => {
   const router = useNavigate();
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
+
+  function fetchHosts() {
+    const config = {}
+    getHosts(config).then((res) => {
+      console.log(res)
+    })
+  }
+
+  useEffect(() => {
+    fetchHosts()
+  }, [])
   return(
     <>
       <br/>

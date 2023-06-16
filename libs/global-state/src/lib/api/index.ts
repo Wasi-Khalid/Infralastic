@@ -137,6 +137,9 @@ export const getOrderByUser = (formData: any) =>
 export const addAdminUser  = (formData: any) =>
   API.post('/api/add_user_api', formData)
 
+export const deleteAdminUser  = (formData: any) =>
+  API.post('/api/delete_user_api', formData)
+
 export const getAllRoles  = (formData: any) =>
   API.post('/api/get_roles_api', formData)
 
@@ -145,4 +148,7 @@ export const getAllUser = (formData: any) =>
 
 export const addRoleControl = (formData: any) =>
   API.post('/api/add_role_access_api', formData)
+
+export const deleteRoleControl = (formData: any) =>
+  API.post('api/delete_role_access_api', formData)
 

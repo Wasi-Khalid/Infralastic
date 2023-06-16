@@ -2,8 +2,9 @@ import {Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
 import fakeUsr from "../../../../../assets/Avatar.png";
 import {BiDotsVerticalRounded} from "react-icons/bi";
-import {getAllRoles} from "@infralastic/global-state";
+import {deleteRoleControl, getAllRoles} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
 const AdminRoleTable = () => {
   const [roleData, setRoleData] = useState<any>([])
@@ -13,6 +14,19 @@ const AdminRoleTable = () => {
       setRoleData(res.data.result.role_details)
     })
   }
+  const removeRoles = (id: any) => {
+    const formData = {
+      role_id: id
+    }
+    deleteRoleControl(formData).then((res) => {
+      if (res?.data.error) {
+        toast.error(res.data.error.message)
+      }
+      toast.success(res.data.result?.msg);
+      fetchRoles();
+    })
+  }
+
   useEffect(() => {
     fetchRoles()
   }, [])
@@ -52,7 +66,7 @@ const AdminRoleTable = () => {
                   title={<BiDotsVerticalRounded className='me-2' size={20} />}
                 >
                   <Dropdown.Item className='theme-font fs-7' as="button">Edit</Dropdown.Item>
-                  <Dropdown.Item className='theme-font fs-7' as="button">Delete</Dropdown.Item>
+                  <Dropdown.Item onClick={() => removeRoles(item?.role_id)} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
                 </DropdownButton>
               </div>
             </td>

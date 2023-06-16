@@ -1,5 +1,5 @@
 import './global-setting-table.scss';
-import {Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
+import {Card, Dropdown } from "react-bootstrap";
 import {useState} from "react";
 import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
@@ -7,6 +7,7 @@ import AdminUserTable from "../AdminUserTable";
 import AdminRoleTable from "../AdminRoleTable";
 import AdminUserForm from "../AdminUserForm";
 import AdminRoleForm from "../AdminRoleForm";
+import {BiArrowBack} from "react-icons/all";
 
 const GlobalSettingTable = () => {
   const [user, setUser] = useState(true);
@@ -14,15 +15,36 @@ const GlobalSettingTable = () => {
   const [userForm, setUserForm] = useState(false);
   const [roleForm, setRoleForm] = useState(false);
 
-  if (userForm) {
-    return <AdminUserForm />
-  }
-  if (roleForm) {
-    return <AdminRoleForm />
-  }
   return(
     <div>
       <Card>
+        {user ?
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => setUserForm(false)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
+        : role ?
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => setRoleForm(false)}
+          >
+            <BiArrowBack />
+          </button>
+        </div> :
+        <></>
+        }
+        {userForm && <>
+          <AdminUserForm />
+        </>}
+        {roleForm && <>
+          <AdminRoleForm />
+        </>}
+        {(!userForm && !roleForm)&&
         <Card.Body>
           <div className="d-flex theme-font p-2">
             <div className='d-flex align-items-center'>
@@ -85,6 +107,7 @@ const GlobalSettingTable = () => {
             : <></>
           }
         </Card.Body>
+        }
       </Card>
     </div>
   )

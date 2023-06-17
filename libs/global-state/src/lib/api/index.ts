@@ -137,6 +137,9 @@ export const getOrderByUser = (formData: any) =>
 export const addAdminUser  = (formData: any) =>
   API.post('/api/add_user_api', formData)
 
+export const updateAdminUser  = (formData: any) =>
+  API.post('/api/update_user_api', formData)
+
 export const deleteAdminUser  = (formData: any) =>
   API.post('/api/delete_user_api', formData)
 
@@ -146,9 +149,32 @@ export const getAllRoles  = (formData: any) =>
 export const getAllUser = (formData: any) =>
   API.post('/api/get_users_api', formData)
 
+export const getUserById = (formData: any) =>
+  API.post('/api/get_users_api_by_id', formData)
+
+export const getRoleById = (formData: any) =>
+  API.post('/api/get_roles_api_by_id', formData)
+
+export const getCompanyById = (formData: any) =>
+  API.post('/api/get_companies_api_by_id', formData)
+
 export const addRoleControl = (formData: any) =>
   API.post('/api/add_role_access_api', formData)
 
+export const updateRoleControl = (formData: any) =>
+  API.post('/api/update_role_access_api', formData)
+
 export const deleteRoleControl = (formData: any) =>
-  API.post('api/delete_role_access_api', formData)
+  API.post('/api/delete_role_access_api', formData)
+
+export const deleteCompany = (formData: any) =>
+  API.post('/api/delete_company_api', formData)
+
+export const addCompany = (formData: any) =>
+  API.post('/api/create_company_api', formData)
+export const updateCompany = (formData: any) =>
+  API.post('/api/update_company_api', formData)
+
+export const getAllCompanies = (formData: any) =>
+  API.post('/api/get_companies_api', formData)
 

@@ -5,12 +5,12 @@ import {BiDotsVerticalRounded} from "react-icons/bi";
 import {deleteAdminUser, getAllUser} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import AdminUserForm from "../AdminUserForm";
+import EditUserModal from "../../../Modals/EditUserModal";
 
 const AdminUserTable = () => {
   const [data, setData] = useState<any>([]);
-  const [editForm, setEditForm] = useState(false);
   const [editId, setEditId] = useState<any>(null)
+  const [show, setShow] = useState(false);
   function fetchAllUsers() {
     const formData: any = {}
     getAllUser(formData).then((res: any) => {
@@ -31,7 +31,7 @@ const AdminUserTable = () => {
   }
 
   function handleEdit(id: any) {
-    setEditForm(true)
+    setShow(!show)
     setEditId(id)
   }
 
@@ -39,9 +39,6 @@ const AdminUserTable = () => {
     fetchAllUsers();
   }, [])
 
-  if(editForm) {
-    return <AdminUserForm id={editId}/>
-  }
 
   return(
     <Table striped className='theme-font p-2' id='departmentTable'>
@@ -68,7 +65,7 @@ const AdminUserTable = () => {
             </div>
           </td>
           <td>
-            <h6 className='text-muted fs-7 m-0'>(406) 555-0120</h6>
+            <h6 className='text-muted fs-7 m-0'>{item?.phone}</h6>
           </td>
           <td>
             <h6 className='text-muted fs-7 m-0'>{item?.email}</h6>
@@ -94,6 +91,9 @@ const AdminUserTable = () => {
         </tr>
       ))}
       </tbody>
+      {show &&
+       <EditUserModal show={show} hide={() => setShow(false)} id={editId} />
+      }
     </Table>
   )
 }

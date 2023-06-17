@@ -5,9 +5,12 @@ import {BiDotsVerticalRounded} from "react-icons/bi";
 import {deleteRoleControl, getAllRoles} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import EditRoleModal from "../../../Modals/EditRoleModal";
 
 const AdminRoleTable = () => {
   const [roleData, setRoleData] = useState<any>([])
+  const [show, setShow] = useState(false);
+  const [editId, setEditId] = useState(null);
   const fetchRoles = () => {
     const config = {}
     getAllRoles(config).then((res) => {
@@ -25,6 +28,11 @@ const AdminRoleTable = () => {
       toast.success(res.data.result?.msg);
       fetchRoles();
     })
+  }
+
+  const handleEdit = (id: any) => {
+    setEditId(id)
+    setShow(!show);
   }
 
   useEffect(() => {
@@ -65,7 +73,7 @@ const AdminRoleTable = () => {
                   id="dropdown-item-button"
                   title={<BiDotsVerticalRounded className='me-2' size={20} />}
                 >
-                  <Dropdown.Item className='theme-font fs-7' as="button">Edit</Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleEdit(item?.role_id)} className='theme-font fs-7' as="button">Edit</Dropdown.Item>
                   <Dropdown.Item onClick={() => removeRoles(item?.role_id)} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
                 </DropdownButton>
               </div>
@@ -74,6 +82,9 @@ const AdminRoleTable = () => {
         ))}
         </tbody>
       </Table>
+      {show &&
+      <EditRoleModal show={show} hide={() => setShow(false)} id={editId} />
+      }
     </div>
   )
 }

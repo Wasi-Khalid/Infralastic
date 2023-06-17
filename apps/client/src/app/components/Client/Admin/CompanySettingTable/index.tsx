@@ -4,6 +4,8 @@ import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
 import {useState} from "react";
 import AdminCompanyTable from "../AdminCompanyTable";
+import {BiArrowBack} from "react-icons/all";
+import CompanySettingForm from "../CompanySettingForm";
 
 const CompanySettingTable = () => {
   const [companyForm, setCompanyForm] = useState(false);
@@ -11,7 +13,19 @@ const CompanySettingTable = () => {
     <div>
       <div>
         <Card>
-          <Card.Body>
+          <div className='position-absolute back-btn'>
+            <button
+              className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+              onClick={() => setCompanyForm(false)}
+            >
+              <BiArrowBack />
+            </button>
+          </div>
+          {companyForm && <>
+            <CompanySettingForm />
+          </>}
+          {!companyForm &&
+            <Card.Body>
             <div className="d-flex align-items-center theme-font p-2">
               <p className='theme-font mb-0 mx-3'>Companies</p>
               <input type="text" className='form-control p-2 px-3 fs-7 mx-2' placeholder='Search' />
@@ -38,6 +52,7 @@ const CompanySettingTable = () => {
             <hr className='mt-3 mb-0'/>
             <AdminCompanyTable />
           </Card.Body>
+          }
         </Card>
       </div>
     </div>

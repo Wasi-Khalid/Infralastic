@@ -4,7 +4,7 @@ import React from "react";
 const OrderTracking = () => {
   return(
     <div className='h-100 py-3'>
-      <iframe src="http://localhost:3001/order-tracking" className='w-100 h-100' />
+      <iframe src="http://infralastic-shop.infralastic.com/order-tracking" className='w-100 h-100' />
     </div>
   )
 }

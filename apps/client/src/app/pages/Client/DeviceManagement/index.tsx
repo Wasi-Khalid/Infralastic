@@ -14,11 +14,12 @@ import {getHosts} from "@infralastic/global-state";
 const DeviceManagement = () => {
   const router = useNavigate();
   const [show, setShow] = useState(false);
+  const [data, setData] = useState<any>([])
 
   function fetchHosts() {
     const config = {}
-    getHosts(config).then((res) => {
-      console.log(res)
+    getHosts(config).then((res: any) => {
+      setData(res.data.data.hosts)
     })
   }
 
@@ -108,13 +109,14 @@ const DeviceManagement = () => {
             </tr>
             </thead>
             <tbody>
+            {data.map((item: any) => (
               <tr>
                 <td>
                   <div className='d-flex align-items-center'>
                     <img src={bogus} alt="" width='38' height='38' className='rounded' />
                     <div>
-                      <p className='m-0 ms-2 fs-7'>Alex Device (Laptop)</p>
-                      <p className='m-0 ms-2 fs-8 text-muted'>Last Login: (Jan 01, 2022 9:10:30 am)</p>
+                      <p className='m-0 ms-2 fs-7'>{item?.hostname}</p>
+                      <p className='m-0 ms-2 fs-8 text-muted'>Last Login: {item?.label_updated_at}</p>
                     </div>
                   </div>
                 </td>
@@ -128,11 +130,11 @@ const DeviceManagement = () => {
                   <div className="d-flex align-items-center h-100">
                     <div className='d-flex align-items-center'>
                       <div className='d-flex align-items-center px-3 br-1'>
-                        <div className='action-ico bg-danger mx-2'>1</div>
+                        <div className='action-ico bg-danger mx-2'>{item?.issues?.failing_policies_count}</div>
                         <p className='m-0 ms-1 fs-7 text-muted'>Critical</p>
                       </div>
                       <div className='d-flex align-items-center px-3 br-1'>
-                        <div className='action-ico bg-warning mx-2'>1</div>
+                        <div className='action-ico bg-warning mx-2'>{item?.issues?.total_issues_count}</div>
                         <p className='m-0 ms-1 fs-7 text-muted'>Warning</p>
                       </div>
                       <div className='d-flex align-items-center px-3'>
@@ -161,7 +163,7 @@ const DeviceManagement = () => {
                       onClick={() => router({
                         pathname: '/device-detail',
                         search: `?${createSearchParams({
-                          device_id: '1'
+                          hostId: item?.id
                         })}`
                       })}><AiOutlineEye className='me-2 mt-1' size={20} />
                     </button>
@@ -176,6 +178,7 @@ const DeviceManagement = () => {
                   </div>
                 </td>
               </tr>
+            ))}
             </tbody>
           </Table>
           <hr/>

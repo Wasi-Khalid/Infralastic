@@ -10,14 +10,14 @@ import image5 from '../../../../../assets/device-managment/patches.png';
 import image6 from '../../../../../assets/device-managment/general.png';
 
 
-const MachineComponent = () => {
+const MachineComponent = ({item}: {item: any}) => {
   return(
     <>
      <Card>
        <Card.Header className='bg-white p-3'>
          <div className='d-flex'>
            <div className="w-50">
-             <p className='m-0 theme-font text-uppercase fs-5'>Alex Device</p>
+             <p className='m-0 theme-font text-uppercase fs-5'>{item?.computer_name}</p>
              <div className="d-flex align-items-center">
                <div className='status-ico bg-success me-2'></div>
                <p className='theme-font m-0 fs-7'>Online</p>

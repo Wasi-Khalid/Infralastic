@@ -8,4 +8,7 @@ const API = axios.create({
 });
 
 export const getHosts = (formData: any) =>
-  API.get('https://flt01.infralastic.com:5000/host/getHosts', formData)
+  API.get('http://flt01.infralastic.com:5000/host/getHosts', formData)
+
+export const getHostDetail = (config: any) =>
+  API.get(`http://flt01.infralastic.com:5000/host/getHostDetail/${config}`)

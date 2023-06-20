@@ -27,6 +27,7 @@ import Admin from "../pages/Client/Admin";
 import GlobalSetting from "../pages/Client/Admin/GlobalSetting";
 import DeviceManagement from "../pages/Client/DeviceManagement";
 import DeviceDetail from "../pages/Client/DeviceManagement/DeviceDetail";
+import Reports from "../pages/Client/Reports";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -143,6 +144,10 @@ const AppRoutes = () => {
               <Route
                     path="/device-detail"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceDetail />} />}
+                />
+              <Route
+                    path="/reports"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Reports />} />}
                 />
             </Routes>
         </>

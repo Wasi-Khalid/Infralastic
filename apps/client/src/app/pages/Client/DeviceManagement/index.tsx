@@ -123,7 +123,7 @@ const DeviceManagement = () => {
                 <td>
                   <div className='d-flex align-items-center'>
                     <div className='status-ico bg-success mx-2'></div>
-                    <p className='theme-font m-0'>Online</p>
+                    <p className='theme-font m-0'>{item?.status}</p>
                   </div>
                 </td>
                 <td>

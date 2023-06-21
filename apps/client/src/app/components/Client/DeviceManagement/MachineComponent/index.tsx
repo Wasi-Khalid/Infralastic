@@ -20,7 +20,7 @@ const MachineComponent = ({item}: {item: any}) => {
              <p className='m-0 theme-font text-uppercase fs-5'>{item?.computer_name}</p>
              <div className="d-flex align-items-center">
                <div className='status-ico bg-success me-2'></div>
-               <p className='theme-font m-0 fs-7'>Online</p>
+               <p className='theme-font m-0 fs-7'>{item?.status}</p>
              </div>
            </div>
            <div className="w-50">
@@ -81,11 +81,11 @@ const MachineComponent = ({item}: {item: any}) => {
        <Card.Body>
          <div className="d-flex">
            <div className="w-25">
-             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Machine Name: </span><span className='theme-font text-muted'>Alex Device</span></h6>
-             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Domain/Workgorup: </span><span className='theme-font text-muted'>WORKGROUP</span></h6>
-             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Last Seen: </span><span className='theme-font text-muted'>March 8, 2023 11:49:13AM</span></h6>
-             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Last Reboot Time: </span><span className='theme-font text-muted'>March 7, 2023 11:49:13AM</span></h6>
-             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>IP Address: </span><span className='theme-font text-muted'>10.0.0.1; 10.0.0.2; 10.0.0.3</span></h6>
+             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Machine Name: </span><span className='theme-font text-muted'>{item?.hostname}</span></h6>
+             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Domain/Workgorup: </span><span className='theme-font text-muted'>{item?.hardware_vendor}</span></h6>
+             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Last Seen: </span><span className='theme-font text-muted'>{item?.detail_updated_at}</span></h6>
+             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Last Reboot Time: </span><span className='theme-font text-muted'>{item?.last_enrolled_at}</span></h6>
+             <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>IP Address: </span><span className='theme-font text-muted'>{item?.primary_ip}</span></h6>
              <h6 className='m-0 mb-3 fs-7'><span className='fw-semibold'>Folder: </span><span className='theme-font text-muted'>ENCOM</span></h6>
            </div>
            <div className="w-75 px-3">

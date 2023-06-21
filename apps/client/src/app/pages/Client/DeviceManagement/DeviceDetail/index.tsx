@@ -46,17 +46,17 @@ const DeviceDetail = () => {
       <br/>
       <Row>
         <Col md={6}>
-          <SoftwareComponent />
+          <SoftwareComponent item={hostData} />
           <br/>
           <SecurityComponent />
         </Col>
         <Col md={6}>
-          <HardwareComponent />
+          <HardwareComponent item={hostData} />
         </Col>
       </Row>
       <br/>
       <div>
-        <DiskComponent />
+        <DiskComponent item={hostData} />
       </div>
       <br/>
       <br/>

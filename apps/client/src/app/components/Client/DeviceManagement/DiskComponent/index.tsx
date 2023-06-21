@@ -1,7 +1,7 @@
 import {Card, Col, ProgressBar, Row} from "react-bootstrap";
 import {FiHardDrive} from "react-icons/all";
 
-const DiskComponent = () => {
+const DiskComponent = ({item}: {item: any}) => {
   return(
     <>
       <Card>
@@ -11,8 +11,8 @@ const DiskComponent = () => {
               <p className='m-0 theme-font text-uppercase fs-5'>Disks</p>
             </div>
             <div className="w-50 d-flex justify-content-end align-items-center">
-              <p className='m-0 theme-font'>Total&nbsp;Capacity&nbsp;<span className='theme-danger'>(31%)</span></p>
-              <ProgressBar variant='danger' now={31}  className='w-100 mx-2 mb-0' />
+              <p className='m-0 theme-font'>Total&nbsp;Capacity&nbsp;<span className='theme-danger'>({item?.percent_disk_space_available}%)</span></p>
+              <ProgressBar variant='danger' now={item?.percent_disk_space_available}  className='w-100 mx-2 mb-0' />
             </div>
           </div>
         </Card.Header>

@@ -1,13 +1,12 @@
-import {Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
-
+import {Button, Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
-import laptop from "../../../../../assets/laptop.png";
 import bogus from '../../../../../assets/Facebook.png';
-import {AiOutlineDownload, AiOutlineEye} from "react-icons/ai";
-import {createSearchParams} from "react-router-dom";
-import {BiDotsVerticalRounded} from "react-icons/bi";
+import {AiOutlineDownload} from "react-icons/ai";
+import {BiDotsHorizontalRounded, BiDotsVerticalRounded} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
 
-const ActivityReportComponent = (asset:any) => {
+const ActivityReportComponent = () => {
+  const router = useNavigate()
   return(
     <>
       <Card>
@@ -20,7 +19,32 @@ const ActivityReportComponent = (asset:any) => {
               <div>
                 <input placeholder='Search' type="search" className='form-control'/>
               </div>
+              <button
+                className='bg-transparent border-0 mx-3 theme-font'
+              >Download Report
+              </button>
+              <div>
+                <Dropdown>
+                  <Dropdown.Toggle variant="outline-danger" id="dropdown-basic" >
+                    <BiDotsHorizontalRounded size={20} />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className='theme-font'>
+                    <Dropdown.Item className='py-2' onClick={() => router('/inventory-reports')}>Inventory Report</Dropdown.Item>
+                    <Dropdown.Item className='py-2' onClick={() => router('/investment-reports')}>Investment Report</Dropdown.Item>
+                    <Dropdown.Item className='py-2' onClick={() => router('/purchase-reports')}>Purchase Report</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>License Report</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Audit Log Report</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Executive Reports</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Accessory Reports</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>App Installation Summary</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Devices by Model</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Location Details & History</Dropdown.Item>
+                    <Dropdown.Item className='py-2'>Geo Location Report</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
             </div>
+
           </div>
           <hr className='m-0 mt-3'/>
           <Table striped className='theme-font' id='departmentTable'>
@@ -73,7 +97,6 @@ const ActivityReportComponent = (asset:any) => {
                       title={<BiDotsVerticalRounded className='me-2' size={20} />}
                     >
                       <Dropdown.Item className='theme-font fs-7' as="button">Archive</Dropdown.Item>
-                      <Dropdown.Item className='theme-font fs-7' as="button">Delete</Dropdown.Item>
                       <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
                       <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
                     </DropdownButton>

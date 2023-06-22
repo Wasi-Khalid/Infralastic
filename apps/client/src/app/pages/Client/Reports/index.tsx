@@ -51,7 +51,10 @@ const Reports = () => {
                 <div className="w-75">
                   <h5 className='theme-font'>Assets Report</h5>
                   <div className="d-flex">
-                    <ReportAssetChart />
+                    <ReportAssetChart
+                      purchased={budgetData?.budget_purchased}
+                      assigned={budgetData?.budget_assign}
+                    />
                     <div className='vr'></div>
                   </div>
                 </div>

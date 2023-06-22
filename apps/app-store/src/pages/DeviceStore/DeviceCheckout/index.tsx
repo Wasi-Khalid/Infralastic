@@ -51,7 +51,9 @@ const DeviceCheckout = () => {
       country_id: JSON.parse(country),
       state_id: JSON.parse(state),
       user: 1,
-      product_ids: product
+      product_ids: product,
+      company_id: 1,
+      company_name:"My Company"
     }
     checkoutOrder(formData).then((res: any) => {
       if (res.data?.result?.success === true) {

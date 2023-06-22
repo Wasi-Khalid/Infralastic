@@ -12,3 +12,6 @@ export const getHosts = (formData: any) =>
 
 export const getHostDetail = (config: any) =>
   API.get(`http://flt01.infralastic.com:5000/host/getHostDetail/${config}`)
+
+export const getInstaller = (config: any) =>
+  API.get(`http://45.35.48.189:5000/installer/fleet`, config)

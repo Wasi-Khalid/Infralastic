@@ -11,7 +11,7 @@ const AuditLogReport = () => {
   return(
     <>
       <br/>
-      <Card className='overflow-hidden'>
+      <Card>
         <div className='position-absolute back-btn'>
           <button
             className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
@@ -20,7 +20,7 @@ const AuditLogReport = () => {
             <BiArrowBack />
           </button>
         </div>
-        <Card.Body>
+        <Card.Body className='overflow-hidden'>
           <div className='d-flex w-100 p-2'>
             <div className='d-flex align-items-center w-25'>
               <h5 className='m-0 theme-font'>Audit Log Report</h5>

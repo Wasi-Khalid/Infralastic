@@ -42,7 +42,7 @@ const ConfirmAssetComponent = () => {
     }
 
     function handleConfirmAll() {
-        assets.map((item: any) => {
+        assets?.map((item: any) => {
             const formData = {
                 asset_ids: [{asset_unique_id: item.asset_unique_id, employee_id: item.employee_id}]
             }

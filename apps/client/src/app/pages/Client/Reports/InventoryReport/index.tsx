@@ -3,12 +3,23 @@ import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import bogus from "../../../../../assets/Facebook.png";
 import {BiDotsVerticalRounded} from "react-icons/bi";
+import {BiArrowBack} from "react-icons/all";
+import {useNavigate} from "react-router-dom";
 
 const InventoryReport = () => {
+  const router = useNavigate();
   return(
     <>
       <br/>
       <Card>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Card.Body>
           <div className='d-flex w-100 p-2'>
             <div className='d-flex align-items-center w-25'>

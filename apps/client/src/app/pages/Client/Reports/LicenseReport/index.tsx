@@ -3,16 +3,27 @@ import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import bogus from "../../../../../assets/Facebook.png";
 import {BiDotsVerticalRounded} from "react-icons/bi";
+import {BiArrowBack} from "react-icons/all";
+import {useNavigate} from "react-router-dom";
 
-const InvestmentReport= () => {
+const LicenseReport = () => {
+  const router = useNavigate();
   return(
     <>
       <br/>
-      <Card>
+      <Card className='overflow-hidden'>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Card.Body>
           <div className='d-flex w-100 p-2'>
             <div className='d-flex align-items-center w-25'>
-              <h5 className='m-0 theme-font'>Investment Report</h5>
+              <h5 className='m-0 theme-font'>Inventory Report</h5>
             </div>
             <div className="w-75 d-flex justify-content-end">
               <div>
@@ -26,15 +37,19 @@ const InvestmentReport= () => {
             </div>
           </div>
           <hr className='m-0 mt-3'/>
-          <Table striped className='theme-font' id='departmentTable'>
+          <div className="overflow-auto">
+            <Table striped className='theme-font' id='departmentTable'>
             <thead className='p-3'>
             <tr className='fs-7'>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Item<HiChevronUpDown size={18} className='ms-1' /></p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Date<HiChevronUpDown size={18} className='ms-1' /></p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>ACTION<HiChevronUpDown size={18} className='ms-1' /></p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>serial Number<HiChevronUpDown size={18} className='ms-1' /></p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Assigned to<HiChevronUpDown size={18} className='ms-1' /></p></th>
-              <th><p className='py-2 m-0 fs-13'>ACTION</p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Company<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>License<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Product&nbsp;Key<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Seats<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Remaining&nbsp;Seats<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Expiration&nbsp;Date<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Purchase&nbsp;Date<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Purchase&nbsp;Cost<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Current&nbsp;Value<HiChevronUpDown size={18} className='ms-1' /></p></th>
             </tr>
             </thead>
             <tbody>
@@ -42,28 +57,31 @@ const InvestmentReport= () => {
               <td>
                 <div className='d-flex align-items-center'>
                   <img src={bogus} alt="" width='38' height='38' className='rounded' />
-                  <div className='d-flex flex-column'>
-                    <p className='m-0 ms-2 fs-7'>Lenovo</p>
-                  </div>
                 </div>
               </td>
               <td>
-                <h6 className='text-muted fs-7 m-0'>Fri Apr 14, 2023 7:36AM</h6>
+                <h6 className='text-muted fs-7 m-0'>Photoshop</h6>
               </td>
               <td>
-                <h6 className='text-muted fs-7 m-0'>Checkout</h6>
+                <h6 className='text-muted fs-7 m-0'>a9f71b6c-3339-3f27-ac43-903b31d1770e</h6>
               </td>
               <td>
-                <h6 className='text-muted fs-7 m-0'>2659952946187415</h6>
+                <h6 className='text-muted fs-7 m-0'>04</h6>
               </td>
               <td>
-                <div className='d-flex align-items-center'>
-                  <img src={bogus} alt="" width='32' height='32' className='rounded-circle' />
-                  <p className='m-0 ms-2 fs-7 text-muted'>Joseph Wheeler</p>
-                </div>
+                <h6 className='text-muted fs-7 m-0'>04</h6>
               </td>
               <td>
-                <button className='bg-success fs-7 text-white border-0 rounded px-2'>Assigned</button>
+                <h6 className='text-muted fs-7 m-0'>2023-05-05 00:00:00</h6>
+              </td>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>2023-05-05 00:00:00</h6>
+              </td>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>USD299.99</h6>
+              </td>
+              <td>
+                <h6 className='text-muted fs-7 m-0'>USD299.99</h6>
               </td>
               <td>
                 <div className='d-flex justify-content-end align-items-center'>
@@ -84,6 +102,7 @@ const InvestmentReport= () => {
             </tr>
             </tbody>
           </Table>
+          </div>
           <hr/>
           <div className="d-flex w-100">
             <div className='w-100'>
@@ -104,4 +123,4 @@ const InvestmentReport= () => {
     </>
   )
 }
-export default InvestmentReport
+export default LicenseReport;

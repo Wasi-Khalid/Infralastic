@@ -5,7 +5,41 @@ import ReportAssetChart from "../../../components/Charts/ReportAssetChart";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import PieChart from "../../../components/Charts/PieChart";
 import ActivityReportComponent from "../../../components/Client/Reports/ActivityReportComponent";
+import {fetchAllBudgetReport, useGlobalDispatch} from "@infralastic/global-state";
+import {useEffect, useState} from "react";
+import { saveAs } from "file-saver";
+
 const Reports = () => {
+  const dispatch = useGlobalDispatch();
+  const [purchaseData, setPurchaseData] = useState<any>([]);
+  const [budgetData, setBudgetData] = useState<any>(null)
+
+  function fetchPurchaseData() {
+    const config: any = {}
+    dispatch(fetchAllBudgetReport(config)).then((res: any) => {
+      setPurchaseData(res.payload?.budget_data)
+    })
+  }
+
+  function handleFilter(value: any) {
+    purchaseData.filter((res: any) => res.year === value).map((item: any) =>
+      setBudgetData(item)
+    )
+  }
+
+  function downloadCSV() {
+    const csvData = purchaseData.map((item: any) =>
+      Object.values(item).join(",")
+    );
+    const csvContent = csvData.join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, "purchase_report.csv");
+  }
+
+  useEffect(() => {
+    fetchPurchaseData()
+  }, [])
   return(
     <div className='h-100'>
       <br/>
@@ -25,19 +59,27 @@ const Reports = () => {
                 <div className="d-flex align-items-center flex-column">
                   <div className="w-50">
                     <Form>
-                      <Form.Select aria-label="Default select example">
-                        <option value='2021'>2021</option>
-                        <option value='2022'>2022</option>
-                        <option value='2023'>2023</option>
+                      <Form.Select
+                        aria-label="Default select example"
+                        onChange={(e: any) => handleFilter(e.target.value)}
+                      >
+                        <option value=''>none</option>
+                        {purchaseData?.map((item: any) => (
+                          <option value={item.year}>{item?.year}</option>
+                        ))}
                       </Form.Select>
                     </Form>
                   </div>
                   <div className='my-4'>
-                    <p className='theme-danger theme-font fs-3 mb-0 text-center'>$25,825</p>
-                    <p className='text-muted theme-font fs-7 text-center'>Budget: 56,800</p>
+                    <p className='theme-danger theme-font fs-3 mb-0 text-center'>${budgetData?.consumed}</p>
+                    <p className='text-muted theme-font fs-7 text-center'>Budget: {budgetData?.budget}</p>
                     <img src={chartImg} alt=""/>
                   </div>
-                  <button className='bg-theme-danger border-0 text-white rounded py-1 px-3 theme-font'>Download Report</button>
+                  <button
+                    onClick={downloadCSV}
+                    type='button'
+                    className='bg-theme-danger border-0 text-white rounded py-1 px-3 theme-font'
+                  >Download Report</button>
                 </div>
               </div>
               </div>

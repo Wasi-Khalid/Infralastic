@@ -179,3 +179,9 @@ export const updateCompany = (formData: any) =>
 export const getAllCompanies = (formData: any) =>
   API.post('/api/get_companies_api', formData)
 
+export const getAssetReport = (formData: any) =>
+  API.post('/api/asset_report_by_company', formData)
+
+export const getPurchaseReport = (formData: any) =>
+  API.post('/api/get_budget_data', formData)
+

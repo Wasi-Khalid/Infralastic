@@ -11,12 +11,13 @@ function App() {
   const companyLoading = useGlobalSelector((state) => state.company.loading);
   const departmentLoading = useGlobalSelector((state) => state.department.loading);
   const assetLoading = useGlobalSelector((state) => state.asset.loading);
+  const reportLoading = useGlobalSelector((state) => state.report.loading);
   useEffect(() => {
     document.title = 'Infralastic';
   }, []);
   return (
     <div className="App">
-      <Loader visible={userLoading || employeeLoading || companyLoading || departmentLoading || assetLoading} />
+      <Loader visible={userLoading || employeeLoading || companyLoading || departmentLoading || assetLoading || reportLoading} />
       <Layout children={<AppRoutes />} />
     </div>
   );

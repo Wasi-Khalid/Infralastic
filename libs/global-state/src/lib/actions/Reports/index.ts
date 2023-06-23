@@ -33,7 +33,30 @@ export const fetchAllBudgetReport = createAsyncThunk(
     try {
       const { company }: any = getState();
       let data = {};
-      await api.getPurchaseReport({config}).then((res: any) => {
+      await api.getBudgetReport({config}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const fetchAllPurchaseReport = createAsyncThunk(
+  "report/getPurchase",
+  async (
+    { company_id, date_from, date_to}: { company_id: any, date_from: any, date_to: any },
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { company }: any = getState();
+      let data = {};
+      await api.getPurchaseReport({company_id, date_from, date_to}).then((res: any) => {
         data = res.data.result;
       });
       return data;

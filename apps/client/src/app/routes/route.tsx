@@ -32,6 +32,7 @@ import InventoryReport from "../pages/Client/Reports/InventoryReport";
 import LicenseReport from "../pages/Client/Reports/LicenseReport";
 import AuditLogReport from "../pages/Client/Reports/AuditLogReport";
 import AccessoryReport from "../pages/Client/Reports/AccessoryReport";
+import PurchaseReport from "../pages/Client/Reports/PurchaseReport";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -168,6 +169,10 @@ const AppRoutes = () => {
               <Route
                     path="/accessory-reports"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AccessoryReport />} />}
+                />
+              <Route
+                    path="/purchase-reports"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<PurchaseReport />} />}
                 />
             </Routes>
         </>

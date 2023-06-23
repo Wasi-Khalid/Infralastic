@@ -85,6 +85,12 @@ const ActivityReportComponent = () => {
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="py-2"
+                      onClick={() => router("/purchase-reports")}
+                    >
+                      Purchase Report
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="py-2"
                       onClick={() => router("/license-reports")}
                     >
                       License Report

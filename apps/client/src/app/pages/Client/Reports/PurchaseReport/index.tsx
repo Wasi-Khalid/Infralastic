@@ -7,6 +7,7 @@ import {BiArrowBack} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
 import {fetchAllPurchaseReport, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
+import {saveAs} from "file-saver";
 
 const PurchaseReport = () => {
   const router = useNavigate();
@@ -14,6 +15,7 @@ const PurchaseReport = () => {
   const { userInfo } = useGlobalSelector((state) => state.user);
   const [from, setFrom] = useState<any>(null);
   const [to, setTo] = useState<any>(null);
+  const [data, setData] = useState<any>([])
 
 
   const fetchPurchase = () => {
@@ -23,8 +25,28 @@ const PurchaseReport = () => {
       date_to: to
     }
       dispatch(fetchAllPurchaseReport(formData)).then((res: any) => {
-        console.log(res)
+        setData(res?.payload?.sale_details)
       })
+  }
+  function downloadCSV() {
+    const csvData = data.map((item: any) =>
+      Object.values(item).join(",")
+    );
+    const csvContent = csvData.join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, "activity_report.csv");
+  }
+  function downloadSingleCSV(id: any) {
+    // Convert assetInfo to CSV format
+    const csvData = data.filter((res: any) => res.product_id === id).map((item: any) =>
+      Object.values(item).join(",")
+    )
+    const csvContent = csvData.join("\n");
+
+    // Create a Blob object and trigger file download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, `${id}.csv`);
   }
 
   useEffect(() => {
@@ -68,7 +90,11 @@ const PurchaseReport = () => {
                 <input placeholder='Search' type="search" className='form-control'/>
               </div>
               <div className='mx-2'>
-                <Button variant={"secondary"}>
+                <Button
+                  variant={"secondary"}
+                  type='button'
+                  onClick={downloadCSV}
+                >
                   <AiOutlineDownload size={20} />
                 </Button>
               </div>
@@ -79,65 +105,54 @@ const PurchaseReport = () => {
             <Table striped className='theme-font' id='departmentTable'>
               <thead className='p-3'>
               <tr className='fs-7'>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Company<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>License<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Product&nbsp;Key<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Seats<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Remaining&nbsp;Seats<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Expiration&nbsp;Date<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Purchase&nbsp;Date<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Purchase&nbsp;Cost<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Current&nbsp;Value<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Product Name<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Name<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Email<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Order No<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Quantity<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                <th><p className='py-2 m-0 fs-13 d-flex text-uppercase'>Price<HiChevronUpDown size={18} className='ms-1' /></p></th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <img src={bogus} alt="" width='38' height='38' className='rounded' />
-                  </div>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>Photoshop</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>a9f71b6c-3339-3f27-ac43-903b31d1770e</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>04</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>04</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>2023-05-05 00:00:00</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>2023-05-05 00:00:00</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>USD299.99</h6>
-                </td>
-                <td>
-                  <h6 className='text-muted fs-7 m-0'>USD299.99</h6>
-                </td>
-                <td>
-                  <div className='d-flex justify-content-end align-items-center'>
-                    <button className='bg-transparent border-0'>
-                      <AiOutlineDownload className='me-2 mt-1' size={20} />
-                    </button>
-                    <DropdownButton
-                      className="bg-transparent custom-btn"
-                      id="dropdown-item-button"
-                      title={<BiDotsVerticalRounded className='me-2' size={20} />}
-                    >
-                      <Dropdown.Item className='theme-font fs-7' as="button">Archive</Dropdown.Item>
-                      <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
-                      <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
-                    </DropdownButton>
-                  </div>
-                </td>
-              </tr>
+              {data?.map((item: any) => (
+                <tr>
+                  <td>
+                    <h6 className='text-muted fs-7 m-0'>{item?.product_name}</h6>
+                  </td>
+                  <td>
+                    <h6 className='text-muted fs-7 m-0'>{item?.username}</h6>
+                  </td>
+                  <td>
+                    <h6 className='text-muted fs-7 m-0'>{item?.email}</h6>
+                  </td>
+                  <td>
+                    <h6 className='text-muted fs-7 m-0'>{item?.order_no}</h6>
+                  </td>
+                  <td>
+                    <h6 className='text-muted fs-7 m-0'>{item?.product_qty}</h6>
+                  </td>
+                  <td>
+                    <div className='d-flex justify-content-end align-items-center'>
+                      <button
+                        className='bg-transparent border-0'
+                        type='button'
+                        onClick={() => downloadSingleCSV(item?.product_id)}
+                      >
+                        <AiOutlineDownload className='me-2 mt-1' size={20} />
+                      </button>
+                      <DropdownButton
+                        className="bg-transparent custom-btn"
+                        id="dropdown-item-button"
+                        title={<BiDotsVerticalRounded className='me-2' size={20} />}
+                      >
+                        <Dropdown.Item className='theme-font fs-7' as="button">Archive</Dropdown.Item>
+                        <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
+                        <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
+                      </DropdownButton>
+                    </div>
+                  </td>
+                </tr>
+                ))}
               </tbody>
             </Table>
           </div>

@@ -186,5 +186,5 @@ export const getBudgetReport = (formData: any) =>
   API.post('/api/get_budget_data', formData)
 
 export const getPurchaseReport = (formData: any) =>
-  API.post('/api/get_sales_report_api', formData)
+  API.post('/api/get_sales_report_data', formData)
 

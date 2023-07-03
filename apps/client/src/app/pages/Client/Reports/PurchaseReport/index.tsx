@@ -1,9 +1,7 @@
 import {Button, Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
-import bogus from "../../../../../assets/Facebook.png";
-import {BiDotsVerticalRounded} from "react-icons/bi";
-import {BiArrowBack} from "react-icons/all";
+import {BiArrowBack, BiDotsVerticalRounded} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {fetchAllPurchaseReport, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
 import {useEffect, useState} from "react";

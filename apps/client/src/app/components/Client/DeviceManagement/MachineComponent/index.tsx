@@ -1,6 +1,5 @@
 import '../device-managment-component.scss';
 import {Card, Col, Dropdown, Row} from "react-bootstrap";
-import {BsFileEarmarkArrowUp, CiEdit} from "react-icons/all";
 import DeviceCard from "../DeviceCard";
 import image1 from '../../../../../assets/device-managment/hardware.png';
 import image2 from '../../../../../assets/device-managment/disk.png';
@@ -8,6 +7,8 @@ import image3 from '../../../../../assets/device-managment/availability.png';
 import image4 from '../../../../../assets/device-managment/perfomance.png';
 import image5 from '../../../../../assets/device-managment/patches.png';
 import image6 from '../../../../../assets/device-managment/general.png';
+import {BsFileEarmarkArrowUp} from "react-icons/bs";
+import {CiEdit} from "react-icons/ci";
 
 
 const MachineComponent = ({item}: {item: any}) => {

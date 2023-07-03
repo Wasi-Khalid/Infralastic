@@ -5,12 +5,12 @@ import laptop from "../../../../../assets/laptop.png";
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
-import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {deleteAsset, getAssetBySite, getSites, fetchAllDepartment, useGlobalDispatch} from "@infralastic/global-state";
 import {toast} from "react-toastify";
+import {LuSettings2} from "react-icons/lu";
 
 const AssetTable = () => {
     const dispatch = useGlobalDispatch();
@@ -112,7 +112,7 @@ const AssetTable = () => {
                                   <button
                                       className='px-3 py-1 text-white border-0 bg-gray h-34 rounded mx-2'
                                   >
-                                      <GoSettings size={20} />
+                                      <LuSettings2 size={20} />
                                   </button>
                               </Dropdown.Toggle>
 

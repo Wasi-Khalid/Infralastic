@@ -3,13 +3,14 @@ import {Card, Dropdown, DropdownButton, Form, InputGroup, Table} from "react-boo
 import {HiChevronUpDown} from "react-icons/hi2";
 import {AiOutlineEye, AiOutlinePlus} from "react-icons/ai";
 import {BiDotsVerticalRounded, BiSearch} from "react-icons/bi";
-import {BsFileEarmarkArrowUp, HiDownload} from "react-icons/all";
-import {GoSettings} from "react-icons/go";
 import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
 import {useEffect, useState} from "react";
 import {getHosts} from "@infralastic/global-state";
+import {HiDownload} from "react-icons/hi";
+import {LuSettings2} from "react-icons/lu";
+import {BsFileEarmarkArrowUp} from "react-icons/bs";
 
 const DeviceManagement = () => {
   const router = useNavigate();
@@ -81,7 +82,7 @@ const DeviceManagement = () => {
                     <button
                       className='px-3 py-1 text-white border-0 bg-gray h-34 rounded mx-2'
                     >
-                      <GoSettings size={18} />
+                      <LuSettings2 size={18} />
                     </button>
                   </Dropdown.Toggle>
 

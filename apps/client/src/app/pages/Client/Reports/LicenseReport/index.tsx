@@ -2,8 +2,7 @@ import {Button, Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import bogus from "../../../../../assets/Facebook.png";
-import {BiDotsVerticalRounded} from "react-icons/bi";
-import {BiArrowBack} from "react-icons/all";
+import {BiDotsVerticalRounded, BiArrowBack} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 
 const LicenseReport = () => {

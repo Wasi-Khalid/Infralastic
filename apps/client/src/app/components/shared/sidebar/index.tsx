@@ -88,7 +88,7 @@ const SideBarComponent = () => {
                         <Link to='/reports'>
                           <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Reports</p>
                         </Link>
-                        <Link to='/device-store'>
+                        <Link to='/alerts'>
                           <p className='theme-font m-0 hover d-flex align-items-center mb-1 p-1 fs-7'><FiCircle className='mx-2 theme-danger hover-white' size={8} />Alerts</p>
                         </Link>
                       </>}

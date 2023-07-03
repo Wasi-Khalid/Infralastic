@@ -1,11 +1,11 @@
 import './company-setting-table.scss';
 import {Card, Dropdown} from "react-bootstrap";
-import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
 import {useState} from "react";
 import AdminCompanyTable from "../AdminCompanyTable";
-import {BiArrowBack} from "react-icons/all";
 import CompanySettingForm from "../CompanySettingForm";
+import {BiArrowBack} from "react-icons/bi";
+import {LuSettings2} from "react-icons/lu";
 
 const CompanySettingTable = () => {
   const [companyForm, setCompanyForm] = useState(false);
@@ -34,7 +34,7 @@ const CompanySettingTable = () => {
                   <button
                     className='px-3 py-1 text-white border-0 bg-gray h-34 rounded mx-2'
                   >
-                    <GoSettings size={20} />
+                    <LuSettings2 size={20} />
                   </button>
                 </Dropdown.Toggle>
 

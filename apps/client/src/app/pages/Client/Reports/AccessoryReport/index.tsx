@@ -2,8 +2,8 @@ import {Button, Card, Table} from "react-bootstrap";
 import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import bogus from "../../../../../assets/Facebook.png";
-import {BiArrowBack} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
+import {BiArrowBack} from "react-icons/bi";
 
 const AccessoryReport = () => {
   const router = useNavigate();

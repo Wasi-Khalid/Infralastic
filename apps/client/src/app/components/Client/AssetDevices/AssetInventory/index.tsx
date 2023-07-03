@@ -5,7 +5,6 @@ import laptop from "../../../../../assets/laptop.png";
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
-import {GoSettings} from "react-icons/go";
 import {BsPlus} from "react-icons/bs";
 import {fetchAllDepartment} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
@@ -18,6 +17,7 @@ import {
 } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {useGlobalDispatch} from "@infralastic/global-state";
+import {LuSettings2} from "react-icons/lu";
 
 const AssetInventory = () => {
     const dispatch = useGlobalDispatch();
@@ -185,7 +185,7 @@ const AssetInventory = () => {
                                     <button
                                         className='px-3 py-1 text-white border-0 bg-gray h-34 rounded mx-2'
                                     >
-                                        <GoSettings size={20} />
+                                        <LuSettings2 size={20} />
                                     </button>
                                 </Dropdown.Toggle>
 

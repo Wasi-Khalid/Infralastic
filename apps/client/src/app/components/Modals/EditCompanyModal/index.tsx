@@ -1,10 +1,10 @@
 import {Button, Card, Modal} from "react-bootstrap";
-import {BsCloudUpload} from "react-icons/all";
 import {useEffect, useState} from "react";
 import {addCompany, getCompanyById, getLocation, updateCompany} from "@infralastic/global-state";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../services/config/firebase";
 import {toast} from "react-toastify";
+import {BsCloudUpload} from "react-icons/bs";
 
 interface CompanyModal {
   show: any;

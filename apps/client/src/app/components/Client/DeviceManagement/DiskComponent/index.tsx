@@ -1,5 +1,5 @@
 import {Card, Col, ProgressBar, Row} from "react-bootstrap";
-import {FiHardDrive} from "react-icons/all";
+import {FiHardDrive} from "react-icons/fi";
 
 const DiskComponent = ({item}: {item: any}) => {
   return(

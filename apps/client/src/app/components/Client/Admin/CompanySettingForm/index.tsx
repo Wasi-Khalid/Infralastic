@@ -1,10 +1,10 @@
 import {Card} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {addCompany, addEmployee, getLocation, updateEmployeeById} from "@infralastic/global-state";
-import {BsCloudUpload} from "react-icons/all";
 import {toast} from "react-toastify";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
+import {BsCloudUpload} from "react-icons/bs";
 
 const CompanySettingForm = () => {
   const [name, setName] = useState('');

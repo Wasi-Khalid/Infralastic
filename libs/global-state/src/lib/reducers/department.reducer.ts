@@ -25,7 +25,7 @@ const departmentSlice = createSlice({
         },
         [GetAllDepartmentActionType.GetAllDepartmentSuccess]: (state, { payload }) => {
             state.loading = false;
-            state.userInfo = payload;
+            state.departmentInfo = payload;
         },
         [GetAllDepartmentActionType.GetAllDepartmentFail]: (state, { payload }) => {
             state.loading = false;
@@ -38,7 +38,7 @@ const departmentSlice = createSlice({
         },
         [GetAllDepartmentEmployeeActionType.GetAllDepartmentEmployeeSuccess]: (state, { payload }) => {
             state.loading = false;
-            state.userInfo = payload;
+            state.departmentInfo = payload;
         },
         [GetAllDepartmentEmployeeActionType.GetAllDepartmentEmployeeFail]: (state, { payload }) => {
             state.loading = false;
@@ -51,7 +51,7 @@ const departmentSlice = createSlice({
         },
         [CreateDepartmentActionType.CreateDepartmentSuccess]: (state, { payload }) => {
             state.loading = false;
-            state.userInfo = payload;
+            state.departmentInfo = payload;
         },
         [CreateDepartmentActionType.CreateDepartmentFail]: (state, { payload }) => {
             state.loading = false;
@@ -64,7 +64,7 @@ const departmentSlice = createSlice({
         },
         [UpdateDepartmentActionType.UpdateDepartmentSuccess]: (state, { payload }) => {
             state.loading = false;
-            state.userInfo = payload;
+            state.departmentInfo = payload;
         },
         [UpdateDepartmentActionType.UpdateDepartmentSuccess]: (state, { payload }) => {
             state.loading = false;
@@ -77,7 +77,7 @@ const departmentSlice = createSlice({
         },
         [GetDepartmentByIdActionType.GetDepartmentSuccess]: (state, { payload }) => {
             state.loading = false;
-            state.userInfo = payload;
+            state.departmentInfo = payload;
         },
         [GetDepartmentByIdActionType.GetDepartmentFail]: (state, { payload }) => {
             state.loading = false;

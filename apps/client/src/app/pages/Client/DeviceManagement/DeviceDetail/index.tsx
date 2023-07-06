@@ -35,7 +35,7 @@ const DeviceDetail = () => {
         <Row className='h-100'>
           <Col md={8} className='h-100'>
             <Card className='h-100'>
-              <Map mapboxToken={MAPBOX_TOKEN}/>
+              <Map mapboxToken={MAPBOX_TOKEN} query={''}/>
             </Card>
           </Col>
           <Col md={4} className='h-100'>

@@ -21,7 +21,8 @@ import {LuSettings2} from "react-icons/lu";
 
 const AssetInventory = () => {
     const dispatch = useGlobalDispatch();
-    const router = useNavigate()
+    const router = useNavigate();
+    const [page, setPage] = useState<number>(1)
     const [department, setDepartment] = useState<any>([]);
     const [location, setLocation] = useState<any>([]);
     const [categoryFilter, setCategoryFilter] = useState('');
@@ -29,6 +30,10 @@ const AssetInventory = () => {
     const [assets, setAssets] = useState<any>([]);
     const [originalData, setOriginalData] = useState<any>([])
     const [categoryData, setCategoryData] = useState<any>([]);
+    const [showEntries, setShowEntries] = useState<number>(10); // Number of entries to show
+    const startIndex = (page - 1) * showEntries;
+    const endIndex = startIndex + showEntries;
+    const slicedData = assets.slice(startIndex, endIndex);
     const getDepartment = () => {
         const config: any = {}
         try {
@@ -50,7 +55,8 @@ const AssetInventory = () => {
 
     function fetchAssets() {
         const formData: any = {
-            company_id: 1
+            company_id: 1,
+            page_no: page
         }
         getAllAssets(formData).then((res: any) => {
             setAssets(res.data.result.asset_details);
@@ -117,9 +123,28 @@ const AssetInventory = () => {
     useEffect(() => {
         getDepartment();
         fetchSites();
-        fetchAssets();
         getAllCategory();
     }, [])
+
+    useEffect(() => {
+        fetchAssets();
+    }, [page])
+
+    const handleShowEntriesChange = (e: any) => {
+      const value = parseInt(e.target.value, 10);
+      setShowEntries(value);
+    };
+
+    const handlePageChange = (direction: string) => {
+      setPage((prevPage) => {
+        if (direction === "next") {
+          return prevPage + 1;
+        } else if (direction === "prev" && prevPage > 1) {
+          return prevPage - 1;
+        }
+        return prevPage;
+      });
+    };
     return(
         <>
             <Card>
@@ -127,8 +152,14 @@ const AssetInventory = () => {
                     <div className='d-flex w-100'>
                         <div className='d-flex align-items-center w-25'>
                             <h6 className='m-0 text-muted fs-7'>Show</h6>
-                            <input type="text" className='w-25 ms-2 border-1'/>
-                            <h6 className='m-0 ms-2 text-muted fs-7'>Entries</h6>
+                          <input
+                            type="number"
+                            className='w-25 ms-2 border-1'
+                            min="1"
+                            value={showEntries}
+                            onChange={handleShowEntriesChange}
+                          />
+                          <h6 className='m-0 ms-2 text-muted fs-7'>Entries</h6>
                         </div>
                         <div className="d-flex justify-content-end align-items-center w-75">
                             <Form.Group className="py-1 mx-2" controlId="location">
@@ -221,7 +252,7 @@ const AssetInventory = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {assets?.map((asset: any) => (
+                        {slicedData?.map((asset: any) => (
                             <tr>
                                 <td>
                                     <div className='d-flex align-items-center'>
@@ -295,13 +326,18 @@ const AssetInventory = () => {
                             <h6 className='fs-8 theme-font text-muted m-0'>Showing 1 to 7 of 100 entries</h6>
                         </div>
                         <div className='w-100 d-flex justify-content-end'>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>Previous</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>1</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>2</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>3</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>4</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>5</button>
-                            <button className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'>Next</button>
+                          <div className="pagination">
+                            <button
+                              className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'
+                              onClick={() => handlePageChange("prev")} disabled={page === 1}>
+                              Prev
+                            </button>
+                            <button
+                              className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'
+                              onClick={() => handlePageChange("next")} disabled={assets.length <= showEntries || assets.length <= page * showEntries}>
+                              Next
+                            </button>
+                          </div>
                         </div>
                     </div>
                 </Card.Body>

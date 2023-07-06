@@ -114,6 +114,10 @@ export const confirmAllAssets = (formData: any) =>
 export const getEmployeeAsset = (formData: any) =>
   API.post('/api/get_employee_asset_api', formData)
 
+export const deleteAssetImage = (formData: any) =>
+  API.post('/api/delete_images_asset_api', formData)
+
+
 
 
 export const getCategoryList = (formData: any) =>

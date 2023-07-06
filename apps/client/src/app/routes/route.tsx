@@ -34,6 +34,9 @@ import AuditLogReport from "../pages/Client/Reports/AuditLogReport";
 import AccessoryReport from "../pages/Client/Reports/AccessoryReport";
 import PurchaseReport from "../pages/Client/Reports/PurchaseReport";
 import Alerts from "../pages/Client/Alerts";
+import AssetChanges from "../pages/Client/AssetDevices/AssetChanges";
+import AssetProof from "../pages/Client/AssetDevices/AssetProof";
+import AssetNotification from "../pages/Client/AssetDevices/AssetNotification";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -118,6 +121,18 @@ const AppRoutes = () => {
                 <Route
                     path="/confirm-assets"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<ConfirmAsset />} />}
+                />
+                <Route
+                    path='/asset-changes'
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetChanges />} />}
+                />
+                <Route
+                    path='/asset-proof'
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetProof />} />}
+                />
+                <Route
+                    path='/asset-notification'
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetNotification />} />}
                 />
                 <Route
                     path="/add-asset-attachment"

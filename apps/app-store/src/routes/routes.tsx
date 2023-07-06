@@ -1,5 +1,4 @@
 import { Route, Routes} from "react-router-dom";
-import AppStore from "../pages/AppStore";
 import DeviceStore from "../pages/DeviceStore";
 import OrderTracking from "../pages/OrderTracking";
 import DeviceDetail from "../pages/DeviceStore/DeviceDetail";
@@ -26,10 +25,6 @@ const ProductRoutes = () => {
         <Route
           path="/checkout-complete"
           element={<CheckoutComplete />}
-        />
-        <Route
-          path="/app-store"
-          element={<AppStore />}
         />
         <Route
           path="/order-tracking"

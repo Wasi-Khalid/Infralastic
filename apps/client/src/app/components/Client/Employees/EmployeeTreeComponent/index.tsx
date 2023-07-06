@@ -5,11 +5,20 @@ import {fetchAllCompany, fetchCompanyEmployee, useGlobalDispatch} from "@infrala
 import {useEffect, useState} from "react";
 import {fetchAllEmployee, fetchManager} from "@infralastic/global-state";
 
-const EmployeeTreeComponent = () => {
+interface filterInterface {
+  searchFilter: any;
+  location: any;
+  company: any;
+  department: any;
+}
+const EmployeeTreeComponent = (props: filterInterface) => {
     const dispatch = useGlobalDispatch();
     const [companyData, setCompanyData] = useState([])
     const [managerEmp, setManagerEmp] = useState(false)
-    const [employeeData, setEmployeeData] = useState([])
+    const [employeeEmp, setEmployeeEmp] = useState(false)
+    const [employeeData, setEmployeeData] = useState([]);
+    const [originalData, setOriginalData] = useState([]);
+    const [managerEmployeeOriginalData, setManagerEmployeeOriginalData] = useState([]);
     const [managerEmployeeData, setManagerEmployeeData] = useState([]);
     const getCompany = () => {
         const config: any = {}
@@ -25,12 +34,57 @@ const EmployeeTreeComponent = () => {
         const config: any = {}
         try {
             dispatch(fetchAllEmployee(config)).then(async (res: any) => {
-                setEmployeeData(res.payload.empolyee_details)
+                setOriginalData(res.payload.empolyee_details);
+                setEmployeeData(res.payload.empolyee_details);
             });
         } catch (err: any) {
             console.error(err);
         }
     }
+  const applyFilters = () => {
+    let filteredData = [...originalData];
+
+    if (props.searchFilter !== '') {
+      const searchLetter = props.searchFilter.toLowerCase();
+
+      filteredData = filteredData.filter((res: any) => {
+        const employeeName = res.employee_name.toLowerCase();
+        return employeeName.includes(searchLetter);
+      });
+    }
+    if (props.department !== '') {
+      filteredData = filteredData.filter((res: any) => res.department_name === props.department)
+    }
+    if (props.company !== '') {
+      filteredData = filteredData.filter((res: any) => res.company_name === props.company)
+    }
+
+    setEmployeeData(filteredData);
+
+    let filteredManagerData = [...managerEmployeeOriginalData];
+
+    if (props.searchFilter !== '') {
+      const searchLetter = props.searchFilter.toLowerCase();
+
+      filteredManagerData = filteredManagerData.filter((res: any) => {
+        const employeeName = res.employee_name.toLowerCase();
+        return employeeName.includes(searchLetter);
+      });
+    }
+    if (props.department !== '') {
+      filteredManagerData = filteredManagerData.filter((res: any) => res.department_name === props.department)
+    }
+    if (props.company !== '') {
+      filteredManagerData = filteredManagerData.filter((res: any) => res.company_name === props.company)
+    }
+
+    setManagerEmployeeData(filteredManagerData);
+  }
+
+
+  useEffect(() => {
+    applyFilters()
+  }, [props.searchFilter, props.department, props.company, originalData])
 
     const handleManager = ({id}: {id: any}) => {
         const formData: any = {
@@ -41,6 +95,7 @@ const EmployeeTreeComponent = () => {
                 if (res.payload.success === false) {
                     setManagerEmp(false)
                 } else {
+                    setManagerEmployeeOriginalData(res.payload.empolyee_details)
                     setManagerEmployeeData(res.payload.empolyee_details)
                     setManagerEmp(!managerEmp)
 
@@ -51,9 +106,27 @@ const EmployeeTreeComponent = () => {
             console.error(err);
         }
     }
+    const handleEmployee = ({id}: {id: any}) => {
+        const formData: any = {
+            company_id: id
+        }
+        try {
+            dispatch((fetchCompanyEmployee(formData))).then(async (res: any) => {
+                if (res.payload.success === false) {
+                    setManagerEmp(false)
+                } else {
+                    setEmployeeData(res.payload.empolyee_details)
+                    setEmployeeEmp(!employeeEmp)
+                }
+            });
+
+        } catch (err: any) {
+            console.error(err);
+        }
+    }
     useEffect(() => {
         getCompany();
-        getEmployees();
+        // getEmployees();
     }, [])
   return(
       <div>
@@ -64,26 +137,28 @@ const EmployeeTreeComponent = () => {
                       employee_id = {JSON.parse(item.company_id)}
                       name={item.company_name}
                       image={bogus}
-                      handleClick={() => console.log('')}
+                      handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
                       designation='IT Company'
                   />
               ))}
           </div>
           <br/>
           <br/>
-              <div className='d-flex h-145 justify-content-start align-items-center'>
-                  {employeeData?.filter((res: any) => res.manager_name === false).map((item: any) => (
-                      <div>
-                        <EmployeeCardComponent
-                            employee_id={JSON.parse(item.employee_id)}
-                            name={item.employee_name}
-                            image={item.image_url}
-                            handleClick={() => handleManager({id: JSON.parse(item.employee_id)})}
-                            designation={item.job_title}
-                        />
-                      </div>
-                  ))}
-              </div>
+          {employeeEmp &&
+            <div className='d-flex h-145 justify-content-start align-items-center'>
+              {employeeData?.filter((res: any) => res.manager_name === false).map((item: any) => (
+                <div>
+                  <EmployeeCardComponent
+                    employee_id={JSON.parse(item.employee_id)}
+                    name={item.employee_name}
+                    image={item.image_url}
+                    handleClick={() => handleManager({id: JSON.parse(item.employee_id)})}
+                    designation={item.job_title}
+                  />
+                </div>
+              ))}
+            </div>
+          }
           <br/>
             {managerEmp &&
               <div className='d-flex overflow-auto justify-content-center h-145 align-items-center'>

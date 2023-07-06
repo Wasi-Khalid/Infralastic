@@ -7,6 +7,7 @@ import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
 import {createAsset, getAllCategories, getSites} from "@infralastic/global-state";
+import {useNavigate} from "react-router-dom";
 
 const AssetFormComponent = () => {
     const [imageFile, setImageFile] = useState('');
@@ -34,7 +35,7 @@ const AssetFormComponent = () => {
     const [locationData, setLocationData] = useState<any>([]);
     const [dateAdded, setDateAdded] = useState('');
     const [timeAdded, setTimeAdded] = useState('');
-
+    const router = useNavigate()
 
 
 
@@ -98,6 +99,9 @@ const AssetFormComponent = () => {
                         await createAsset(formData).then((res: any) => {
                             if (res.data.result.success === true) {
                                 toast.success(res.data.result.msg)
+                                setTimeout(() => {
+                                  router('/all-assets')
+                                }, 3000)
                             } else {
                                 toast.error(res.data.result.msg)
                             }

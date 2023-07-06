@@ -8,8 +8,9 @@ import {useEffect, useState} from "react";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
 import {
-    addNewDepartment,
-    fetchDepartmentById,
+  addNewDepartment,
+  fetchDepartmentById,
+  updateDepartmentById,
 } from "@infralastic/global-state";
 import {fetchAllEmployee} from "@infralastic/global-state";
 import {useGlobalDispatch} from "@infralastic/global-state";
@@ -50,24 +51,51 @@ const DepartmentFormComponent = () => {
                     toast.success('Image Uploaded Successfully')
                     console.log(url)
                     setImageURL(url)
-                    const formData: any =  {
-                      department_name: name,
-                      manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
-                      image_url: url,
-                    }
-
-                    try {
-                      dispatch(addNewDepartment(formData)).then(async (res:any) => {
-                        console.log(res)
-                        if (res.payload.success === true) {
-                          toast.success(res.payload.msg);
-                        } else{
-                          toast.error(res.payload.msg);
-                        }
-                      });
-                    } catch (err: any) {
-                      console.error(err);
-                      toast.error('Access Denied');
+                    if (!id) {
+                      const formData: any = {
+                        department_name: name,
+                        manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
+                        image_url: url,
+                      }
+                      try {
+                        dispatch(addNewDepartment(formData)).then(async (res: any) => {
+                          console.log(res)
+                          if (res.payload.success === true) {
+                            toast.success(res.payload.msg);
+                            setTimeout(() => {
+                              router('/department')
+                            }, 3000)
+                          } else {
+                            toast.error(res.payload.msg);
+                          }
+                        });
+                      } catch (err: any) {
+                        console.error(err);
+                        toast.error('Access Denied');
+                      }
+                    } else if (id) {
+                      const formData: any = {
+                        department_name: name,
+                        manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
+                        image_url: url,
+                        department_id: id
+                      }
+                      try {
+                        dispatch(updateDepartmentById(formData)).then(async (res: any) => {
+                          console.log(res)
+                          if (res.payload.success === true) {
+                            toast.success(res.payload.msg);
+                            setTimeout(() => {
+                              router('/department')
+                            }, 3000)
+                          } else {
+                            toast.error(res.payload.msg);
+                          }
+                        });
+                      } catch (err: any) {
+                        console.error(err);
+                        toast.error('Access Denied');
+                      }
                     }
                 });
             }
@@ -93,7 +121,7 @@ const DepartmentFormComponent = () => {
             dispatch(fetchDepartmentById(formData)).then(async (res: any) => {
                setImageFile(res.payload.image_url);
                setName(res.payload.department_name);
-               setDepartmentHead(res.payload.manager_name)
+               setDepartmentHead(res.payload.manager_id)
             });
         } catch (err: any) {
             console.error(err);

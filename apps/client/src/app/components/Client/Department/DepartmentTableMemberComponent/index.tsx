@@ -7,9 +7,14 @@ import {fetchDepartmentEmployees, useGlobalDispatch} from "@infralastic/global-s
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 
-const DepartmentTableMemberComponent = () => {
+interface filterProps {
+  searchFilter: any;
+}
+
+const DepartmentTableMemberComponent = (props: filterProps) => {
     const dispatch = useGlobalDispatch();
     const router = useNavigate();
+    const [originalData, setOriginalData] = useState<any>([])
     const [department, setDepartment] = useState<any>([])
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -20,6 +25,7 @@ const DepartmentTableMemberComponent = () => {
         }
         try {
             dispatch(fetchDepartmentEmployees(formData)).then(async (res: any) => {
+                setOriginalData(res.payload.empolyee_details)
                 setDepartment(res.payload.empolyee_details)
             });
         } catch (err: any) {
@@ -30,6 +36,22 @@ const DepartmentTableMemberComponent = () => {
     useEffect(() => {
         getDepartment()
     }, [])
+
+    const applyFilters = () => {
+      let filteredData = [...originalData];
+      if (props.searchFilter !== '') {
+        const searchLetter = props.searchFilter.toLowerCase();
+
+        filteredData = filteredData.filter((res: any) => {
+          const employeeName = res.employee_name.toLowerCase();
+          return employeeName.includes(searchLetter);
+        });
+      }
+      setDepartment(filteredData)
+    }
+    useEffect(() => {
+      applyFilters()
+    }, [props.searchFilter, originalData])
     return(
         <>
             <Table striped className='theme-font' id='departmentMemberTable'>

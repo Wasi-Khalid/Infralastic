@@ -11,7 +11,7 @@ import {toast} from "react-toastify";
 import {
   addEmployee,
   fetchAllEmployee,
-  fetchEmployee,
+  fetchEmployee, getLocation,
   updateEmployeeById, useGlobalDispatch
 } from "@infralastic/global-state";
 import {fetchAllCompany} from "@infralastic/global-state";
@@ -30,6 +30,7 @@ const EmployeeFormComponent = () => {
     const [phone, setPhone] = useState('');
     const [department, setDepartment] = useState<any>(null);
     const [manager, setManager] = useState<any>(null);
+    const [location, setLocation] = useState<any>(null);
     const [file, setFile] = useState<any>(null);
     const [imageFile, setImageFile] = useState('');
     const [imageURL, setImageURL] = useState('');
@@ -37,14 +38,17 @@ const EmployeeFormComponent = () => {
     const [departmentData, setDepartmentData] = useState<any>([]);
     const [managerData, setManagerData] = useState<any>([]);
     const [employmentStatus, setEmploymentStatus] = useState('');
-    const [fileData, setFileData]  = useState<any>(null)
+    const [locationData, setLocationData] = useState<any>([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const id: any = searchParams.get('employee_id')
+
+
 
     useEffect(() => {
         getCompany();
         getDepartment();
         getManager();
+        fetchLocation();
         if(id) {
             getEmployeeById()
         }
@@ -75,6 +79,13 @@ const EmployeeFormComponent = () => {
 
       reader.readAsText(file);
     };
+
+  const fetchLocation = () => {
+    const config = {}
+    getLocation(config).then((res: any) => {
+      setLocationData(res.data.result.model_details)
+    })
+  }
 
     const getEmployeeById = () => {
         const formData: any = {
@@ -169,6 +180,7 @@ const EmployeeFormComponent = () => {
                 job_title: job,
                 company_id: JSON.parse(company),
                 manager_id: JSON.parse(manager),
+                location_id: JSON.parse(location),
                 department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }
@@ -198,6 +210,7 @@ const EmployeeFormComponent = () => {
                 job_title: job,
                 company_id: JSON.parse(company),
                 manager_id: JSON.parse(manager),
+                location_id: JSON.parse(location),
                 department_id: JSON.parse(department),
                 employee_status: JSON.parse(employmentStatus)
               }
@@ -397,6 +410,21 @@ const EmployeeFormComponent = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
+                                    <Form.Group className="mb-2" controlId="formBasicManager">
+                                        <Form.Label className='fs-7 mb-1 theme-font'>Location</Form.Label>
+                                        <Form.Select
+                                            className='px-2 py-1 fs-7 theme-font text-muted'
+                                            aria-label="Default select example"
+                                            onChange={(e) => setLocation(e.target.value)}
+                                        >
+                                          <option value=''>Select Location</option>
+                                          {locationData?.map((item: any) => (
+                                            <option value={item?.state_id} className='theme-font fs-7'>{item?.state_name}</option>
+                                          ))}
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
+                              <Col md={6}>
                                     <Form.Group className="mb-2" controlId="formBasicManager">
                                         <Form.Label className='fs-7 mb-1 theme-font'>Employment Status</Form.Label>
                                         <Form.Select

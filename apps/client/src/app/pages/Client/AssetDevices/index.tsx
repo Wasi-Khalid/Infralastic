@@ -11,6 +11,11 @@ const AssetDevices = () => {
     const [location, setLocation] = useState(true);
     const [employee, setEmployee] = useState(false);
     const [reports, setReports] = useState(false);
+    const [search, setSearch] = useState('');
+    const [inputSearch, setInputSearch] = useState('')
+    const [locationData , setLocationData] = useState('');
+    const [company, setCompany] = useState('');
+    const [department, setDepartment] = useState('');
     return(
         <>
             <div className="d-flex justify-content-center py-4">
@@ -56,38 +61,50 @@ const AssetDevices = () => {
             </div>
             {location ?
                 <div className='custom-mapbox'>
-                <div className="d-flex justify-content-center align-items-center w-100">
-                    <div className='px-4 map-search w-75 '>
-                        <InputGroup className="shadow p-2 bg-white rounded">
-                            <InputGroup.Text
-                                className='bg-white border-0'
-                                id="basic-addon1">
-                                <BiSearch size={22} />
-                            </InputGroup.Text>
-                            <Form.Control
-                                className='header-input border-0'
-                                placeholder="Search your assets"
-                                aria-label="Username"
-                            />
-                        </InputGroup>
-                    </div>
+                  <div className="d-flex justify-content-center align-items-center w-100">
+                      <div className='px-4 map-search w-75 '>
+                          <InputGroup className="shadow p-2 bg-white rounded">
+                              <InputGroup.Text
+                                  className='bg-white border-0'
+                                  id="basic-addon1">
+                                  <BiSearch size={22} />
+                              </InputGroup.Text>
+                              <Form.Control
+                                  className='header-input border-0'
+                                  placeholder="Search your assets"
+                                  aria-label="Username"
+                                  value={inputSearch}
+                                  onChange={(e) => setInputSearch(e.target.value)}
+                              />
+                          </InputGroup>
+                      </div>
+                  </div>
+                  <Map mapboxToken={MAPBOX_TOKEN} query={inputSearch}/>
                 </div>
-                <Map mapboxToken={MAPBOX_TOKEN}/>
-            </div>
                 : employee ?
-                    <div className='h-100 w-100'>
-                        <br/>
-                        <div className='d-flex justify-content-center w-100'>
-                            <EmployeesFilterComponent />
-                        </div>
-                        <br/>
-                        <br/>
-                        <div className="">
-                            <div className='h-100'>
-                                <EmployeeTreeComponent />
-                            </div>
-                        </div>
+                <div className='h-100 w-100'>
+                  <br/>
+                    <div className='d-flex justify-content-center w-100'>
+                      <EmployeesFilterComponent
+                        searchData={(e: any) => setSearch(e)}
+                        location={(e: any) => setLocationData(e)}
+                        company={(e: any) => setCompany(e)}
+                        department={(e: any) => setDepartment(e)}
+                      />
                     </div>
+                    <br/>
+                    <br/>
+                    <div className="">
+                      <div className='h-100'>
+                        <EmployeeTreeComponent
+                          searchFilter={search}
+                          location={locationData}
+                          department={department}
+                          company={company}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 : <></>
             }
         </>

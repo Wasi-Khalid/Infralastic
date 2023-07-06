@@ -4,9 +4,11 @@ import {BiSearch} from "react-icons/bi";
 import {BsPlus} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import DepartmentTableMemberComponent from "../../../../components/Client/Department/DepartmentTableMemberComponent";
+import {useState} from "react";
 
 const DepartmentMember = () => {
-    const router = useNavigate()
+    const router = useNavigate();
+    const [search, setSearch] = useState<any>('')
     return(
         <>
             <Card className='rounded mt-4'>
@@ -23,10 +25,12 @@ const DepartmentMember = () => {
                                         id="basic-addon1">
                                         <BiSearch size={22} />
                                     </InputGroup.Text>
-                                    <Form.Control
+                                    <input
+                                        type='text'
                                         className='fs-7 border-0'
                                         placeholder="Search"
                                         aria-label="Username"
+                                        onChange={(e: any) => setSearch(e.target.value)}
                                     />
                                 </InputGroup>
                             </div>
@@ -34,13 +38,13 @@ const DepartmentMember = () => {
                                 <h6 className='m-0 theme-font px-3'>Export</h6>
                                 <button
                                     className='border-0 bg-theme-danger text-white py-2 px-3 theme-font rounded d-flex'
-                                    onClick={() => router('/add-department')}
+                                    onClick={() => router('/add-employee')}
                                 ><BsPlus size={24} className='me-2' /> Add&nbsp;New&nbsp;Member</button>
                             </div>
                         </div>
                     </div>
                     <hr className='mb-0'/>
-                    <DepartmentTableMemberComponent />
+                    <DepartmentTableMemberComponent searchFilter={search} />
                 </Card.Body>
             </Card>
         </>

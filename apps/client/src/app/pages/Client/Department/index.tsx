@@ -4,9 +4,11 @@ import DepartmentTableComponent from "../../../components/Client/Department/Depa
 import {BsPlus} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import './department.scss'
+import {useState} from "react";
 
 const Department = () => {
-    const router = useNavigate()
+  const router = useNavigate();
+  const [department, setDepartment] = useState<any>('')
   return(
       <>
           <Card className='rounded mt-4'>
@@ -23,10 +25,12 @@ const Department = () => {
                                       id="basic-addon1">
                                       <BiSearch size={22} />
                                   </InputGroup.Text>
-                                  <Form.Control
+                                  <input
+                                      type='text'
                                       className='fs-7 border-0'
                                       placeholder="Search"
                                       aria-label="Username"
+                                      onChange={(e: any) => setDepartment(e.target.value)}
                                   />
                               </InputGroup>
                           </div>
@@ -40,7 +44,7 @@ const Department = () => {
                       </div>
                   </div>
                   <hr className='mb-0'/>
-                  <DepartmentTableComponent />
+                  <DepartmentTableComponent searchFilter={department} />
               </Card.Body>
           </Card>
       </>

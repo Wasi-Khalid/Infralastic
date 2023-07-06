@@ -24,7 +24,7 @@ const AssetProofComponent = () => {
         if (id) {
             fetchImages()
         }
-    })
+    }, [])
     return(
         <div>
             <Card>

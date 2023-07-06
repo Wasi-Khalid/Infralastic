@@ -4,11 +4,13 @@ import {BsEye} from "react-icons/bs";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Papa from 'papaparse';
+import {addEmployee, useGlobalDispatch} from "@infralastic/global-state";
+import {toast} from "react-toastify";
 
 const Employees = () => {
   const router = useNavigate();
   const [fileData, setFileData] = useState<any>(null);
-
+  const dispatch = useGlobalDispatch()
 
   function handleRedirect() {
         router('/employee-view')
@@ -28,6 +30,37 @@ const Employees = () => {
       const text = event.target?.result as string;
       const { data } = Papa.parse(text, { header: true });
       setFileData(data);
+      console.log(data)
+      data?.map((item: any) => {
+        const formData: any =  {
+          first_name: item?.firstName,
+          last_name: item?.lastName,
+          email: item?.email,
+          phone: item?.phone,
+          image_url: '',
+          job_title: item?.job,
+          company_id: 1,
+          manager_id: 0,
+          department_id: 0,
+          location_id: 0,
+          employee_status: false
+        }
+        try {
+          dispatch(addEmployee(formData)).then(async (res: any) => {
+            if (res?.payload?.success === true) {
+              toast.success(res?.payload?.msg);
+              // setTimeout(() => {
+              //   router('/employee-view')
+              // }, 3000)
+            } else {
+              toast.error(res?.payload);
+            }
+          });
+        } catch (err: any) {
+          console.error(err);
+          toast.error('Access Denied');
+        }
+      })
     };
 
     reader.readAsText(file);

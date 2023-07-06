@@ -9,6 +9,10 @@ const AllAsset = () => {
     const [location, setLocation] = useState(true);
     const [employee, setEmployee] = useState(false);
     const [reports, setReports] = useState(false);
+    const [search, setSearch] = useState('');
+    const [locationData , setLocationData] = useState('');
+    const [company, setCompany] = useState('');
+    const [department, setDepartment] = useState('');
     return(
         <div>
             <div className="d-flex justify-content-center py-4 w-100 align-items-center">
@@ -67,19 +71,29 @@ const AllAsset = () => {
                 {location ?
                     <AssetInventory />
                     : employee ?
-                        <div className='h-100 w-100'>
-                            <br/>
-                            <div className='d-flex justify-content-center w-100'>
-                                <EmployeesFilterComponent />
-                            </div>
-                            <br/>
-                            <br/>
-                            <div className="">
-                                <div className='h-100'>
-                                    <EmployeeTreeComponent />
-                                </div>
-                            </div>
+                    <div className='h-100 w-100'>
+                      <br/>
+                      <div className='d-flex justify-content-center w-100'>
+                        <EmployeesFilterComponent
+                          searchData={(e: any) => setSearch(e)}
+                          location={(e: any) => setLocationData(e)}
+                          company={(e: any) => setCompany(e)}
+                          department={(e: any) => setDepartment(e)}
+                        />
+                      </div>
+                      <br/>
+                      <br/>
+                      <div className="">
+                        <div className='h-100'>
+                          <EmployeeTreeComponent
+                            searchFilter={search}
+                            location={locationData}
+                            department={department}
+                            company={company}
+                          />
                         </div>
+                      </div>
+                    </div>
                     : <></>
                 }
             </div>

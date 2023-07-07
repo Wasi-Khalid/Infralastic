@@ -143,7 +143,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                   <EmployeeCardComponent
                       employee_id = {JSON.parse(item.company_id)}
                       name={item.company_name}
-                      image={bogus}
+                      image={item?.image_url}
                       handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
                       designation='IT Company'
                   />

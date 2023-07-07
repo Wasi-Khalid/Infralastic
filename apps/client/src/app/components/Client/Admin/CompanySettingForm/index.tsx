@@ -9,6 +9,8 @@ import {BsCloudUpload} from "react-icons/bs";
 const CompanySettingForm = () => {
   const [name, setName] = useState('');
   const [webUrl, setWebUrl] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
   const [location, setLocation] = useState<any>(null);
   const [locationData, setLocationData] = useState<any>([]);
   const [file, setFile] = useState<any>(null);
@@ -46,10 +48,12 @@ const CompanySettingForm = () => {
               web_url: webUrl,
               location_id: JSON.parse(location),
               image_url: url,
+              latitude: latitude,
+              longitude: longitude
             }
             try {
               addCompany(formData).then(async (res: any) => {
-                if (res?.payload?.success === true) {
+                if (res?.data?.result?.success === true) {
                   toast.success(res?.data?.result?.msg);
                 } else {
                   toast.error(res?.payload);
@@ -81,6 +85,14 @@ const CompanySettingForm = () => {
               <div className='d-flex align-items-center py-2 w-100'>
                 <label className='w-25 fs-7' htmlFor="">Web URL</label>
                 <input onChange={(e) => setWebUrl(e.target.value)} className='w-75 form-control fs-7' type="text" placeholder='Enter Web URL'/>
+              </div>
+              <div className='d-flex align-items-center py-2 w-100'>
+                <label className='w-25 fs-7' htmlFor="">Latitude</label>
+                <input onChange={(e) => setLatitude(e.target.value)} className='w-75 form-control fs-7' type="number" placeholder='Enter Latitude'/>
+              </div>
+              <div className='d-flex align-items-center py-2 w-100'>
+                <label className='w-25 fs-7' htmlFor="">Longitude</label>
+                <input onChange={(e) => setLongitude(e.target.value)} className='w-75 form-control fs-7' type="number" placeholder='Enter Longitude'/>
               </div>
               <div className='d-flex align-items-center py-2 w-100'>
                 <label className='w-25 fs-7' htmlFor="">Location *</label>

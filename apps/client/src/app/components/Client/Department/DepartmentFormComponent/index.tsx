@@ -14,6 +14,7 @@ import {
 } from "@infralastic/global-state";
 import {fetchAllEmployee} from "@infralastic/global-state";
 import {useGlobalDispatch} from "@infralastic/global-state";
+import Select from "react-select";
 
 const DepartmentFormComponent = () => {
     const router = useNavigate();
@@ -190,7 +191,7 @@ const DepartmentFormComponent = () => {
                                     <Form.Group className="mb-2" controlId="formBasicFirstName">
                                         <Form.Label className='fs-7 mb-1 theme-font'>Department Name *</Form.Label>
                                         <Form.Control
-                                            className={name !== '' ? 'px-2 py-1 fs-7' : 'px-2 py-1 fs-7 theme-border-danger'}
+                                            className={name !== '' ? 'px-2 py-1 fs-7 custom-search-select' : 'px-2 py-1 fs-7 theme-border-danger custom-search-select'}
                                             type="name"
                                             value={name}
                                             placeholder="Enter Department Name"
@@ -200,20 +201,19 @@ const DepartmentFormComponent = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
-                                    <Form.Group className="mb-2" controlId="formBasicManager">
-                                        <Form.Label className='fs-7 mb-1 theme-font'>Department Head</Form.Label>
-                                        <Form.Select
-                                            className='px-2 py-1 fs-7 theme-font text-muted'
-                                            aria-label="Default select example"
-                                            value={departmentHead}
-                                            onChange={(e) => setDepartmentHead(e.target.value)}
-                                        >
-                                            <option value=''>Select Department Head</option>
-                                            {employeeData?.map((item: any) => (
-                                                <option value={item.employee_id}>{item.employee_name}</option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form.Group>
+                                  <Form.Group className="mb-2" controlId="formBasicManager">
+                                    <Form.Label className='fs-7 mb-1 theme-font'>Department Head</Form.Label>
+                                    <Select
+                                      className='fs-7 theme-font text-muted custom-search-select'
+                                      options={employeeData?.map((item: any) => ({
+                                        value: item.employee_id,
+                                        label: item.employee_name
+                                      }))}
+                                      value={departmentHead}
+                                      onChange={(selectedOption: any) => setDepartmentHead(selectedOption)}
+                                      placeholder="Select Department Head"
+                                    />
+                                  </Form.Group>
                                 </Col>
                             </Row>
                         </Form>

@@ -66,7 +66,7 @@ const EditCompanyModal = (props:CompanyModal) => {
           }
           try {
             updateCompany(formData).then(async (res: any) => {
-              if (res?.payload?.success === true) {
+              if (res?.data?.result?.success === true) {
                 toast.success(res?.data?.result?.msg);
               } else {
                 toast.error(res?.payload);

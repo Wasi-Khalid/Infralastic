@@ -34,7 +34,8 @@ const Department = () => {
                           <div className='w-100 d-flex justify-content-end'>
                               <InputGroup className="p-1 bg-white rounded border">
                                   <InputGroup.Text
-                                      className='bg-white border-0'
+                                      className='bg-white
+                                      border-0'
                                       id="basic-addon1">
                                       <BiSearch size={22} />
                                   </InputGroup.Text>

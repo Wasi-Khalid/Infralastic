@@ -6,7 +6,7 @@ import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
 import {BsPlus} from "react-icons/bs";
-import {fetchAllDepartment} from "@infralastic/global-state";
+import {archiveAsset, fetchAllDepartment} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -145,6 +145,15 @@ const AssetInventory = () => {
         return prevPage;
       });
     };
+
+    const handleArchive = (id: any) => {
+      const formData = {
+        asset_unique_id: id
+      }
+      archiveAsset(formData).then((res: any) => {
+        toast.success(res.data.result.msg)
+      })
+    }
     return(
         <>
             <Card>
@@ -309,7 +318,7 @@ const AssetInventory = () => {
                                             id="dropdown-item-button"
                                             title={<BiDotsVerticalRounded className='me-2' size={20} />}
                                         >
-                                            <Dropdown.Item className='theme-font fs-7' as="button">Archive</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => handleArchive(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Archive</Dropdown.Item>
                                             <Dropdown.Item onClick={() => handleDelete(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
                                             <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
                                             <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>

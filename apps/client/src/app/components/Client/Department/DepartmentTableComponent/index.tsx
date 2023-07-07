@@ -1,8 +1,8 @@
 import {Dropdown, DropdownButton, Table} from "react-bootstrap";
 import './department-table-component.scss'
-import laptop from '../../../../../assets/laptop.png';
-import mouse from '../../../../../assets/mouse.png';
-import computer from '../../../../../assets/computer.png';
+import laptopIcon from '../../../../../assets/laptop.png';
+import mouseIcon from '../../../../../assets/mouse.png';
+import computerIcon from '../../../../../assets/computer.png';
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiChevronUpDown} from "react-icons/hi2";
@@ -20,7 +20,9 @@ const DepartmentTableComponent = (props: filterProps) => {
     const dispatch = useGlobalDispatch();
     const router = useNavigate();
     const [department, setDepartment] = useState<any>([])
-    const [originalData, setOriginalData] = useState<any>([])
+    const [originalData, setOriginalData] = useState<any>([]);
+    const allCategories = ['Laptop', 'Mouse', 'Computer'];
+
 
     const getDepartment = () => {
         const config: any = {}
@@ -52,9 +54,30 @@ const DepartmentTableComponent = (props: filterProps) => {
             })}`
         })
     }
+
+    const getCategoryCount = (department: any, category: string) => {
+      return department.asset_categorys.filter(
+        (cat: any) => cat.category_name === category
+      ).length;
+    };
+
+    const getCategoryIcon = (categoryName: string) => {
+      switch (categoryName) {
+        case 'Laptop':
+          return laptopIcon;
+        case 'Mouse':
+          return mouseIcon;
+        case 'Computer':
+          return computerIcon;
+        default:
+          return;
+      }
+    };
+
     useEffect(() => {
       getDepartment()
     }, [])
+
     const applyFilters = () => {
         let filteredData = [...originalData];
         if (props.searchFilter !== '') {
@@ -66,7 +89,9 @@ const DepartmentTableComponent = (props: filterProps) => {
           });
         }
         setDepartment(filteredData)
-      }
+    }
+
+
     useEffect(() => {
       applyFilters()
     }, [props.searchFilter, originalData])
@@ -103,21 +128,36 @@ const DepartmentTableComponent = (props: filterProps) => {
                         </td>
                         <td>
                             <div className="d-flex align-items-center h-100">
-                                <div className='d-flex align-items-center'>
-                                    <div className='d-flex align-items-center px-3 br-1'>
-                                        <img src={laptop} height='30' width='30' alt=""/>
-                                        <p className='m-0 ms-1 fs-7 text-muted'>Laptop</p>
-                                    </div>
-                                    <div className='d-flex align-items-center px-3 br-1'>
-                                        <img src={mouse} height='30' width='30' alt=""/>
-                                        <p className='m-0 ms-1 fs-7 text-muted'>Mouse</p>
-                                    </div>
-                                    <div className='d-flex align-items-center px-3'>
-                                        <img src={computer} height='30' width='30' alt=""/>
-                                        <p className='m-0 ms-1 fs-7 text-muted'>Computer</p>
-                                    </div>
+                                <div className="d-flex align-items-center">
+                                    {allCategories.map((category: string) => {
+                                        const categoryCount = getCategoryCount(item, category);
+                                        if (categoryCount > 0 || item.department_id !== 0) {
+                                            return (
+                                                <div
+                                                  key={category}
+                                                  className="d-flex align-items-center px-3 br-1"
+                                                >
+                                                    <div className="position-absolute mb-3 me-3">
+                                                      <span className="rounded-circle px-1 fs-13 text-white bg-theme-danger">
+                                                        {categoryCount}
+                                                      </span>
+                                                    </div>
+                                                    <img
+                                                      src={getCategoryIcon(category)}
+                                                      height="30"
+                                                      width="30"
+                                                      alt=""
+                                                    />
+                                                    <p className="m-0 ms-1 fs-7 text-muted">
+                                                      {category}
+                                                    </p>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })}
                                 </div>
-                            </div>
+                          </div>
                         </td>
                         <td>
                             <div className='d-flex justify-content-end align-items-center'>

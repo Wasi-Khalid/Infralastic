@@ -27,7 +27,8 @@ const CheckInFormComponent = () => {
 
     function fetchAssets() {
         const formData: any = {
-            company_id: 1
+            company_id: 1,
+            page_no: 1
         }
         getAllAssets(formData).then((res: any) => {
             setAssetData(res.data.result.asset_details)
@@ -175,6 +176,9 @@ const CheckInFormComponent = () => {
                                           onChange={(e) => setPersonStatus(e.target.value)}
                                       >
                                           <option value=''>Select Person Status</option>
+                                          <option value='Full Time'>Full Time</option>
+                                          <option value='Part Time'>Part Time</option>
+                                          <option value='Contract'>Contract</option>
                                       </Form.Select>
                                   </Form.Group>
                               </Col>

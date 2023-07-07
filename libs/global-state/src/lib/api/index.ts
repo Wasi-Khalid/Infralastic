@@ -192,3 +192,6 @@ export const getBudgetReport = (formData: any) =>
 export const getPurchaseReport = (formData: any) =>
   API.post('/api/get_sales_report_data', formData)
 
+export const archiveAsset = (formData: any) =>
+  API.post('/api/archive_asset_api', formData)
+

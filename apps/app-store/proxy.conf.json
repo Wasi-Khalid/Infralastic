@@ -1,6 +1,6 @@
 {
-  "/api": {
-    "target": "http://od01.infralastic.com:8031",
+  "/": {
+    "target": "https://od01.infralastic.com:8031",
     "secure": false,
     "changeOrigin": true
   }

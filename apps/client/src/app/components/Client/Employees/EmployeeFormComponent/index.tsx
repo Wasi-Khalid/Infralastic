@@ -218,6 +218,9 @@ const EmployeeFormComponent = () => {
                 dispatch(updateEmployeeById(formData)).then(async (res: any) => {
                   if (res.payload.success === true) {
                     toast.success(res.payload.msg);
+                    setTimeout(() => {
+                      router('/employee-view')
+                    }, 3000)
                   } else {
                     toast.error(res.payload.msg);
                   }

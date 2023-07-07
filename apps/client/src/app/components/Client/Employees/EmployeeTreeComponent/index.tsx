@@ -58,6 +58,9 @@ const EmployeeTreeComponent = (props: filterInterface) => {
     if (props.company !== '') {
       filteredData = filteredData.filter((res: any) => res.company_name === props.company)
     }
+    if (props.location !== '') {
+      filteredData = filteredData.filter((res: any) => res.location_name === props.location)
+    }
 
     setEmployeeData(filteredData);
 
@@ -77,6 +80,9 @@ const EmployeeTreeComponent = (props: filterInterface) => {
     if (props.company !== '') {
       filteredManagerData = filteredManagerData.filter((res: any) => res.company_name === props.company)
     }
+    if (props.location !== '') {
+      filteredManagerData = filteredManagerData.filter((res: any) => res.location_name === props.location)
+    }
 
     setManagerEmployeeData(filteredManagerData);
   }
@@ -84,7 +90,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
 
   useEffect(() => {
     applyFilters()
-  }, [props.searchFilter, props.department, props.company, originalData])
+  }, [props.searchFilter, props.department, props.company, props.location, originalData])
 
     const handleManager = ({id}: {id: any}) => {
         const formData: any = {
@@ -115,6 +121,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                 if (res.payload.success === false) {
                     setManagerEmp(false)
                 } else {
+                    setOriginalData(res.payload.empolyee_details);
                     setEmployeeData(res.payload.empolyee_details)
                     setEmployeeEmp(!employeeEmp)
                 }

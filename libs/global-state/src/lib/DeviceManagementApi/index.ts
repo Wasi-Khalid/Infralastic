@@ -5,7 +5,7 @@ const API = axios.create({
     'Access-Control-Allow-Origin': '*',
     'key': 'U2FsdGVkX1+8sut0u1BvDE5mJAvJ1L2E78kiwVPtMMo='
   },
-  baseURL: 'https://flt01.infralastic.com:3443'
+  baseURL: 'http://10.100.108.108:5001'
 });
 
 export const getHosts = (formData: any) =>

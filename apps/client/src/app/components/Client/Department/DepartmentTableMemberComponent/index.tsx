@@ -25,8 +25,10 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
         }
         try {
             dispatch(fetchDepartmentEmployees(formData)).then(async (res: any) => {
-                setOriginalData(res.payload.empolyee_details)
-                setDepartment(res.payload.empolyee_details)
+              if (res?.payload?.empolyee_details && Array.isArray(res.payload.empolyee_details)) {
+                setOriginalData([...res.payload.empolyee_details]);
+                setDepartment([...res.payload.empolyee_details]);
+              }
             });
         } catch (err: any) {
             console.error(err);
@@ -65,7 +67,7 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
                 </tr>
                 </thead>
                 <tbody>
-                {department?.map((item: any) => (
+                {Array.isArray(department) && department?.map((item: any) => (
                     <tr>
                         <td>
                             <div className='d-flex align-items-center'>

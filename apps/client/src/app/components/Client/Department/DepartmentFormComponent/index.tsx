@@ -209,8 +209,7 @@ const DepartmentFormComponent = () => {
                                         value: item.employee_id,
                                         label: item.employee_name
                                       }))}
-                                      value={departmentHead}
-                                      onChange={(selectedOption: any) => setDepartmentHead(selectedOption)}
+                                      onChange={(selectedOption: any) => setDepartmentHead(selectedOption.value)}
                                       placeholder="Select Department Head"
                                     />
                                   </Form.Group>

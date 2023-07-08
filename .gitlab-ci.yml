@@ -50,4 +50,5 @@ publish to Store VPS:
   trigger:
     project: arsalan.yasin/secure-pipelines
     branch: main
+    
   

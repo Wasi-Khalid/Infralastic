@@ -83,7 +83,7 @@ const EmployeeFormComponent = () => {
   const fetchLocation = () => {
     const config = {}
     getLocation(config).then((res: any) => {
-      setLocationData(res.data.result.model_details)
+      setLocationData(res.data.result.location_details)
     })
   }
 
@@ -422,7 +422,7 @@ const EmployeeFormComponent = () => {
                                         >
                                           <option value=''>Select Location</option>
                                           {locationData?.map((item: any) => (
-                                            <option value={item?.state_id} className='theme-font fs-7'>{item?.state_name}</option>
+                                            <option value={item?.location_id} className='theme-font fs-7'>{item?.location_name}</option>
                                           ))}
                                         </Form.Select>
                                     </Form.Group>

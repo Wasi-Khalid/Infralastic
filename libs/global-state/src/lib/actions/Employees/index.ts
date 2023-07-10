@@ -118,13 +118,13 @@ export const updateEmployeeById = createAsyncThunk(
 export const fetchEmployeeAsset = createAsyncThunk(
   "employee/asset",
   async (
-    { employee_id }: {employee_id: any},
+    { employee_id, page_no }: {employee_id: any, page_no: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { employee }: any = getState();
       let data = {};
-      await api.getEmployeeAsset({employee_id}).then((res: any) => {
+      await api.getEmployeeAsset({employee_id, page_no}).then((res: any) => {
         data = res.data.result;
       });
       return data;

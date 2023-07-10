@@ -39,6 +39,9 @@ export const getAllEmployee = (config: any) =>
 export const getAllDepartment = (config: any) =>
   API.post('/api/get_department_api', config)
 
+export const getAllJobs = (config: any) =>
+  API.post('/api/get_job_api', config)
+
 export const getLocation = (config: any) =>
   API.post('/api/get_location_api', config)
 

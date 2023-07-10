@@ -10,10 +10,12 @@ interface filterInterface {
   location: any;
   company: any;
   department: any;
+  job: any
 }
 const EmployeeTreeComponent = (props: filterInterface) => {
     const dispatch = useGlobalDispatch();
-    const [companyData, setCompanyData] = useState([])
+    const [companyData, setCompanyData] = useState([]);
+    const [companyOriginalData, setCompanyOriginalData] = useState([]);
     const [managerEmp, setManagerEmp] = useState(false)
     const [employeeEmp, setEmployeeEmp] = useState(false)
     const [employeeData, setEmployeeData] = useState([]);
@@ -24,73 +26,103 @@ const EmployeeTreeComponent = (props: filterInterface) => {
         const config: any = {}
         try {
             dispatch(fetchAllCompany(config)).then(async (res: any) => {
+                setCompanyOriginalData(res.payload.company_details)
                 setCompanyData(res.payload.company_details)
             });
         } catch (err: any) {
             console.error(err);
         }
     }
-    const getEmployees = () => {
-        const config: any = {}
-        try {
-            dispatch(fetchAllEmployee(config)).then(async (res: any) => {
-                setOriginalData(res.payload.empolyee_details);
-                setEmployeeData(res.payload.empolyee_details);
-            });
-        } catch (err: any) {
-            console.error(err);
-        }
-    }
+    // const getEmployees = () => {
+    //     const config: any = {}
+    //     try {
+    //         dispatch(fetchAllEmployee(config)).then(async (res: any) => {
+    //             setOriginalData(res.payload.empolyee_details);
+    //             setEmployeeData(res.payload.empolyee_details);
+    //         });
+    //     } catch (err: any) {
+    //         console.error(err);
+    //     }
+    // }
   const applyFilters = () => {
-    let filteredData = [...originalData];
+    if (employeeEmp && !managerEmp){
+      let filteredData = [...originalData];
 
-    if (props.searchFilter !== '') {
-      const searchLetter = props.searchFilter.toLowerCase();
+      if (props.searchFilter !== '') {
+        const searchLetter = props.searchFilter.toLowerCase();
 
-      filteredData = filteredData.filter((res: any) => {
-        const employeeName = res.employee_name.toLowerCase();
-        return employeeName.includes(searchLetter);
-      });
+        filteredData = filteredData.filter((res: any) => {
+          const employeeName = res.employee_name.toLowerCase();
+          return employeeName.includes(searchLetter);
+        });
+      }
+      if (props.department !== '') {
+        filteredData = filteredData.filter((res: any) => res.department_name === props.department)
+      }
+      if (props.company !== '') {
+        filteredData = filteredData.filter((res: any) => res.company_name === props.company)
+      }
+      if (props.location !== '') {
+        filteredData = filteredData.filter((res: any) => res.location_name === props.location)
+      }
+      if (props.job !== '') {
+        filteredData = filteredData.filter((res: any) => res.job_title === props.job)
+      }
+
+      setEmployeeData(filteredData);
     }
-    if (props.department !== '') {
-      filteredData = filteredData.filter((res: any) => res.department_name === props.department)
+
+    if (managerEmp) {
+      let filteredManagerData = [...managerEmployeeOriginalData];
+
+      if (props.searchFilter !== '') {
+        const searchLetter = props.searchFilter.toLowerCase();
+
+        filteredManagerData = filteredManagerData.filter((res: any) => {
+          const employeeName = res.employee_name.toLowerCase();
+          return employeeName.includes(searchLetter);
+        });
+      }
+      if (props.department !== '') {
+        filteredManagerData = filteredManagerData.filter((res: any) => res.department_name === props.department)
+      }
+      if (props.company !== '') {
+        filteredManagerData = filteredManagerData.filter((res: any) => res.company_name === props.company)
+      }
+      if (props.location !== '') {
+        filteredManagerData = filteredManagerData.filter((res: any) => res.location_name === props.location)
+      }
+      if (props.job !== '') {
+        filteredManagerData = filteredManagerData.filter((res: any) => res.job_title === props.job)
+      }
+      setManagerEmployeeData(filteredManagerData);
     }
+
+    let filteredCompanyData = [...companyOriginalData];
+
     if (props.company !== '') {
-      filteredData = filteredData.filter((res: any) => res.company_name === props.company)
+      filteredCompanyData = filteredCompanyData.filter((res: any) => res.company_name === props.company)
     }
     if (props.location !== '') {
-      filteredData = filteredData.filter((res: any) => res.location_name === props.location)
+      filteredCompanyData = filteredCompanyData.filter((res: any) => res.location_name === props.location)
     }
 
-    setEmployeeData(filteredData);
-
-    let filteredManagerData = [...managerEmployeeOriginalData];
-
-    if (props.searchFilter !== '') {
-      const searchLetter = props.searchFilter.toLowerCase();
-
-      filteredManagerData = filteredManagerData.filter((res: any) => {
-        const employeeName = res.employee_name.toLowerCase();
-        return employeeName.includes(searchLetter);
-      });
-    }
-    if (props.department !== '') {
-      filteredManagerData = filteredManagerData.filter((res: any) => res.department_name === props.department)
-    }
-    if (props.company !== '') {
-      filteredManagerData = filteredManagerData.filter((res: any) => res.company_name === props.company)
-    }
-    if (props.location !== '') {
-      filteredManagerData = filteredManagerData.filter((res: any) => res.location_name === props.location)
-    }
-
-    setManagerEmployeeData(filteredManagerData);
+    setCompanyData(filteredCompanyData);
   }
 
 
   useEffect(() => {
     applyFilters()
-  }, [props.searchFilter, props.department, props.company, props.location, originalData])
+  }, [
+    props.searchFilter,
+    props.department,
+    props.company,
+    props.location,
+    props.job,
+    originalData,
+    companyOriginalData,
+    managerEmployeeOriginalData
+  ])
 
     const handleManager = ({id}: {id: any}) => {
         const formData: any = {
@@ -104,7 +136,6 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                     setManagerEmployeeOriginalData(res.payload.empolyee_details)
                     setManagerEmployeeData(res.payload.empolyee_details)
                     setManagerEmp(!managerEmp)
-
                 }
             });
 
@@ -145,7 +176,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                       name={item.company_name}
                       image={item?.image_url}
                       handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
-                      designation='IT Company'
+                      designation=''
                   />
               ))}
           </div>

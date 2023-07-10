@@ -7,6 +7,7 @@ const EmployeeView = () => {
   const [location , setLocation] = useState('');
   const [company, setCompany] = useState('');
   const [department, setDepartment] = useState('');
+  const [job, setJob] = useState('');
   return(
         <div className='h-100 w-100'>
                 <br/>
@@ -16,6 +17,7 @@ const EmployeeView = () => {
                       location={(e: any) => setLocation(e)}
                       company={(e: any) => setCompany(e)}
                       department={(e: any) => setDepartment(e)}
+                      job={(e: any) => setJob(e)}
                     />
                 </div>
                 <br/>
@@ -27,6 +29,7 @@ const EmployeeView = () => {
                           location={location}
                           department={department}
                           company={company}
+                          job={job}
                         />
                     </div>
                 </div>

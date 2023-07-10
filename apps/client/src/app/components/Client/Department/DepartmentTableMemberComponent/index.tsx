@@ -3,9 +3,15 @@ import './department-table-member-component.scss'
 import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiChevronUpDown} from "react-icons/hi2";
-import {fetchDepartmentEmployees, useGlobalDispatch} from "@infralastic/global-state";
+import {
+  fetchDepartmentEmployees,
+  fetchEmployee,
+  fetchEmployeeAsset,
+  useGlobalDispatch
+} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
+import EmployeeModalComponent from "../../../Modals/EmployeeModal";
 
 interface filterProps {
   searchFilter: any;
@@ -14,8 +20,11 @@ interface filterProps {
 const DepartmentTableMemberComponent = (props: filterProps) => {
     const dispatch = useGlobalDispatch();
     const router = useNavigate();
-    const [originalData, setOriginalData] = useState<any>([])
-    const [department, setDepartment] = useState<any>([])
+    const [show, setShow] = useState<any>(false)
+    const [data, setData] = useState<any>([]);
+    const [assetData, setAssetData] = useState<any>([]);
+    const [originalData, setOriginalData] = useState<any>([]);
+    const [department, setDepartment] = useState<any>([]);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const getDepartment = () => {
@@ -50,6 +59,39 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
         });
       }
       setDepartment(filteredData)
+    }
+    const getEmployee = (id: any) => {
+      const formData: any = {
+        employee_id: id
+      }
+      try {
+        dispatch((fetchEmployee(formData))).then(async (res: any) => {
+          setData(res.payload)
+          setShow(!show)
+
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
+    }
+
+    const getEmployeeAsset = (id: any) => {
+      const formData: any = {
+        employee_id: id,
+        page_no: 1
+      }
+      try {
+        dispatch((fetchEmployeeAsset(formData))).then(async (res: any) => {
+          setAssetData(res.payload.asset_details);
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
+    }
+
+    function handleModalData (id: any){
+      getEmployee(id);
+      getEmployeeAsset(id);
     }
     useEffect(() => {
       applyFilters()
@@ -96,7 +138,10 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
                         </td>
                         <td>
                             <div className='d-flex justify-content-end align-items-center'>
-                                <AiOutlineEye className='me-2 mt-1' size={20} />
+                                <AiOutlineEye
+                                  className='me-2 mt-1' size={20}
+                                  onClick={() => handleModalData(item?.employee_id)}
+                                />
                                 <DropdownButton
                                     className="bg-transparent custom-btn"
                                     id="dropdown-item-button"
@@ -113,6 +158,14 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
                 ))}
                 </tbody>
             </Table>
+          {show &&
+            <EmployeeModalComponent
+              assetData={assetData}
+              data={data}
+              show={show}
+              hide={() => setShow(false)}
+            />
+          }
         </>
     )
 }

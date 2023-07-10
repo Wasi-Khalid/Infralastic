@@ -34,11 +34,11 @@ const EmployeeCardComponent = ({name, employee_id, image, designation, handleCli
 
     const getEmployeeAsset = () => {
       const formData: any = {
-        employee_id: employee_id
+        employee_id: employee_id,
+        page_no: 1
       }
       try {
         dispatch((fetchEmployeeAsset(formData))).then(async (res: any) => {
-          debugger;
           setAssetData(res.payload.asset_details);
         });
       } catch (err: any) {

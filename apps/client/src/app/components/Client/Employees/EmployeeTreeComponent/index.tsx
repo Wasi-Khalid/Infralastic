@@ -1,9 +1,8 @@
 import './employee-tree-component.scss';
 import EmployeeCardComponent from "../EmployeeCardComponent";
-import bogus from '../../../../../assets/employees/one.png'
 import {fetchAllCompany, fetchCompanyEmployee, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
-import {fetchAllEmployee, fetchManager} from "@infralastic/global-state";
+import {fetchManager} from "@infralastic/global-state";
 
 interface filterInterface {
   searchFilter: any;

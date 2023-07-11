@@ -16,6 +16,7 @@ const AssetDevices = () => {
     const [locationData , setLocationData] = useState('');
     const [company, setCompany] = useState('');
     const [department, setDepartment] = useState('');
+    const [job, setJob] = useState('');
     return(
         <>
             <div className="d-flex justify-content-center py-4">
@@ -90,6 +91,7 @@ const AssetDevices = () => {
                         location={(e: any) => setLocationData(e)}
                         company={(e: any) => setCompany(e)}
                         department={(e: any) => setDepartment(e)}
+                        job={(e: any) => setJob(e)}
                       />
                     </div>
                     <br/>
@@ -101,6 +103,7 @@ const AssetDevices = () => {
                           location={locationData}
                           department={department}
                           company={company}
+                          job={job}
                         />
                       </div>
                     </div>

@@ -13,6 +13,7 @@ const AllAsset = () => {
     const [locationData , setLocationData] = useState('');
     const [company, setCompany] = useState('');
     const [department, setDepartment] = useState('');
+    const [job, setJob] = useState('')
     return(
         <div>
             <div className="d-flex justify-content-center py-4 w-100 align-items-center">
@@ -79,6 +80,7 @@ const AllAsset = () => {
                           location={(e: any) => setLocationData(e)}
                           company={(e: any) => setCompany(e)}
                           department={(e: any) => setDepartment(e)}
+                          job={(e: any) => setJob(e)}
                         />
                       </div>
                       <br/>
@@ -90,6 +92,7 @@ const AllAsset = () => {
                             location={locationData}
                             department={department}
                             company={company}
+                            job={job}
                           />
                         </div>
                       </div>

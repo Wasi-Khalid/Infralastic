@@ -126,7 +126,7 @@ const CheckInFormComponent = () => {
                                           onChange={(e) => setAssignee(e.target.value)}
                                       >
                                           <option value=''>Select Assignee</option>
-                                          {employeeData?.filter((item: any) => item.department_id === departmentId).map((item: any) => (
+                                          {employeeData?.filter((item: any) => item.department_id == departmentId).map((item: any) => (
                                               <option value={item.employee_id}>{item.employee_name}</option>
                                           ))}
                                       </Form.Select>

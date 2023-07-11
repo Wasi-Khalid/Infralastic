@@ -8,9 +8,9 @@ interface SiteProps {
     address: string;
     name: string;
     total: string;
-    site_id: string;
+    company_id: string;
 }
-const SiteCard: React.FC<SiteProps> = ({ image, address, name, total, site_id }) => {
+const SiteCard: React.FC<SiteProps> = ({ image, address, name, total, company_id }) => {
     const [show, setShow] = useState(false);
     const router = useNavigate();
     return(
@@ -20,7 +20,7 @@ const SiteCard: React.FC<SiteProps> = ({ image, address, name, total, site_id })
                     onClick={() => router({
                         pathname: '/asset-detail',
                         search: `?${createSearchParams({
-                            site_id: site_id
+                            company_id: company_id
                         })}`
                     })}
                     className='d-flex'

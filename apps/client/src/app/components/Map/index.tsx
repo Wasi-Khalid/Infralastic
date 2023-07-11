@@ -74,7 +74,7 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
                                 image={item?.image_url}
                                 address={'Lorem Ipsum'}
                                 total={item?.company_assets.length}
-                                site_id={item?.site_id}
+                                company_id={item?.company_id}
                             />
                         </div>
                     }

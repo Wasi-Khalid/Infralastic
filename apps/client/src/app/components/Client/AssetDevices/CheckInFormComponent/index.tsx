@@ -121,11 +121,12 @@ const CheckInFormComponent = () => {
                                           className='px-2 py-1 fs-7 theme-font text-muted'
                                           aria-label="Default select example"
                                           required={true}
+                                          disabled={departmentId === ''}
                                           value={assignee}
                                           onChange={(e) => setAssignee(e.target.value)}
                                       >
                                           <option value=''>Select Assignee</option>
-                                          {employeeData?.map((item: any) => (
+                                          {employeeData?.filter((item: any) => item.department_id === departmentId).map((item: any) => (
                                               <option value={item.employee_id}>{item.employee_name}</option>
                                           ))}
                                       </Form.Select>
@@ -138,6 +139,7 @@ const CheckInFormComponent = () => {
                                           className='px-2 py-1 fs-7 theme-font text-muted'
                                           aria-label="Default select example"
                                           required={true}
+                                          disabled={departmentId === ''}
                                           value={assets}
                                           onChange={(e) => setAssets(e.target.value)}
                                       >
@@ -173,6 +175,7 @@ const CheckInFormComponent = () => {
                                           aria-label="Default select example"
                                           required={true}
                                           value={personStatus}
+                                          disabled={departmentId === ''}
                                           onChange={(e) => setPersonStatus(e.target.value)}
                                       >
                                           <option value=''>Select Person Status</option>
@@ -184,7 +187,7 @@ const CheckInFormComponent = () => {
                               </Col>
                               <Col md={6}>
                                   <Form.Group className="mb-2" controlId="formBasicFirstName">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>Check Out Notes</Form.Label>
+                                      <Form.Label className='fs-7 mb-1 theme-font'>Check In Notes</Form.Label>
                                       <Form.Control
                                           className='px-2 py-1 fs-7'
                                           type="name"

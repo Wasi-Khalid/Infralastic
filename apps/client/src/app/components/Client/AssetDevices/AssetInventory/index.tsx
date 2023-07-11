@@ -6,7 +6,7 @@ import {AiOutlineEye} from "react-icons/ai";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {HiFilter} from "react-icons/hi";
 import {BsPlus} from "react-icons/bs";
-import {archiveAsset, fetchAllDepartment} from "@infralastic/global-state";
+import {archiveAsset, fetchAllDepartment, getLocation} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -44,13 +44,11 @@ const AssetInventory = () => {
             console.error(err);
         }
     }
-    function fetchSites() {
-        const formData: any = {
-            company_id: 1
-        }
-        getSites(formData).then((res: any) => {
-            setLocation(res.data.result.site_details)
-        })
+    const fetchLocation = () => {
+      const config = {}
+      getLocation(config).then((res: any) => {
+        setLocation(res.data.result.location_details)
+      })
     }
 
     function fetchAssets() {
@@ -122,7 +120,7 @@ const AssetInventory = () => {
 
     useEffect(() => {
         getDepartment();
-        fetchSites();
+        fetchLocation();
         getAllCategory();
     }, [])
 
@@ -172,7 +170,7 @@ const AssetInventory = () => {
                         </div>
                         <div className="d-flex justify-content-end align-items-center w-75">
                             <Form.Group className="py-1 mx-2" controlId="location">
-                                <InputGroup className="py-1">
+                                <InputGroup className="py-1 w-50 float-end">
                                     <InputGroup.Text id="basic-addon1" className='bg-transparent px-2'><HiFilter className='me-1 theme-danger'/></InputGroup.Text>
                                     <Form.Select
                                         className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
@@ -183,7 +181,7 @@ const AssetInventory = () => {
                                     >
                                         <option onClick={() => setAssets(originalData)} value=''>Select Location</option>
                                         {location?.map((item: any) => (
-                                            <option value={item.state_name} className='theme-font fs-7'>{item?.state_name}</option>
+                                            <option value={item.location_name} className='theme-font fs-7'>{item?.location_name}</option>
                                         ))}
                                     </Form.Select>
                                 </InputGroup>

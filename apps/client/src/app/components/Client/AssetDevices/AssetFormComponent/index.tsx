@@ -6,13 +6,21 @@ import {BsArrowLeft} from "react-icons/bs";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
-import {createAsset, getAllCategories, getSites} from "@infralastic/global-state";
+import {
+  createAsset,
+  fetchAllCompany,
+  getAllCategories,
+  getLocation,
+  getSites,
+  useGlobalDispatch
+} from "@infralastic/global-state";
 import {useNavigate} from "react-router-dom";
 
 const AssetFormComponent = () => {
     const [imageFile, setImageFile] = useState('');
     const [file, setFile] = useState<any>(null);
     const [assetId, setAssetId] = useState<any>(null);
+    const [company, setCompany] = useState<any>(null);
     const [category, setCategory] = useState<any>('');
     const [categoryData, setCategoryData] = useState<any>([]);
     const [description, setDescription] = useState('');
@@ -33,9 +41,11 @@ const AssetFormComponent = () => {
     const [nextServiceDate, setNextServiceDate] = useState('');
     const [location, setLocation] = useState<any>('');
     const [locationData, setLocationData] = useState<any>([]);
+    const [companyData, setCompanyData] = useState<any>([]);
     const [dateAdded, setDateAdded] = useState('');
     const [timeAdded, setTimeAdded] = useState('');
-    const router = useNavigate()
+    const router = useNavigate();
+    const dispatch = useGlobalDispatch()
 
 
 
@@ -46,6 +56,17 @@ const AssetFormComponent = () => {
 
     const handleUpload = () => {
         document.getElementById('filePicker')!.click();
+    }
+
+    const getCompany = () => {
+      const config: any = {}
+      try {
+        dispatch(fetchAllCompany(config)).then(async (res: any) => {
+          setCompanyData(res.payload.company_details)
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
     }
 
     const getAllCategory = () => {
@@ -89,9 +110,9 @@ const AssetFormComponent = () => {
                         next_service_date: nextServiceDate,
                         date_added: dateAdded,
                         time_added: timeAdded,
-                        site_id: JSON.parse(location),
+                        site_id: 1,
                         category_id: JSON.parse(category),
-                        company_id: 1,
+                        company_id: JSON.parse(company),
                         image_url: url
                     }
                     toast.success('Image Uploaded Successfully');
@@ -115,17 +136,17 @@ const AssetFormComponent = () => {
         );
     }
 
-    function fetchSites() {
-        const formData: any = {
-            company_id: 1
-        }
-        getSites(formData).then((res) => {
-            setLocationData(res.data.result.site_details)
-        })
+    const fetchLocation = () => {
+      const config = {}
+      getLocation(config).then((res: any) => {
+        setLocationData(res.data.result.location_details)
+      })
     }
+
     useEffect(() => {
-        fetchSites();
+        fetchLocation();
         getAllCategory();
+        getCompany();
     }, [])
 
     return(
@@ -429,7 +450,24 @@ const AssetFormComponent = () => {
                                     >
                                         <option value=''>Select Location</option>
                                         {locationData?.map((item: any) => (
-                                            <option value={item?.site_id}>{item?.state_name}</option>
+                                            <option value={item?.location_id}>{item?.location_name}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-2" controlId="formBasicCompany">
+                                    <Form.Label className='fs-7 mb-1 theme-font'>Company</Form.Label>
+                                    <Form.Select
+                                        className='px-2 py-1 fs-7 theme-font text-muted'
+                                        aria-label="Default select example"
+                                        required={true}
+                                        value={company}
+                                        onChange={(e) => setCompany(e.target.value)}
+                                    >
+                                        <option value=''>Select Company</option>
+                                        {companyData?.map((item: any) => (
+                                            <option value={item?.company_id}>{item?.company_name}</option>
                                         ))}
                                     </Form.Select>
                                 </Form.Group>

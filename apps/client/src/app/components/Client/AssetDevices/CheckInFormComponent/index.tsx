@@ -10,17 +10,9 @@ import {fetchAllDepartment} from "@infralastic/global-state";
 const CheckInFormComponent = () => {
     const router = useNavigate();
     const dispatch = useGlobalDispatch();
-    const [department, setDepartment]  = useState<any>([])
-    const [email, setEmail] = useState('');
     const [checkInDate, setCheckInDate] = useState('');
-    const [dueByDate, setDueByDate] = useState('');
-    const [assignee, setAssignee] = useState('');
     const [assets, setAssets] = useState('');
-    const [departmentId, setDepartmentId] = useState('');
-    const [conditionAtCheckOut, setConditionAtCheckOut] = useState('');
-    const [personStatus, setPersonStatus] = useState('');
     const [checkOutNotes, setCheckOutNotes] = useState('');
-    const [permanent, setPermanent] = useState(true)
     const [assetData, setAssetData] = useState<any>([])
     const [employeeData, setEmployeeData] = useState<any>([])
 
@@ -34,63 +26,24 @@ const CheckInFormComponent = () => {
         })
     }
 
-    function fetchAllEmployees() {
-        const config: any = {}
-
-        getAllEmployee(config).then((res: any) => {
-            setEmployeeData(res.data.result.empolyee_details)
-        })
-    }
-
-    const getDepartment = () => {
-        const config: any = {}
-        try {
-            dispatch(fetchAllDepartment(config)).then(async (res: any) => {
-                setDepartment(res.payload.departments_details)
-            });
-        } catch (err: any) {
-            console.error(err);
-        }
-    }
-
     useEffect(() => {
-        fetchAllEmployees();
         fetchAssets();
-        getDepartment();
     }, [])
 
     const handleSubmit = () => {
         const formData: any = {
             asset_unique_id: JSON.parse(assets),
-            employee_id: JSON.parse(assignee),
-            employee_email: email,
-            permanent: permanent ? "True" : "False",
-            person_status: personStatus,
-            check_out_notes: checkOutNotes,
-            digital_stamp: "digital_stamp",
+            check_in_notes: checkOutNotes,
             check_in_date: checkInDate,
-            due_by_date: '1111-11-11',
-            department_id: JSON.parse(departmentId)
         }
         checkIn(formData).then((res: any) => {
             toast.success(res.data.result.msg)
             setTimeout(() => {
-                router('/confirm-assets')
+                router('/all-assets')
             }, 3000)
         })
     }
-  useEffect(() => {
-    try {
-      const assigneeJSON = JSON.parse(assignee);
-      const selectedEmployee = employeeData.find((item: any) => item.employee_id === assigneeJSON);
-      if (selectedEmployee) {
-        setEmail(selectedEmployee?.email);
-        setPersonStatus(selectedEmployee?.employee_status)
-      }
-    } catch (error) {
-      console.error("Error parsing assignee JSON:", error);
-    }
-  }, [assignee, employeeData]);
+
     return(
       <div>
           <Card>
@@ -100,16 +53,20 @@ const CheckInFormComponent = () => {
                       <Form>
                           <Row>
                               <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicFirstName">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>User Email</Form.Label>
-                                      <Form.Control
-                                          className='px-2 py-1 fs-7'
-                                          type="name"
-                                          value={email}
-                                          placeholder="User Email"
-                                          disabled={true}
+                                  <Form.Group className="mb-2" controlId="formBasicCompany">
+                                      <Form.Label className='fs-7 mb-1 theme-font'>Assets</Form.Label>
+                                      <Form.Select
+                                          className='px-2 py-1 fs-7 theme-font text-muted'
+                                          aria-label="Default select example"
                                           required={true}
-                                      />
+                                          value={assets}
+                                          onChange={(e) => setAssets(e.target.value)}
+                                          >
+                                          <option value=''>Select Assets</option>
+                                          {assetData?.filter((item: any) => item.employee_id !== false).map((item: any) => (
+                                            <option value={item.asset_unique_id}>{item.asset_name}</option>
+                                          ))}
+                                      </Form.Select>
                                   </Form.Group>
                               </Col>
                               <Col md={6}>
@@ -122,71 +79,6 @@ const CheckInFormComponent = () => {
                                           placeholder="Check In Date"
                                           onChange={(e) => setCheckInDate(e.target.value)}
                                           required={true}
-                                      />
-                                  </Form.Group>
-                              </Col>
-                              <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicCompany">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>Assignee</Form.Label>
-                                      <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          disabled={departmentId === ''}
-                                          value={assignee}
-                                          onChange={(e) => setAssignee(e.target.value)}
-                                      >
-                                          <option value=''>Select Assignee</option>
-                                          {employeeData?.filter((item: any) => item.department_id == departmentId).map((item: any) => (
-                                                <option value={item.employee_id}>{item.employee_name}</option>
-                                          ))}
-                                      </Form.Select>
-                                  </Form.Group>
-                              </Col>
-                              <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicCompany">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>Assets</Form.Label>
-                                      <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          value={assets}
-                                          onChange={(e) => setAssets(e.target.value)}
-                                      >
-                                          <option value=''>Select Assets</option>
-                                          {assetData?.filter((item: any) => item.employee_id === false).map((item: any) => (
-                                              <option value={item.asset_unique_id}>{item.asset_name}</option>
-                                          ))}
-                                      </Form.Select>
-                                  </Form.Group>
-                              </Col>
-                              <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicCompany">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>Department</Form.Label>
-                                      <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          value={departmentId}
-                                          onChange={(e) => setDepartmentId(e.target.value)}
-                                      >
-                                          <option value=''>Select Department</option>
-                                          {department?.map((item: any) => (
-                                              <option value={item.department_id}>{item.department_name}</option>
-                                          ))}
-                                      </Form.Select>
-                                  </Form.Group>
-                              </Col>
-                              <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicCompany">
-                                      <Form.Label className='fs-7 mb-1 theme-font'>Person Status</Form.Label>
-                                      <Form.Control
-                                        className='px-2 py-1 fs-7'
-                                        type="text"
-                                        value={personStatus}
-                                        placeholder="Person Status"
-                                        disabled={true}
-                                        required={true}
                                       />
                                   </Form.Group>
                               </Col>

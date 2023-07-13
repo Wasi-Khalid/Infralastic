@@ -88,7 +88,7 @@ export const getAllAssets = (formData: any) =>
   API.post('/api/all_asset_data', formData)
 
 export const checkOut = (formData: any) =>
-  API.post('/api/assign_asset_api', formData)
+  API.post('/api/assign_checkout_asset_api', formData)
 
 export const checkIn = (formData: any) =>
   API.post('/api/assign_checkin_asset_api ', formData)

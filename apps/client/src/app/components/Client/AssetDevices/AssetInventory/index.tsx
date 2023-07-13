@@ -33,7 +33,17 @@ const AssetInventory = () => {
     const [showEntries, setShowEntries] = useState<number>(10); // Number of entries to show
     const startIndex = (page - 1) * showEntries;
     const endIndex = startIndex + showEntries;
-    const slicedData = assets.slice(startIndex, endIndex);
+    const slicedData = assets && Array.isArray(assets) ? assets.slice(startIndex, endIndex) : [];
+
+    function fetchAssets() {
+      const formData: any = {
+        page_no: page
+      }
+      getAllAssets(formData).then((res: any) => {
+        setAssets(res.data.result.asset_details);
+        setOriginalData(res.data.result.asset_details);
+      })
+    }
     const getDepartment = () => {
         const config: any = {}
         try {
@@ -49,16 +59,6 @@ const AssetInventory = () => {
       getLocation(config).then((res: any) => {
         setLocation(res.data.result.location_details)
       })
-    }
-
-    function fetchAssets() {
-        const formData: any = {
-            page_no: page
-        }
-        getAllAssets(formData).then((res: any) => {
-            setAssets(res.data.result.asset_details);
-            setOriginalData(res.data.result.asset_details);
-        })
     }
 
     function handleDelete(id: any) {
@@ -133,16 +133,19 @@ const AssetInventory = () => {
       setShowEntries(value);
     };
 
-    const handlePageChange = (direction: string) => {
-      setPage((prevPage) => {
-        if (direction === "next") {
-          return prevPage + 1;
-        } else if (direction === "prev" && prevPage > 1) {
-          return prevPage - 1;
-        }
-        return prevPage;
-      });
-    };
+  const handlePageChange = (direction: string) => {
+    setPage((prevPage) => {
+      if (
+        direction === "next" &&
+        (assets?.length ?? 0) > showEntries
+      ) {
+        return prevPage + 1;
+      } else if (direction === "prev" && prevPage > 1) {
+        return prevPage - 1;
+      }
+      return prevPage;
+    });
+  };
 
     useEffect(() => {
       getDepartment();
@@ -273,76 +276,84 @@ const AssetInventory = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {slicedData?.map((asset: any) => (
-                            <tr>
-                                <td>
-                                  <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                        {Array.isArray(slicedData) && assets ? (
+                            slicedData?.map((asset: any) => (
+                              <tr>
+                                  <td>
+                                    <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                                  </td>
+                                  <td>
+                                      <div className='d-flex align-items-center'>
+                                          <img src={asset?.image_url} alt="" width='38' height='38' className='rounded' />
+                                          <div className='d-flex flex-column'>
+                                              <p className='m-0 ms-2 fs-7'>{asset.asset_name}</p>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <h6 className='text-muted fs-7 m-0'>{asset?.asset_unique_id}</h6>
+                                  </td>
+                                  <td>
+                                      <div className='d-flex align-items-center'>
+                                          <img src={laptop} alt="" width='24' height='24' className='rounded-circle' />
+                                          <p className='m-0 ms-2 fs-7 text-muted'>{asset.category_name}</p>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <h6 className='text-muted fs-7 m-0'>{asset.serial_number}</h6>
+                                  </td>
+                                  <td>
+                                      {asset?.employee_id ?
+                                          <div className='d-flex align-items-center'>
+                                              <img src={asset.employee_image} alt="" width='32' height='32' className='rounded-circle' />
+                                              <p className='m-0 ms-2 fs-7 text-muted'>{asset.employee_name}</p>
+                                          </div> :
+                                          <button className='bg-danger fs-7 text-white border-0 rounded px-2'>un-assigned</button>
+                                      }
+                                  </td>
+                                  <td>
+                                      <h6 className='text-muted fs-7 m-0'>{asset.location_name}</h6>
+                                  </td>
+                                  <td>
+                                      {asset?.employee_id ?
+                                          <button className='bg-success fs-7 text-white border-0 rounded px-2'>Assigned</button>
+                                          :
+                                          <button className='bg-warning fs-7 text-white border-0 rounded px-2'>Un-assigned</button>
+                                      }
+                                  </td>
+                                  <td>
+                                      <div className='d-flex justify-content-end align-items-center'>
+                                          <button className='bg-transparent border-0'>
+                                            <AiOutlineEye onClick={() => {
+                                            router({
+                                              pathname: '/asset-view',
+                                              search: `?${createSearchParams({
+                                                asset_unique_id: asset?.asset_unique_id
+                                              })}`
+                                            })
+                                            }} className='me-2 mt-1' size={20} />
+                                          </button>
+                                          <DropdownButton
+                                              className="bg-transparent custom-btn"
+                                              id="dropdown-item-button"
+                                              title={<BiDotsVerticalRounded className='me-2' size={20} />}
+                                          >
+                                              <Dropdown.Item onClick={() => handleArchive(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Archive</Dropdown.Item>
+                                              <Dropdown.Item onClick={() => handleDelete(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
+                                              <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
+                                              <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
+                                          </DropdownButton>
+                                      </div>
+                                  </td>
+                              </tr>
+                              ))
+                            ) : (
+                              <tr>
+                                <td colSpan={9} className="text-center">
+                                  Loading...
                                 </td>
-                                <td>
-                                    <div className='d-flex align-items-center'>
-                                        <img src={asset?.image_url} alt="" width='38' height='38' className='rounded' />
-                                        <div className='d-flex flex-column'>
-                                            <p className='m-0 ms-2 fs-7'>{asset.asset_name}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h6 className='text-muted fs-7 m-0'>{asset?.asset_unique_id}</h6>
-                                </td>
-                                <td>
-                                    <div className='d-flex align-items-center'>
-                                        <img src={laptop} alt="" width='24' height='24' className='rounded-circle' />
-                                        <p className='m-0 ms-2 fs-7 text-muted'>{asset.category_name}</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h6 className='text-muted fs-7 m-0'>{asset.serial_number}</h6>
-                                </td>
-                                <td>
-                                    {asset?.employee_id ?
-                                        <div className='d-flex align-items-center'>
-                                            <img src={asset.employee_image} alt="" width='32' height='32' className='rounded-circle' />
-                                            <p className='m-0 ms-2 fs-7 text-muted'>{asset.employee_name}</p>
-                                        </div> :
-                                        <button className='bg-danger fs-7 text-white border-0 rounded px-2'>un-assigned</button>
-                                    }
-                                </td>
-                                <td>
-                                    <h6 className='text-muted fs-7 m-0'>{asset.location_name}</h6>
-                                </td>
-                                <td>
-                                    {asset?.employee_id ?
-                                        <button className='bg-success fs-7 text-white border-0 rounded px-2'>Assigned</button>
-                                        :
-                                        <button className='bg-warning fs-7 text-white border-0 rounded px-2'>Un-assigned</button>
-                                    }
-                                </td>
-                                <td>
-                                    <div className='d-flex justify-content-end align-items-center'>
-                                        <button className='bg-transparent border-0'>
-                                          <AiOutlineEye onClick={() => {
-                                          router({
-                                            pathname: '/asset-view',
-                                            search: `?${createSearchParams({
-                                              asset_unique_id: asset?.asset_unique_id
-                                            })}`
-                                          })
-                                          }} className='me-2 mt-1' size={20} />
-                                        </button>
-                                        <DropdownButton
-                                            className="bg-transparent custom-btn"
-                                            id="dropdown-item-button"
-                                            title={<BiDotsVerticalRounded className='me-2' size={20} />}
-                                        >
-                                            <Dropdown.Item onClick={() => handleArchive(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Archive</Dropdown.Item>
-                                            <Dropdown.Item onClick={() => handleDelete(JSON.parse(asset?.asset_unique_id))} className='theme-font fs-7' as="button">Delete</Dropdown.Item>
-                                            <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
-                                            <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
-                                        </DropdownButton>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
+                              </tr>
+                            )}
                         </tbody>
                     </Table>
                     <hr/>

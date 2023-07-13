@@ -79,6 +79,20 @@ const CheckOutFormComponent = () => {
             }, 3000)
         })
     }
+
+    useEffect(() => {
+      try {
+        const assigneeJSON = JSON.parse(assignee);
+        const selectedEmployee = employeeData.find((item: any) => item.employee_id === assigneeJSON);
+        if (selectedEmployee) {
+          setEmail(selectedEmployee?.email);
+          setPersonStatus(selectedEmployee?.employee_status)
+        }
+      } catch (error) {
+        console.error("Error parsing assignee JSON:", error);
+      }
+    }, [assignee, employeeData]);
+
     return(
       <div>
           <Card>
@@ -95,8 +109,8 @@ const CheckOutFormComponent = () => {
                                           type="name"
                                           value={email}
                                           placeholder="User Email"
-                                          onChange={(e) => setEmail(e.target.value)}
                                           required={true}
+                                          disabled={true}
                                       />
                                   </Form.Group>
                               </Col>
@@ -117,16 +131,17 @@ const CheckOutFormComponent = () => {
                                   <Form.Group className="mb-2" controlId="formBasicCompany">
                                       <Form.Label className='fs-7 mb-1 theme-font'>Assignee</Form.Label>
                                       <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          value={assignee}
-                                          onChange={(e) => setAssignee(e.target.value)}
+                                        className='px-2 py-1 fs-7 theme-font text-muted'
+                                        aria-label="Default select example"
+                                        required={true}
+                                        disabled={departmentId === ''}
+                                        value={assignee}
+                                        onChange={(e) => setAssignee(e.target.value)}
                                       >
-                                          <option value=''>Select Assignee</option>
-                                          {employeeData?.map((item: any) => (
-                                              <option value={item.employee_id}>{item.employee_name}</option>
-                                          ))}
+                                        <option value=''>Select Assignee</option>
+                                        {employeeData?.filter((item: any) => item.department_id == departmentId).map((item: any) => (
+                                          <option value={item.employee_id}>{item.employee_name}</option>
+                                        ))}
                                       </Form.Select>
                                   </Form.Group>
                               </Col>
@@ -176,8 +191,8 @@ const CheckOutFormComponent = () => {
                                           onChange={(e) => setAssets(e.target.value)}
                                       >
                                           <option value=''>Select Assets</option>
-                                          {assetData?.map((item: any) => (
-                                              <option value={item.asset_unique_id}>{item.asset_name}</option>
+                                          {assetData?.filter((item: any) => item.employee_id === false).map((item: any) => (
+                                            <option value={item.asset_unique_id}>{item.asset_name}</option>
                                           ))}
                                       </Form.Select>
                                   </Form.Group>
@@ -201,18 +216,14 @@ const CheckOutFormComponent = () => {
                               <Col md={6}>
                                   <Form.Group className="mb-2" controlId="formBasicCompany">
                                       <Form.Label className='fs-7 mb-1 theme-font'>Person Status</Form.Label>
-                                      <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          value={personStatus}
-                                          onChange={(e) => setPersonStatus(e.target.value)}
-                                      >
-                                        <option value=''>Select Person Status</option>
-                                        <option value='Full Time'>Full Time</option>
-                                        <option value='Part Time'>Part Time</option>
-                                        <option value='Contract'>Contract</option>
-                                      </Form.Select>
+                                      <Form.Control
+                                        className='px-2 py-1 fs-7'
+                                        type="text"
+                                        value={personStatus}
+                                        placeholder="Person Status"
+                                        disabled={true}
+                                        required={true}
+                                      />
                                   </Form.Group>
                               </Col>
                               <Col md={6}>

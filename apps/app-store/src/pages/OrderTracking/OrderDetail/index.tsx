@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import {Card, Carousel, Col, Row} from "react-bootstrap";
 import fake from '../../../assets/fake.png';
 import {useSearchParams} from "react-router-dom";
-import {fetchProductById, getOrderById, useGlobalDispatch} from "@infralastic/global-state";
+import {fetchProductById, getOrderById, getTrackingByOrder, useGlobalDispatch} from "@infralastic/global-state";
 import {CiHardDrive} from "react-icons/ci";
 
 const OrderDetail = () => {
@@ -37,8 +37,29 @@ const OrderDetail = () => {
     })
   }
 
+  const getOrderTracking = () => {
+    const formData: any = {
+      order_no: id
+    }
+    getTrackingByOrder(formData).then((res: any) => {
+      const status = res.data.result.order_status
+      if(status === steps[0]) {
+        setActiveStep(0)
+      } else if (status === steps[1]){
+        setActiveStep(1)
+      } else if (status === steps[2]){
+        setActiveStep(2)
+      } else if (status === steps[3]){
+        setActiveStep(3)
+      } else if (status === steps[4]){
+        setActiveStep(4)
+      }
+    })
+  }
+
   useEffect(() => {
-    fetchOrderDetails()
+    fetchOrderDetails();
+    getOrderTracking();
   }, [])
   return(
     <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
@@ -69,18 +90,18 @@ const OrderDetail = () => {
                       <button className='theme-border-danger theme-danger theme-font px-3 py-2 rounded w-75'>Need Help</button>
                     </div>
                   </div>
-                  <hr/>
-                  <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map((label, index) => (
-                      <Step key={index} onClick={() => handleStepChange(index)}>
-                        <StepLabel>{label}</StepLabel>
-                      </Step>
-                    ))}
-                  </Stepper>
                 </div>
               </Card.Body>
             </Card>
           }
+          <hr/>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label, index) => (
+              <Step key={index} onClick={() => handleStepChange(index)}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
         </Col>
         <Col md={4}>
           <Card className='mb-3'>

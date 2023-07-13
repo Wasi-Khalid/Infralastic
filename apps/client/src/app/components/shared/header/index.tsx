@@ -40,12 +40,6 @@ const HeaderComponent = () => {
                   </div>
                   <div className='px-3'>
                       <div className="shadow d-flex bg-white rounded p-2">
-                          <button className='bg-transparent border-0'>
-                            <div className='d-flex justify-content-end'>
-                              {/*<p className='m-0 bg-theme-danger text-white rounded-circle position-absolute px-1 fs-7'>{cartLength}</p>*/}
-                            </div>
-                            <IoBasketOutline className='my-1 mx-2' size={26}/>
-                          </button>
                           <AiOutlineAppstoreAdd className='my-1 mx-2' size={26} />
                       </div>
                   </div>

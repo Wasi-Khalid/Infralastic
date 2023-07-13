@@ -4,6 +4,10 @@ import ProductCard from "../ProductCard";
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react";
 import { fetchAllProductList, useGlobalDispatch } from "@infralastic/global-state";
+import bogus from "../../../assets/products/product_5.png";
+import bogus1 from "../../../assets/products/product_2.png";
+import bogus2 from "../../../assets/products/product_3.png";
+import bogus3 from "../../../assets/products/product_4.png";
 
 interface filterInterface {
   hardwareCategory: any;
@@ -88,6 +92,13 @@ const AllDevices = (props: filterInterface) => {
     getProduct();
   }, [])
 
+  const imgs: any = [
+    {image: bogus},
+    {image: bogus1},
+    {image: bogus2},
+    {image: bogus3}
+  ]
+
   return (
     <div className='mb-3'>
       <Card className='p-2 rounded-4'>
@@ -108,7 +119,7 @@ const AllDevices = (props: filterInterface) => {
             </div>
           </div>
           <Row>
-            {productData?.map((item: any) => (
+            {productData?.map((item: any, index: any) => (
               <Col md={4} key={item.product_id}>
                 <ProductCard
                   click={() => router({
@@ -117,7 +128,7 @@ const AllDevices = (props: filterInterface) => {
                       productId: item?.product_id
                     })}`
                   })}
-                  image={item?.image}
+                  image={imgs[index % imgs.length].image}
                   productId={item?.product_id}
                   description={item?.product_name}
                   cost={item?.price}

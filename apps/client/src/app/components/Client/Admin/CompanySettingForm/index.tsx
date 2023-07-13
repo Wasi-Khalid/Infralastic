@@ -20,7 +20,7 @@ const CompanySettingForm = () => {
   const fetchLocation = () => {
     const config = {}
     getLocation(config).then((res: any) => {
-      setLocationData(res.data.result.model_details)
+      setLocationData(res.data.result.location_details)
     })
   }
   const imageHandler = (e:any) => {
@@ -102,7 +102,7 @@ const CompanySettingForm = () => {
                 >
                   <option value="">none</option>
                   {locationData?.map((item: any) => (
-                    <option value={item?.state_id}>{item?.state_name}</option>
+                    <option value={item?.location_id}>{item?.location_name}</option>
                   ))}
                 </select>
               </div>
@@ -132,6 +132,8 @@ const CompanySettingForm = () => {
           </Card.Body>
         </Card>
         <Card className='border-0'>
+
+
           <Card.Header className='bg-dark text-white theme-font'>
             <p className='m-0 p-2 fs-5'><span className='theme-danger'>Company Details</span></p>
           </Card.Header>

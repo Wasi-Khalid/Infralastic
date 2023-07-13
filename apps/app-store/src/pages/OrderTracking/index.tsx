@@ -1,12 +1,10 @@
 import './order-tracking.scss';
 import {useEffect, useState} from "react";
-import {getOrderById, getOrderByUser, useGlobalDispatch} from "@infralastic/global-state";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {Form} from "react-bootstrap";
 
 const OrderTracking = () => {
   const [value, setValue] = useState<any>(null);
-  const [orderData, setOrderData] = useState<any>(null)
   const router = useNavigate()
 
   const handleSubmit = () => {
@@ -20,19 +18,6 @@ const OrderTracking = () => {
     }
   }
 
-  const fetchOrders = () => {
-    const formData: any = {
-      'user': 1
-    }
-    getOrderByUser(formData).then((res: any) => {
-      setOrderData(res.data.result.order_data)
-    })
-  }
-
-  useEffect(() => {
-    fetchOrders();
-  }, [])
-
   return(
     <div className='d-flex flex-column align-items-center'>
       <br/>
@@ -41,18 +26,15 @@ const OrderTracking = () => {
       <h3 className='theme-font'>Search Order By Order ID</h3>
       <div className='track-input my-4'>
         <Form.Group className="mb-2" controlId="formBasicCompany">
-          <Form.Select
+          <Form.Control
             className='w-100 form-control py-2 px-3 fs-7 text-muted'
             aria-label="Default select example"
             required={true}
+            placeholder='Enter Order No'
             value={value}
             onChange={(e) => setValue(e.target.value)}
           >
-            <option value=''>Select Order No</option>
-            {orderData?.map((item: any) => (
-              <option value={item?.order_no}>{item?.order_no}</option>
-            ))}
-          </Form.Select>
+          </Form.Control>
         </Form.Group>
       </div>
       <button

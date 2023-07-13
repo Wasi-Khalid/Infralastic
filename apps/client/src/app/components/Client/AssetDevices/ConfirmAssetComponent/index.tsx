@@ -49,7 +49,7 @@ const ConfirmAssetComponent = () => {
             }
             confirmAllAssets(formData).then((res: any) => {
                 toast.success(res.data.result.msg);
-                fetchAllUnconfirmedAssets();
+                fetchAllUnconfirmedAssets();``
                 setTimeout(() => {
                     router('/all-assets')
                   }, 3000)

@@ -8,11 +8,11 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import { cartDelete, checkoutOrder, useGlobalDispatch, useGlobalSelector } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {AiOutlineDelete} from "react-icons/ai";
+import {BiArrowBack} from "react-icons/bi";
 
 const DeviceCheckout = () => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
@@ -38,6 +38,18 @@ const DeviceCheckout = () => {
     product_id: item.productId
   }));
 
+  const createDownloadableTxtFile = (orderNo: any) => {
+    const content = `Order Number: ${orderNo}`;
+    const element = document.createElement('a');
+    const file = new Blob([content], { type: 'text/plain' });
+
+    element.href = URL.createObjectURL(file);
+    element.download = `order_${orderNo}.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
 
   const handleSubmit = () => {
     const formData = {
@@ -58,6 +70,8 @@ const DeviceCheckout = () => {
     checkoutOrder(formData).then((res: any) => {
       if (res.data?.result?.success === true) {
         toast.success(res.data.result.msg)
+        const orderNo = res.data.result.order_no;
+        createDownloadableTxtFile(orderNo);
         setTimeout(() => {
           router('/checkout-complete')
         }, 3000)
@@ -92,8 +106,16 @@ const DeviceCheckout = () => {
         </Breadcrumb>
       </div>
       <br/>
-      <Card className='p-3'>
-        <Card.Body>
+      <Card>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
+        <Card.Body className='p-4'>
           <Row>
             <Col md={8}>
               <div>

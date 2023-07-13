@@ -1,9 +1,9 @@
 import './product-card.scss';
 import { Card } from "react-bootstrap";
-import { BsCart2 } from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import {useDrag} from "react-dnd";
 import {ItemTypes} from "../../ItemTypes";
+import warranty from '../../../assets/warranty.png'
 
 interface productProps {
   image: any;
@@ -33,7 +33,10 @@ const ProductCard = (props: productProps) => {
         <Card.Body>
           <span className='theme-border-danger theme-danger fs-7 p-1 px-2 rounded text-uppercase'>Deal</span>
           <div className='d-flex justify-content-center py-3' onClick={props.click}>
-            <img src={props.image} width='160' height='160' alt="bogus" />
+            <img src={props.image} width='200' alt="bogus" />
+          </div>
+          <div className='d-flex justify-content-center w-100 py-2'>
+            <img src={warranty} width='95' alt=""/>
           </div>
           <p className='mb-1 fs-7 theme-font theme-danger'>{props.inch}</p>
           <p className='theme-font'>{props.description}</p>

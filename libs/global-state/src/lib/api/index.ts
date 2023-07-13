@@ -144,6 +144,11 @@ export const getOrder = (formData: any) =>
 export const getOrderByUser = (formData: any) =>
   API.post('/api/get_order_by_user_api', formData)
 
+export const getTrackingByOrder = (formData: any) =>
+  API.post('/api/get_order_tracking_api', formData)
+
+
+
 export const addAdminUser  = (formData: any) =>
   API.post('/api/add_user_api', formData)
 

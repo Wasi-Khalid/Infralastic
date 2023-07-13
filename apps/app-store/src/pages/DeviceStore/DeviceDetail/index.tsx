@@ -3,6 +3,7 @@ import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {fetchAllProductList, fetchProductById, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
+import {BiArrowBack} from "react-icons/bi";
 const DeviceDetail  = () => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
@@ -42,6 +43,14 @@ const DeviceDetail  = () => {
         </Breadcrumb>
       </div>
       <Card>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Card.Body>
           <Row>
             <Col md={6}>

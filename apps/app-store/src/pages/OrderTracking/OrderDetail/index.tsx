@@ -2,12 +2,14 @@ import { Stepper, Step, StepLabel } from '@mui/material';
 import {useEffect, useState} from 'react';
 import {Card, Carousel, Col, Row} from "react-bootstrap";
 import fake from '../../../assets/fake.png';
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {fetchProductById, getOrderById, getTrackingByOrder, useGlobalDispatch} from "@infralastic/global-state";
 import {CiHardDrive} from "react-icons/ci";
+import {BiArrowBack} from "react-icons/bi";
 
 const OrderDetail = () => {
   const dispatch = useGlobalDispatch();
+  const router = useNavigate();
   const steps = ['Ordered', 'Order Process', 'Packed', "Shipped", "Delivered"];
   const [productData, setProductData] = useState<any>([]);
   const [productItemData, setProductItemData] = useState<any>(null);
@@ -64,6 +66,14 @@ const OrderDetail = () => {
   return(
     <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
       <Row>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Col md={8}>
           {productItemData === null ?
             <div className='d-flex align-items-center flex-column'>

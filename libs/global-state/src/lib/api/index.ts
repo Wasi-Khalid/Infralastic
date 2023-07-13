@@ -81,8 +81,11 @@ export const deleteAsset = (formData: any) =>
 export const getAssetBySite = (formData: any) =>
   API.post('/api/get_site_asset_api', formData)
 
-export const getAllAssets = (formData: any) =>
+export const getAssetByCompanyId = (formData: any) =>
   API.post('/api/get_all_asset_api', formData)
+
+export const getAllAssets = (formData: any) =>
+  API.post('/api/all_asset_data', formData)
 
 export const checkOut = (formData: any) =>
   API.post('/api/assign_asset_api', formData)

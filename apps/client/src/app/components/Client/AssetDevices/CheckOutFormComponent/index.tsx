@@ -26,7 +26,6 @@ const CheckOutFormComponent = () => {
 
     function fetchAssets() {
         const formData: any = {
-            company_id: 1,
             page_no: 1
         }
         getAllAssets(formData).then((res: any) => {
@@ -85,7 +84,7 @@ const CheckOutFormComponent = () => {
           <Card>
               <Card.Body>
                   <div className='px-3'>
-                      <h4 className='theme-font py-4'>Assign Asset</h4>
+                      <h4 className='theme-font py-4'>Asset Check-Out</h4>
                       <Form>
                           <Row>
                               <Col md={6}>

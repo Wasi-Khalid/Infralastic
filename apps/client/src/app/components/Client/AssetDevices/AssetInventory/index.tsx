@@ -13,7 +13,6 @@ import {
     deleteAsset,
     getAllAssets,
     getAllCategories,
-    getSites
 } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {useGlobalDispatch} from "@infralastic/global-state";
@@ -27,6 +26,7 @@ const AssetInventory = () => {
     const [location, setLocation] = useState<any>([]);
     const [categoryFilter, setCategoryFilter] = useState('');
     const [locationFilter, setLocationFilter] = useState('');
+    const [departmentFilter, setDepartmentFilter] = useState('');
     const [assets, setAssets] = useState<any>([]);
     const [originalData, setOriginalData] = useState<any>([])
     const [categoryData, setCategoryData] = useState<any>([]);
@@ -53,7 +53,6 @@ const AssetInventory = () => {
 
     function fetchAssets() {
         const formData: any = {
-            company_id: 1,
             page_no: page
         }
         getAllAssets(formData).then((res: any) => {
@@ -68,9 +67,7 @@ const AssetInventory = () => {
         }
         deleteAsset(formData).then((res: any) => {
             toast.success(res.data.result.msg)
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000)
+            fetchAssets();
         })
     }
 
@@ -83,50 +80,53 @@ const AssetInventory = () => {
         })
     }
 
-  useEffect(() => {
-    applyFilters();
-  }, [categoryFilter, locationFilter]);
-  const applyFilters = () => {
-    setAssets((prevAssets: any) => {
-      let filteredData = [...originalData];
-
-      if (categoryFilter !== '') {
-        filteredData = filteredData.filter((res) => res.category_name === categoryFilter);
-      }
-
-      if (locationFilter !== '') {
-        filteredData = filteredData.filter((res) => res.state_name === locationFilter);
-      }
-
-      return filteredData;
-    });
-  };
-
-  const filterCategory = (value: any) => {
-    if (value === '') {
-      setAssets(originalData)
-    }
-    setCategoryFilter(value);
-    applyFilters();
-  };
-
-  const filterLocation = (value: any) => {
-    if (value === '') {
-      setAssets(originalData)
-    }
-    setLocationFilter(value);
-    applyFilters();
-  };
-
     useEffect(() => {
-        getDepartment();
-        fetchLocation();
-        getAllCategory();
-    }, [])
+      applyFilters();
+    }, [categoryFilter, locationFilter, departmentFilter]);
 
-    useEffect(() => {
-        fetchAssets();
-    }, [page])
+    const applyFilters = () => {
+      setAssets((prevAssets: any) => {
+        let filteredData = [...originalData];
+
+        if (categoryFilter !== '') {
+          filteredData = filteredData.filter((res) => res.category_name === categoryFilter);
+        }
+
+        if (locationFilter !== '') {
+          filteredData = filteredData.filter((res) => res.location_name === locationFilter);
+        }
+
+        if (departmentFilter !== '') {
+          filteredData = filteredData.filter((res) => res.department_name === departmentFilter);
+        }
+
+        return filteredData;
+      });
+    };
+
+    const filterCategory = (value: any) => {
+      if (value === '') {
+        setAssets(originalData)
+      }
+      setCategoryFilter(value);
+      applyFilters();
+    };
+
+    const filterLocation = (value: any) => {
+      if (value === '') {
+        setAssets(originalData)
+      }
+      setLocationFilter(value);
+      applyFilters();
+    };
+
+    const filterDepartment = (value: any) => {
+      if (value === '') {
+        setAssets(originalData)
+      }
+      setDepartmentFilter(value);
+      applyFilters();
+    };
 
     const handleShowEntriesChange = (e: any) => {
       const value = parseInt(e.target.value, 10);
@@ -143,6 +143,17 @@ const AssetInventory = () => {
         return prevPage;
       });
     };
+
+    useEffect(() => {
+      getDepartment();
+      fetchAssets();
+      getAllCategory();
+      fetchLocation();
+    }, [])
+
+    useEffect(() => {
+      fetchAssets()
+    }, [page])
 
     const handleArchive = (id: any) => {
       const formData = {
@@ -207,13 +218,15 @@ const AssetInventory = () => {
                                 <InputGroup className="py-1">
                                     <InputGroup.Text id="basic-addon3" className='bg-transparent px-2'><HiFilter className='me-1 theme-danger'/></InputGroup.Text>
                                     <Form.Select
-                                        className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
-                                        aria-label="Default select example"
-                                        required={true}
+                                      className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
+                                      aria-label="Default select example"
+                                      required={true}
+                                      value={departmentFilter}
+                                      onChange={(e: any) => filterDepartment(e.target.value)}
                                     >
                                         <option onClick={() => setAssets(originalData)} value=''>Select Department</option>
                                         {department?.map((item: any) => (
-                                            <option value={item.department_id} className='theme-font fs-7'>{item.department_name}</option>
+                                          <option value={item.department_name} className='theme-font fs-7'>{item.department_name}</option>
                                         ))}
                                     </Form.Select>
                                 </InputGroup>
@@ -248,6 +261,7 @@ const AssetInventory = () => {
                     <Table striped className='theme-font' id='departmentTable'>
                         <thead className='p-3'>
                         <tr className='fs-7'>
+                            <th><p className='py-2 m-0 fs-13 text-uppercase'>ID<HiChevronUpDown size={18} className='ms-1' /></p></th>
                             <th><p className='py-2 m-0 fs-13 text-uppercase'>ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
                             <th><p className='py-2 m-0 fs-13 text-uppercase'>ASSETS ID<HiChevronUpDown size={18} className='ms-1' /></p></th>
                             <th><p className='py-2 m-0 fs-13 text-uppercase'>CATEGORY<HiChevronUpDown size={18} className='ms-1' /></p></th>
@@ -262,6 +276,9 @@ const AssetInventory = () => {
                         {slicedData?.map((asset: any) => (
                             <tr>
                                 <td>
+                                  <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                                </td>
+                                <td>
                                     <div className='d-flex align-items-center'>
                                         <img src={asset?.image_url} alt="" width='38' height='38' className='rounded' />
                                         <div className='d-flex flex-column'>
@@ -270,7 +287,7 @@ const AssetInventory = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                                    <h6 className='text-muted fs-7 m-0'>{asset?.asset_unique_id}</h6>
                                 </td>
                                 <td>
                                     <div className='d-flex align-items-center'>
@@ -291,7 +308,7 @@ const AssetInventory = () => {
                                     }
                                 </td>
                                 <td>
-                                    <h6 className='text-muted fs-7 m-0'>{asset.state_name}</h6>
+                                    <h6 className='text-muted fs-7 m-0'>{asset.location_name}</h6>
                                 </td>
                                 <td>
                                     {asset?.employee_id ?
@@ -309,7 +326,8 @@ const AssetInventory = () => {
                                             search: `?${createSearchParams({
                                               asset_unique_id: asset?.asset_unique_id
                                             })}`
-                                          })}} className='me-2 mt-1' size={20} />
+                                          })
+                                          }} className='me-2 mt-1' size={20} />
                                         </button>
                                         <DropdownButton
                                             className="bg-transparent custom-btn"

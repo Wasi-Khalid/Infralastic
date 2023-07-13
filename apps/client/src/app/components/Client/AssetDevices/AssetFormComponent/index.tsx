@@ -9,12 +9,12 @@ import {toast} from "react-toastify";
 import {
   createAsset,
   fetchAllCompany,
-  getAllCategories,
+  getAllCategories, getAssetById,
   getLocation,
-  getSites,
+  getSites, updateAsset,
   useGlobalDispatch
 } from "@infralastic/global-state";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 const AssetFormComponent = () => {
     const [imageFile, setImageFile] = useState('');
@@ -45,7 +45,10 @@ const AssetFormComponent = () => {
     const [dateAdded, setDateAdded] = useState('');
     const [timeAdded, setTimeAdded] = useState('');
     const router = useNavigate();
-    const dispatch = useGlobalDispatch()
+    const dispatch = useGlobalDispatch();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const id: any = searchParams.get('asset_unique_id');
 
 
 
@@ -90,47 +93,91 @@ const AssetFormComponent = () => {
             },
             async () => {
                 getDownloadURL(uploadTask.snapshot.ref).then(async (url: any) => {
+                  if (!id) {
                     const formData: any = {
-                        asset_unique_id: JSON.parse(assetId),
-                        asset_name: description,
-                        cost: JSON.parse(cost),
-                        manufacturer: manufacturer,
-                        device_model: deviceModel,
-                        serial_number: serialNumber,
-                        operating_system: operatingSystem,
-                        mac_address: macAddress,
-                        ip_address: iPAddress,
-                        hard_drive_details: hardDriveDetail,
-                        ram: ram,
-                        purchase_date: purchaseDate,
-                        warranty_expiration_date: warrantyExpirationDate,
-                        warranty_info: warrantyInfo,
-                        purchase_from: purchaseFrom,
-                        end_of_life_date: endOfLifeDate,
-                        next_service_date: nextServiceDate,
-                        date_added: dateAdded,
-                        time_added: timeAdded,
-                        site_id: 1,
-                        category_id: JSON.parse(category),
-                        company_id: JSON.parse(company),
-                        image_url: url
+                      asset_unique_id: JSON.parse(assetId),
+                      asset_name: description,
+                      cost: JSON.parse(cost),
+                      manufacturer: manufacturer,
+                      device_model: deviceModel,
+                      serial_number: serialNumber,
+                      operating_system: operatingSystem,
+                      mac_address: macAddress,
+                      ip_address: iPAddress,
+                      hard_drive_details: hardDriveDetail,
+                      ram: ram,
+                      purchase_date: purchaseDate,
+                      warranty_expiration_date: warrantyExpirationDate,
+                      warranty_info: warrantyInfo,
+                      purchase_from: purchaseFrom,
+                      end_of_life_date: endOfLifeDate,
+                      next_service_date: nextServiceDate,
+                      date_added: dateAdded,
+                      time_added: timeAdded,
+                      location_id: JSON.parse(location),
+                      category_id: JSON.parse(category),
+                      company_id: JSON.parse(company),
+                      image_url: url
                     }
                     toast.success('Image Uploaded Successfully');
                     try {
-                        await createAsset(formData).then((res: any) => {
-                            if (res.data.result.success === true) {
-                                toast.success(res.data.result.msg)
-                                setTimeout(() => {
-                                  router('/all-assets')
-                                }, 3000)
-                            } else {
-                                toast.error(res.data.result.msg)
-                            }
-                        })
+                      await createAsset(formData).then((res: any) => {
+                        if (res.data.result.success === true) {
+                          toast.success(res.data.result.msg)
+                          setTimeout(() => {
+                            router('/all-assets')
+                          }, 3000)
+                        } else {
+                          toast.error(res.data.result.msg)
+                        }
+                      })
                     } catch (err: any) {
-                        console.error(err);
-                        toast.error(err);
+                      console.error(err);
+                      toast.error(err);
                     }
+                  } else if (id) {
+                    const formData: any = {
+                      asset_unique_id: JSON.parse(assetId),
+                      asset_name: description,
+                      cost: JSON.parse(cost),
+                      manufacturer: manufacturer,
+                      device_model: deviceModel,
+                      serial_number: serialNumber,
+                      operating_system: operatingSystem,
+                      mac_address: macAddress,
+                      ip_address: iPAddress,
+                      hard_drive_details: hardDriveDetail,
+                      ram: ram,
+                      purchase_date: purchaseDate,
+                      warranty_expiration_date: warrantyExpirationDate,
+                      warranty_info: warrantyInfo,
+                      purchase_from: purchaseFrom,
+                      end_of_life_date: endOfLifeDate,
+                      next_service_date: nextServiceDate,
+                      date_added: dateAdded,
+                      time_added: timeAdded,
+                      location_id: JSON.parse(location),
+                      category_id: JSON.parse(category),
+                      company_id: JSON.parse(company),
+                      image_url: url
+                    }
+                    toast.success('Image Uploaded Successfully');
+                    try {
+                      await updateAsset(formData).then((res: any) => {
+                        if (res.data.result.success === true) {
+                          toast.success(res.data.result.msg)
+                          setTimeout(() => {
+                            router(-1)
+                          }, 3000)
+                        } else {
+                          toast.error(res.data.result.msg)
+                        }
+                      })
+                    } catch (err: any) {
+                      console.error(err);
+                      toast.error(err);
+                    }
+                  }
                 })
             }
         );
@@ -143,10 +190,42 @@ const AssetFormComponent = () => {
       })
     }
 
+    const fetchAssetById = () => {
+      const formData: any = {
+        asset_unique_id: JSON.parse(id)
+      }
+      getAssetById(formData).then((res: any) => {
+        setAssetId(res.data.result.asset_unique_id);
+        setCategory(res.data.result.category_name);
+        setDescription(res.data.result.asset_name);
+        setManufacturer(res.data.result.manufacturer);
+        setDeviceModel(res.data.result.device_model);
+        setSerialNumber(res.data.result.serial_number);
+        setOperatingSystem(res.data.result.operating_system);
+        setMacAddress(res.data.result.mac_address);
+        setIPAddress(res.data.result.ip_address);
+        setHardDriveDetail(res.data.result.hard_drive_details);
+        setRam(res.data.result.ram);
+        setCost(res.data.result.cost);
+        setPurchaseDate(res.data.result.purchase_date);
+        setWarrantyExpirationDate(res.data.result.warranty_expiration_date);
+        setWarrantyInfo(res.data.result.warranty_info);
+        setPurchaseFrom(res.data.result.purchase_from !== '' ? res.data.result.purchase_from : 'Not Added');
+        setEndOfLifeDate(res.data.result.end_of_life_date);
+        setNextServiceDate(res.data.result.next_service_date)
+        setLocation(res.data.result.location_name);
+        setDateAdded(res.data.result.date_added);
+        setImageFile(res.data.result.image_url)
+      })
+    }
+
     useEffect(() => {
         fetchLocation();
         getAllCategory();
         getCompany();
+        if (id) {
+          fetchAssetById()
+        }
     }, [])
 
     return(

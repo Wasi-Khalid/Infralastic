@@ -27,7 +27,6 @@ const CheckInFormComponent = () => {
 
     function fetchAssets() {
         const formData: any = {
-            company_id: 1,
             page_no: 1
         }
         getAllAssets(formData).then((res: any) => {
@@ -80,12 +79,24 @@ const CheckInFormComponent = () => {
             }, 3000)
         })
     }
+  useEffect(() => {
+    try {
+      const assigneeJSON = JSON.parse(assignee);
+      const selectedEmployee = employeeData.find((item: any) => item.employee_id === assigneeJSON);
+      if (selectedEmployee) {
+        setEmail(selectedEmployee?.email);
+        setPersonStatus(selectedEmployee?.employee_status)
+      }
+    } catch (error) {
+      console.error("Error parsing assignee JSON:", error);
+    }
+  }, [assignee, employeeData]);
     return(
       <div>
           <Card>
               <Card.Body>
                   <div className='px-3'>
-                      <h4 className='theme-font py-4'>Assign Asset</h4>
+                      <h4 className='theme-font py-4'>Asset CheckIn</h4>
                       <Form>
                           <Row>
                               <Col md={6}>
@@ -96,7 +107,7 @@ const CheckInFormComponent = () => {
                                           type="name"
                                           value={email}
                                           placeholder="User Email"
-                                          onChange={(e) => setEmail(e.target.value)}
+                                          disabled={true}
                                           required={true}
                                       />
                                   </Form.Group>
@@ -127,7 +138,7 @@ const CheckInFormComponent = () => {
                                       >
                                           <option value=''>Select Assignee</option>
                                           {employeeData?.filter((item: any) => item.department_id == departmentId).map((item: any) => (
-                                              <option value={item.employee_id}>{item.employee_name}</option>
+                                                <option value={item.employee_id}>{item.employee_name}</option>
                                           ))}
                                       </Form.Select>
                                   </Form.Group>
@@ -139,12 +150,11 @@ const CheckInFormComponent = () => {
                                           className='px-2 py-1 fs-7 theme-font text-muted'
                                           aria-label="Default select example"
                                           required={true}
-                                          disabled={departmentId === ''}
                                           value={assets}
                                           onChange={(e) => setAssets(e.target.value)}
                                       >
                                           <option value=''>Select Assets</option>
-                                          {assetData?.map((item: any) => (
+                                          {assetData?.filter((item: any) => item.employee_id === false).map((item: any) => (
                                               <option value={item.asset_unique_id}>{item.asset_name}</option>
                                           ))}
                                       </Form.Select>
@@ -170,19 +180,14 @@ const CheckInFormComponent = () => {
                               <Col md={6}>
                                   <Form.Group className="mb-2" controlId="formBasicCompany">
                                       <Form.Label className='fs-7 mb-1 theme-font'>Person Status</Form.Label>
-                                      <Form.Select
-                                          className='px-2 py-1 fs-7 theme-font text-muted'
-                                          aria-label="Default select example"
-                                          required={true}
-                                          value={personStatus}
-                                          disabled={departmentId === ''}
-                                          onChange={(e) => setPersonStatus(e.target.value)}
-                                      >
-                                          <option value=''>Select Person Status</option>
-                                          <option value='Full Time'>Full Time</option>
-                                          <option value='Part Time'>Part Time</option>
-                                          <option value='Contract'>Contract</option>
-                                      </Form.Select>
+                                      <Form.Control
+                                        className='px-2 py-1 fs-7'
+                                        type="text"
+                                        value={personStatus}
+                                        placeholder="Person Status"
+                                        disabled={true}
+                                        required={true}
+                                      />
                                   </Form.Group>
                               </Col>
                               <Col md={6}>

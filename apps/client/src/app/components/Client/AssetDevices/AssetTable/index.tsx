@@ -10,11 +10,9 @@ import {useEffect, useState} from "react";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {
   deleteAsset,
-  getAssetBySite,
-  getSites,
   fetchAllDepartment,
   useGlobalDispatch,
-  getAllAssets, getAllCategories, getLocation
+  getAllCategories, getLocation, getAssetByCompanyId
 } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {LuSettings2} from "react-icons/lu";
@@ -29,10 +27,11 @@ const AssetTable = () => {
     const [categoryData, setCategoryData] = useState<any>([]);
     const [categoryFilter, setCategoryFilter] = useState('');
     const [locationFilter, setLocationFilter] = useState('');
+    const [departmentFilter, setDepartmentFilter] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState<number>(1)
     const id: any = searchParams.get('company_id');
-    const [showEntries, setShowEntries] = useState<number>(10); // Number of entries to show
+    const [showEntries, setShowEntries] = useState<number>(10);
     const startIndex = (page - 1) * showEntries;
     const endIndex = startIndex + showEntries;
     const slicedData = assets.slice(startIndex, endIndex);
@@ -60,7 +59,7 @@ const AssetTable = () => {
         company_id: JSON.parse(id),
         page_no: page
       }
-      getAllAssets(formData).then((res: any) => {
+      getAssetByCompanyId(formData).then((res: any) => {
         setAssets(res.data.result.asset_details);
         setOriginalData(res.data.result.asset_details);
       })
@@ -87,7 +86,7 @@ const AssetTable = () => {
 
     useEffect(() => {
       applyFilters();
-    }, [categoryFilter, locationFilter]);
+    }, [categoryFilter, locationFilter, departmentFilter]);
     const applyFilters = () => {
       setAssets((prevAssets: any) => {
         let filteredData = [...originalData];
@@ -97,7 +96,11 @@ const AssetTable = () => {
         }
 
         if (locationFilter !== '') {
-          filteredData = filteredData.filter((res) => res.state_name === locationFilter);
+          filteredData = filteredData.filter((res) => res.location_name === locationFilter);
+        }
+
+        if (departmentFilter !== '') {
+          filteredData = filteredData.filter((res) => res.department_name === departmentFilter);
         }
 
         return filteredData;
@@ -117,6 +120,14 @@ const AssetTable = () => {
         setAssets(originalData)
       }
       setLocationFilter(value);
+      applyFilters();
+    };
+
+    const filterDepartment = (value: any) => {
+      if (value === '') {
+        setAssets(originalData)
+      }
+      setDepartmentFilter(value);
       applyFilters();
     };
 
@@ -200,10 +211,12 @@ const AssetTable = () => {
                             className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
                             aria-label="Default select example"
                             required={true}
+                            value={departmentFilter}
+                            onChange={(e: any) => filterDepartment(e.target.value)}
                           >
                             <option onClick={() => setAssets(originalData)} value=''>Select Department</option>
                             {department?.map((item: any) => (
-                              <option value={item.department_id} className='theme-font fs-7'>{item.department_name}</option>
+                              <option value={item.department_name} className='theme-font fs-7'>{item.department_name}</option>
                             ))}
                           </Form.Select>
                         </InputGroup>
@@ -238,6 +251,7 @@ const AssetTable = () => {
                   <Table striped className='theme-font' id='departmentTable'>
                       <thead className='p-3'>
                           <tr className='fs-7'>
+                              <th><p className='py-2 m-0 fs-13 text-uppercase'>ID<HiChevronUpDown size={18} className='ms-1' /></p></th>
                               <th><p className='py-2 m-0 fs-13 text-uppercase'>ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
                               <th><p className='py-2 m-0 fs-13 text-uppercase'>ASSETS ID<HiChevronUpDown size={18} className='ms-1' /></p></th>
                               <th><p className='py-2 m-0 fs-13 text-uppercase'>CATEGORY<HiChevronUpDown size={18} className='ms-1' /></p></th>
@@ -252,6 +266,9 @@ const AssetTable = () => {
                       {slicedData?.map((asset: any) => (
                           <tr>
                               <td>
+                                <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                              </td>
+                              <td>
                                   <div className='d-flex align-items-center'>
                                       <img src={asset?.image_url} alt="" width='38' height='38' className='rounded' />
                                       <div className='d-flex flex-column'>
@@ -261,7 +278,7 @@ const AssetTable = () => {
                                   </div>
                               </td>
                               <td>
-                                  <h6 className='text-muted fs-7 m-0'>{asset?.asset_id}</h6>
+                                  <h6 className='text-muted fs-7 m-0'>{asset?.asset_unique_id}</h6>
                               </td>
                               <td>
                                   <div className='d-flex align-items-center'>

@@ -3,10 +3,11 @@ import {Card, Col, Row} from "react-bootstrap";
 import avatar from "../../../../../assets/employees/Avatar.png";
 import {useEffect, useState} from "react";
 import {BiPencil} from "react-icons/bi";
-import {useSearchParams} from "react-router-dom";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {getAssetById} from "@infralastic/global-state";
 
 const AssetViewComponent = () => {
+    const router = useNavigate();
     const [imageFile, setImageFile] = useState('');
     const [assetId, setAssetId] = useState('');
     const [category, setCategory] = useState<any>('');
@@ -37,7 +38,7 @@ const AssetViewComponent = () => {
             asset_unique_id: JSON.parse(id)
         }
         getAssetById(formData).then((res: any) => {
-            setAssetId(res.data.result.asset_id);
+            setAssetId(res.data.result.asset_unique_id);
             setCategory(res.data.result.category_name);
             setDescription(res.data.result.asset_name);
             setManufacturer(res.data.result.manufacturer);
@@ -55,7 +56,7 @@ const AssetViewComponent = () => {
             setPurchaseFrom(res.data.result.purchase_from !== '' ? res.data.result.purchase_from : 'Not Added');
             setEndOfLifeDate(res.data.result.end_of_life_date);
             setNextServiceDate(res.data.result.next_service_date)
-            setLocation(res.data.result.site_name);
+            setLocation(res.data.result.location_name);
             setDateAdded(res.data.result.date_added);
             setImageFile(res.data.result.image_url)
         })
@@ -325,6 +326,12 @@ const AssetViewComponent = () => {
                               Cancel
                           </button>
                           <button
+                              onClick={() => router({
+                                pathname: '/add-asset',
+                                search: `?${createSearchParams({
+                                  asset_unique_id: id
+                                })}`
+                              })}
                               type='button'
                               className='me-2 border-0 bg-theme-danger text-white py-2 px-3 fs-7 theme-font rounded fs-7 d-flex align-items-center m-0'>
                               Edit Asset Details

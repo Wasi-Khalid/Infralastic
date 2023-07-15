@@ -14,7 +14,6 @@ const ConfirmAssetComponent = () => {
 
     const fetchAllUnconfirmedAssets = () => {
         const formData: any = {
-            company_id: 1,
             page_no: 1
         }
         getUnconfirmedAssets(formData).then((res: any) => {

@@ -147,6 +147,26 @@ export const getOrderByUser = (formData: any) =>
 export const getTrackingByOrder = (formData: any) =>
   API.post('/api/get_order_tracking_api', formData)
 
+export const addWishList = (formData: any) =>
+  API.post('/api/add_wish_list_product', formData)
+
+export const getWishList = (formData: any) =>
+  API.post('/api/get_wish_list_products', formData)
+
+export const deleteWishList = (formData: any) =>
+  API.post('/api/delete_wish_list_product', formData)
+
+export const addCartList = (formData: any) =>
+  API.post('/api/add_cart_list_product', formData)
+
+export const getCartList = (formData: any) =>
+  API.post('/api/get_cart_list_products', formData)
+
+export const deleteCartList = (formData: any) =>
+  API.post('/api/delete_cart_list_product', formData)
+
+
+
 
 
 export const addAdminUser  = (formData: any) =>

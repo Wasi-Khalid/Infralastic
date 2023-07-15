@@ -29,6 +29,8 @@ const AssetViewComponent = () => {
     const [nextServiceDate, setNextServiceDate] = useState('');
     const [location, setLocation] = useState<any>('');
     const [dateAdded, setDateAdded] = useState('');
+    const [checkInNotes, setCheckInNotes] = useState<any>(null);
+    const [checkOutNotes, setCheckOutNotes] = useState<any>(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const id: any = searchParams.get('asset_unique_id');
@@ -58,7 +60,9 @@ const AssetViewComponent = () => {
             setNextServiceDate(res.data.result.next_service_date)
             setLocation(res.data.result.location_name);
             setDateAdded(res.data.result.date_added);
-            setImageFile(res.data.result.image_url)
+            setImageFile(res.data.result.image_url);
+            setCheckInNotes(res.data.result.check_in_notes);
+            setCheckOutNotes(res.data.result.check_out_notes);
         })
     }
 
@@ -72,7 +76,8 @@ const AssetViewComponent = () => {
               <Card.Body>
                   <div>
                       <div className='d-flex py-3'>
-                          <div className='d-flex align-items-center w-100'>
+                          <div className='d-flex w-100'>
+                            <div className="d-flex  align-items-center w-50">
                               <div>
                                   <label>
                                       {imageFile &&
@@ -92,6 +97,19 @@ const AssetViewComponent = () => {
                                   <h6 className='m-0 theme-danger theme-font'>Device Photo</h6>
                                   <h5 className='m-0 mt-2 theme-font'>Lenovo Think Pad</h5>
                               </div>
+                            </div>
+                            <div className=" w-50">
+                                {(checkInNotes !== false && checkInNotes !== '') &&<>
+                                    <h5 className='theme-font'>CheckIn Notes</h5>
+                                    <p>{checkInNotes}</p>
+                                  </>
+                                }
+                                {(checkOutNotes !== false && checkOutNotes !== '') &&<>
+                                    <h5 className='theme-font'>CheckOut Notes</h5>
+                                    <p>{checkOutNotes}</p>
+                                  </>
+                                }
+                            </div>
                           </div>
                       </div>
                       <hr className='my-4'/>

@@ -1,16 +1,17 @@
-import './product-catalogue.scss';
+ import './product-catalogue.scss';
 import { Card } from "react-bootstrap";
 import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {useDrop} from "react-dnd";
 import {ItemTypes} from "../../ItemTypes";
-import {cartData, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
+import {cartData, getCartList, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
 import {BsCart2} from "react-icons/bs";
 
 const ProductCatalogue = ({onData}: {onData: any}) => {
   const router = useNavigate();
   const [count, setCount] = useState(0);
   const dispatch = useGlobalDispatch();
+  const [cartCount, setCartCount] = useState<any>(null)
   const [droppedProducts, setDroppedProducts] = useState<any[]>([]);
   const cart = useGlobalSelector((state) => state.cart);
   console.log(cart)
@@ -41,6 +42,26 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
       isOver: monitor.isOver()
     })
   });
+  const getCart = () => {
+    const formData: any = {
+      cartlist_no: 1
+    }
+    getCartList(formData).then(async (res: any) => {
+      setCartCount(res?.data?.result?.cart_details)
+      const formData = {
+        cart_data: res?.data?.result?.cart_details
+      }
+      try {
+        await dispatch(cartData(formData))
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  }
+
+  useEffect(() => {
+    getCart()
+  }, [])
 
   const isActive = canDrop && isOver;
 
@@ -64,11 +85,17 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
           </div>
           </div>
           <div className="d-flex align-items-center overflow-auto">
-            {droppedProducts?.map((item: any) => (
-              <button className='px-1 bg-transparent border-0'>
+            {droppedProducts?.map((item: any, index: number) => (
+              <div key={index} className='px-1 bg-transparent border-0'>
                 <img src={item?.image} width='152' height='80' alt="Top Deals" />
                 <p className='fs-7 mb-0 theme-font text-center py-2'>{item?.description}</p>
-              </button>
+              </div>
+            ))}
+            {cartCount?.map((count: any, index: number) => (
+              <div key={index} className='px-1 bg-transparent border-0'>
+                <img src={count?.image} width='152' height='80' alt="Top Deals" />
+                <p className='fs-7 mb-0 theme-font text-center py-2'>{count?.product_name}</p>
+              </div>
             ))}
           </div>
           {isActive && <div>

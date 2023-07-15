@@ -58,7 +58,7 @@ const DeviceStore = () => {
   };
   return(
     <>
-      <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
+      <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll px-3'>
         <ProductCatalogue onData={handleCategoryData} />
         <div>
           <Row>

@@ -4,7 +4,7 @@ import creditCard from '../../../assets/payment/credit-card.png';
 import debitCard from '../../../assets/payment/debit-card.png';
 import paypalCard from '../../../assets/payment/paypal.png';
 import {CiShoppingCart} from "react-icons/ci";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import { cartDelete, checkoutOrder, useGlobalDispatch, useGlobalSelector } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {AiOutlineDelete} from "react-icons/ai";
@@ -73,7 +73,12 @@ const DeviceCheckout = () => {
         const orderNo = res.data.result.order_no;
         createDownloadableTxtFile(orderNo);
         setTimeout(() => {
-          router('/checkout-complete')
+          router({
+            pathname: '/checkout-complete',
+            search: `?${createSearchParams({
+              orderId: orderNo
+            })}`
+          })
         }, 3000)
       } else {
         toast.error(res.data.error.message)

@@ -4,6 +4,10 @@ import {useNavigate} from "react-router-dom";
 import {useDrag} from "react-dnd";
 import {ItemTypes} from "../../ItemTypes";
 import warranty from '../../../assets/warranty.png'
+import {AiFillHeart, AiFillPlusCircle, AiOutlineHeart, AiOutlinePlusCircle} from "react-icons/ai";
+import {useState} from "react";
+import {addCartList, addWishList, deleteCartList, deleteWishList} from "@infralastic/global-state";
+import {toast} from "react-toastify";
 
 interface productProps {
   image: any;
@@ -12,11 +16,12 @@ interface productProps {
   inch: string;
   cost: string;
   click: any;
-  purchase: any
+  purchase: any;
 }
 
 const ProductCard = (props: productProps) => {
   const router = useNavigate();
+  const [wish, setWish] = useState(false);
   const [{ isDragging }, drag] = useDrag<any, any, { isDragging: boolean }>({
     item: {
       type: ItemTypes.BOX,
@@ -27,6 +32,62 @@ const ProductCard = (props: productProps) => {
     }),
     type: ItemTypes.BOX
   });
+
+  const addToWishlist = (id: any) => {
+    const formData: any = {
+      wishlist_no: 1,
+      product_id: id
+    }
+    addWishList(formData).then((res: any) => {
+      if (res.data.result.success === true) {
+        toast.success('Successfully Added to WishList');
+        setTimeout(() => {
+          window.location.reload();
+        })
+      }
+    })
+  }
+  const removeFromWishlist = (id: any) => {
+    const formData: any = {
+      wishlist_no: 1,
+      product_id: id
+    }
+    deleteWishList(formData).then((res: any) => {
+      if (res.data.result.success === true) {
+        toast.success('Successfully Removed From WishList');
+        setTimeout(() => {
+          window.location.reload();
+        })
+      }
+    })
+  }
+  const addToCartList = (id: any) => {
+    const formData: any = {
+      cartlist_no: 1,
+      product_id: id
+    }
+    addCartList(formData).then((res: any) => {
+      if (res.data.result.success === true) {
+        toast.success('Successfully Added to CartList');
+        setTimeout(() => {
+          window.location.reload();
+        })
+      }
+    })
+  }
+
+
+  const handleWishList = () => {
+    setWish(!wish);
+    if (!wish) {
+      addToWishlist(props?.productId)
+    } else if (wish) {
+      removeFromWishlist(props?.productId)
+    }
+  }
+  const handleCartList = () => {
+      addToCartList(props?.productId)
+  }
   return(
     <div ref={drag}>
       <Card className='product-card-bg mb-3'>
@@ -45,9 +106,21 @@ const ProductCard = (props: productProps) => {
           <h5 className='theme-font theme-danger'>${props.cost}</h5>
           <span className='fs-7'><del>$1,699.99</del><span className='ms-2 theme-danger'>SAVE $200.00</span></span>
           <p className='py-3 theme-font fs-7'>This price may not refer to the specifications below.</p>
-          {/*<div className='d-flex justify-content-end'>*/}
-          {/*  <button onClick={props.purchase} className='bg-theme-danger border-0 rounded px-2 py-1'><BsCart2 className='text-white' /></button>*/}
-          {/*</div>*/}
+          <div className='d-flex w-100'>
+            <div className="d-flex justify-content-start w-50">
+                <button onClick={() => handleCartList()} className='border-0 rounded px-2 py-1 bg-transparent'>
+                  <AiOutlinePlusCircle size={20} className='' />
+                </button>
+            </div>
+            <div className="d-flex justify-content-end w-50">
+              {!wish ?
+                <button onClick={() => handleWishList()} className='border-0 rounded px-2 py-1 bg-transparent'><AiOutlineHeart size={20} className='' /></button>
+                : wish ?
+                  <button onClick={() => handleWishList()} className='border-0 rounded px-2 py-1 bg-transparent'><AiFillHeart size={20} className='theme-danger' /></button>
+                : <></>
+              }
+            </div>
+          </div>
         </Card.Body>
       </Card>
     </div>

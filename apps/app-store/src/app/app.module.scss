@@ -49,3 +49,6 @@ code {
   height: 100vh;
   overflow: auto;
 }
+.dropdown-toggle::after {
+  display: none !important;
+}

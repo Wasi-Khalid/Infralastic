@@ -5,6 +5,7 @@ import bogus from '../../../../../assets/assign-stamp.png'
 import {checkIn, getAllAssets, getAllEmployee, useGlobalDispatch} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
+import { format } from 'date-fns';
 import {fetchAllDepartment} from "@infralastic/global-state";
 
 const CheckInFormComponent = () => {
@@ -14,10 +15,21 @@ const CheckInFormComponent = () => {
     const [assets, setAssets] = useState('');
     const [checkOutNotes, setCheckOutNotes] = useState('');
     const [assetData, setAssetData] = useState<any>([])
-    const [employeeData, setEmployeeData] = useState<any>([])
+    const [employeeData, setEmployeeData] = useState<any>([]);
+
+    useEffect(() => {
+      const fetchCurrentDate = () => {
+        const date = new Date();
+        const formattedDate = date.toISOString().split('T')[0]; // Format date as "YYYY-MM-DD"
+        setCheckInDate(formattedDate);
+      };
+
+      fetchCurrentDate();
+    }, []);
 
 
-    function fetchAssets() {
+
+  function fetchAssets() {
         const formData: any = {
             page_no: 1
         }
@@ -73,12 +85,12 @@ const CheckInFormComponent = () => {
                                   <Form.Group className="mb-2" controlId="formBasicFirstName">
                                       <Form.Label className='fs-7 mb-1 theme-font'>Check In Date</Form.Label>
                                       <Form.Control
-                                          className='px-2 py-1 fs-7'
-                                          type="date"
-                                          value={checkInDate}
-                                          placeholder="Check In Date"
-                                          onChange={(e) => setCheckInDate(e.target.value)}
-                                          required={true}
+                                        className='px-2 py-1 fs-7'
+                                        type="date"
+                                        value={checkInDate}
+                                        placeholder="Check In Date"
+                                        onChange={(e) => setCheckInDate(e.target.value)}
+                                        required={true}
                                       />
                                   </Form.Group>
                               </Col>

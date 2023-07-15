@@ -3,11 +3,12 @@ import { Card, Col, Row } from "react-bootstrap";
 import ProductCard from "../ProductCard";
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react";
-import { fetchAllProductList, useGlobalDispatch } from "@infralastic/global-state";
+import {addWishList, fetchAllProductList, useGlobalDispatch} from "@infralastic/global-state";
 import bogus from "../../../assets/products/product_5.png";
 import bogus1 from "../../../assets/products/product_2.png";
 import bogus2 from "../../../assets/products/product_3.png";
 import bogus3 from "../../../assets/products/product_4.png";
+import {toast} from "react-toastify";
 
 interface filterInterface {
   hardwareCategory: any;

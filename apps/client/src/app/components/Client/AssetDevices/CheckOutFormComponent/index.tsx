@@ -93,6 +93,16 @@ const CheckOutFormComponent = () => {
       }
     }, [assignee, employeeData]);
 
+    useEffect(() => {
+      const fetchCurrentDate = () => {
+        const date = new Date();
+        const formattedDate = date.toISOString().split('T')[0]; // Format date as "YYYY-MM-DD"
+        setCheckOutDate(formattedDate);
+      };
+
+      fetchCurrentDate();
+    }, []);
+
     return(
       <div>
           <Card>

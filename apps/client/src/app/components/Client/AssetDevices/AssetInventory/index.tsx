@@ -30,7 +30,7 @@ const AssetInventory = () => {
     const [assets, setAssets] = useState<any>([]);
     const [originalData, setOriginalData] = useState<any>([])
     const [categoryData, setCategoryData] = useState<any>([]);
-    const [showEntries, setShowEntries] = useState<number>(10); // Number of entries to show
+    const [showEntries, setShowEntries] = useState<number>(10);
     const startIndex = (page - 1) * showEntries;
     const endIndex = startIndex + showEntries;
     const slicedData = assets && Array.isArray(assets) ? assets.slice(startIndex, endIndex) : [];
@@ -97,7 +97,7 @@ const AssetInventory = () => {
         }
 
         if (departmentFilter !== '') {
-          filteredData = filteredData.filter((res) => res.department_name === departmentFilter);
+          filteredData = filteredData.filter((res) => res.department_name === departmentFilter && res.employee_id);
         }
 
         return filteredData;
@@ -256,7 +256,7 @@ const AssetInventory = () => {
                                 className='px-2 pe-3 py-1 text-white border-0 bg-theme-danger h-34 rounded d-flex align-items-center'
                                 onClick={() => router('/add-asset')}
                             >
-                                <BsPlus size={20} className='me-2' />Add New
+                                <BsPlus size={20} className='me-2' />Add&nbsp;New
                             </button>
                         </div>
                     </div>
@@ -308,7 +308,7 @@ const AssetInventory = () => {
                                               <img src={asset.employee_image} alt="" width='32' height='32' className='rounded-circle' />
                                               <p className='m-0 ms-2 fs-7 text-muted'>{asset.employee_name}</p>
                                           </div> :
-                                          <button className='bg-danger fs-7 text-white border-0 rounded px-2'>un-assigned</button>
+                                          <button className='bg-danger fs-7 text-white border-0 rounded px-2'>un&nbsp;assigned</button>
                                       }
                                   </td>
                                   <td>
@@ -318,7 +318,7 @@ const AssetInventory = () => {
                                       {asset?.employee_id ?
                                           <button className='bg-success fs-7 text-white border-0 rounded px-2'>Assigned</button>
                                           :
-                                          <button className='bg-warning fs-7 text-white border-0 rounded px-2'>Un-assigned</button>
+                                          <button className='bg-warning fs-7 text-white border-0 rounded px-2'>Un&nbsp;assigned</button>
                                       }
                                   </td>
                                   <td>

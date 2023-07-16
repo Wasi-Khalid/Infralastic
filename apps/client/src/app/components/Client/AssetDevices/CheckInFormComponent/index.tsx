@@ -14,8 +14,10 @@ const CheckInFormComponent = () => {
     const [checkInDate, setCheckInDate] = useState('');
     const [assets, setAssets] = useState('');
     const [checkOutNotes, setCheckOutNotes] = useState('');
+    const [assignee, setAssignee] = useState('');
     const [assetData, setAssetData] = useState<any>([])
     const [employeeData, setEmployeeData] = useState<any>([]);
+    const [department, setDepartment] = useState<any>([]);
 
     useEffect(() => {
       const fetchCurrentDate = () => {
@@ -56,7 +58,20 @@ const CheckInFormComponent = () => {
         })
     }
 
-    return(
+    useEffect(() => {
+      try {
+        const selectedAsset = assetData.find((item: any) => item.asset_unique_id === JSON.parse(assets));
+        console.log("Selected Asset:", selectedAsset);
+        if (selectedAsset) {
+          setAssignee(selectedAsset.employee_name);
+          setDepartment(selectedAsset.department_name);
+        }
+      } catch (error) {
+        console.error("Error finding selected asset:", error);
+      }
+    }, [assets, assetData]);
+
+  return(
       <div>
           <Card>
               <Card.Body>
@@ -80,6 +95,32 @@ const CheckInFormComponent = () => {
                                           ))}
                                       </Form.Select>
                                   </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                  <Form.Group className="mb-2" controlId="formBasicCompany">
+                                      <Form.Label className='fs-7 mb-1 theme-font'>Assignee</Form.Label>
+                                      <Form.Control
+                                        className='px-2 py-1 fs-7'
+                                        type="text"
+                                        value={assignee}
+                                        placeholder="Assignee"
+                                        required={true}
+                                        disabled={true}
+                                      />
+                                  </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                  <Form.Group className="mb-2" controlId="formBasicCompany">
+                                      <Form.Label className='fs-7 mb-1 theme-font'>Department</Form.Label>
+                                      <Form.Control
+                                        className='px-2 py-1 fs-7'
+                                        type="text"
+                                        value={department}
+                                        placeholder="Department"
+                                        required={true}
+                                        disabled={true}
+                                      />
+                                </Form.Group>
                               </Col>
                               <Col md={6}>
                                   <Form.Group className="mb-2" controlId="formBasicFirstName">

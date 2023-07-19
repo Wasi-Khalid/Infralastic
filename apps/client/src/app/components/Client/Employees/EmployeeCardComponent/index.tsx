@@ -114,6 +114,7 @@ const EmployeeCardComponent = (
                         </>}
                         {(company_id === '') && <>
                           <Dropdown.Item onClick={() => handleData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Details</Dropdown.Item>
+                        {(company_id === '') && <>
                           <Dropdown.Item onClick={() => editEmployee()} className='text-muted fs-7' as="button"><AiOutlineEdit className='me-2' />Edit</Dropdown.Item>
                           <Dropdown.Item onClick={handleDelete} className='text-muted fs-7' as="button"><MdDelete className='me-2' />Delete</Dropdown.Item>
                         </>

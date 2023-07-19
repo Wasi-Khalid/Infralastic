@@ -23,7 +23,7 @@ const EditCompanyModal = (props:CompanyModal) => {
   const fetchLocation = () => {
     const config = {}
     getLocation(config).then((res: any) => {
-      setLocationData(res.data.result.model_details)
+      setLocationData(res.data.result.location_details)
     })
   }
   const imageHandler = (e:any) => {
@@ -89,7 +89,7 @@ const EditCompanyModal = (props:CompanyModal) => {
   return(
     <>
       <Modal show={props.show} onHide={props.hide} size='xl'>
-        <Modal.Body>
+        <Modal.Body className='p-0'>
           <Card className='border-0'>
             <Card.Header className='bg-dark text-white theme-font'>
               <p className='m-0 p-2 fs-5'><span className='theme-danger'>Company Details</span></p>
@@ -124,7 +124,7 @@ const EditCompanyModal = (props:CompanyModal) => {
                   >
                     <option value="">none</option>
                     {locationData?.map((item: any) => (
-                      <option value={item?.state_id}>{item?.state_name}</option>
+                      <option value={item?.location_id}>{item?.location_name}</option>
                     ))}
                   </select>
                 </div>
@@ -153,7 +153,7 @@ const EditCompanyModal = (props:CompanyModal) => {
               <br/>
             </Card.Body>
           </Card>
-          <div className="d-flex justify-content-end w-100">
+          <div className="d-flex justify-content-end w-100 p-2">
             <button onClick={props.hide} className='border-0 bg-gray text-white px-3 py-2 rounded mx-2'>Cancel</button>
             <button
               className='border-0 bg-theme-danger text-white px-3 py-2 rounded mx-2'

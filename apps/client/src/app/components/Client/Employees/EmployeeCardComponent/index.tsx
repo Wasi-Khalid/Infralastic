@@ -7,10 +7,11 @@ import {AiOutlineEdit} from "react-icons/ai";
 import {MdDelete} from "react-icons/md";
 import {HiBars3} from "react-icons/hi2";
 import {fetchEmployee, fetchEmployeeAsset, useGlobalDispatch} from "@infralastic/global-state";
-import {toast} from "react-toastify";
-import {deleteEmployee} from "@infralastic/global-state";
+
 import {createSearchParams, useNavigate} from "react-router-dom";
-const EmployeeCardComponent = ({name, employee_id, image, designation, handleClick}: {name: any, employee_id: any, image: any, designation: any, handleClick: any}) => {
+const EmployeeCardComponent = (
+   {name, employee_id, image, designation, handleClick, handleDelete}:
+   {name: any, employee_id: any, image: any, designation: any, handleClick: any, handleDelete: any}) => {
     const [visible, setVisible] = useState(false);
     const router = useNavigate();
     const [show, setShow] = useState(false);
@@ -50,16 +51,6 @@ const EmployeeCardComponent = ({name, employee_id, image, designation, handleCli
       getEmployee();
       getEmployeeAsset();
     }
-    const delEmployee = async () => {
-        const formData: any = {
-            employee_id: employee_id
-        }
-        await deleteEmployee(formData).then((res: any) => {
-            toast.info(res.data.result.msg);
-        }).finally(() => {
-            window.location.reload()
-        })
-    }
     const editEmployee = async () => {
         router({
             pathname: '/add-employee',
@@ -86,7 +77,7 @@ const EmployeeCardComponent = ({name, employee_id, image, designation, handleCli
                       >
                           <Dropdown.Item onClick={() => handleData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Details</Dropdown.Item>
                           <Dropdown.Item onClick={() => editEmployee()} className='text-muted fs-7' as="button"><AiOutlineEdit className='me-2' />Edit</Dropdown.Item>
-                          <Dropdown.Item onClick={() => delEmployee()} className='text-muted fs-7' as="button"><MdDelete className='me-2' />Delete</Dropdown.Item>
+                          <Dropdown.Item onClick={handleDelete} className='text-muted fs-7' as="button"><MdDelete className='me-2' />Delete</Dropdown.Item>
                       </DropdownButton>
                       <button className='bg-transparent border-0 m-0 p-0'></button>
                   </div>

@@ -1,15 +1,17 @@
 import './employee-tree-component.scss';
 import EmployeeCardComponent from "../EmployeeCardComponent";
-import {fetchAllCompany, fetchCompanyEmployee, useGlobalDispatch} from "@infralastic/global-state";
+import {deleteEmployee, fetchAllCompany, fetchCompanyEmployee, useGlobalDispatch} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {fetchManager} from "@infralastic/global-state";
+import {BsBuildingSlash} from "react-icons/bs";
+import {toast} from "react-toastify";
 
 interface filterInterface {
   searchFilter: any;
   location: any;
   company: any;
   department: any;
-  job: any
+  job: any;
 }
 const EmployeeTreeComponent = (props: filterInterface) => {
     const dispatch = useGlobalDispatch();
@@ -165,19 +167,42 @@ const EmployeeTreeComponent = (props: filterInterface) => {
         getCompany();
         // getEmployees();
     }, [])
+
+    const delEmployee = async (id: any) => {
+      const formData: any = {
+        employee_id: id
+      }
+      await deleteEmployee(formData).then((res: any) => {
+        toast.success(res.data.result.msg);
+        setEmployeeData(prevData => prevData.filter((item: any) => item.employee_id !== id));
+        setManagerEmployeeData(prevData => prevData.filter((item: any) => item.employee_id !== id));
+      })
+    }
   return(
       <div>
         <div className='d-flex flex-column'>
           <div className='d-flex justify-content-center'>
-              {companyData?.map((item: any) => (
+            {(props.company !== '') ?
+              <>
+                {companyData?.map((item: any) => (
                   <EmployeeCardComponent
-                      employee_id = {JSON.parse(item.company_id)}
-                      name={item.company_name}
-                      image={item?.image_url}
-                      handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
-                      designation=''
+                    employee_id = {JSON.parse(item.company_id)}
+                    name={item.company_name}
+                    image={item?.image_url}
+                    handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
+                    designation=''
+                    handleDelete={''}
                   />
-              ))}
+                ))}
+              </>
+              : <div>
+                  <div className="d-flex justify-content-center">
+                    <BsBuildingSlash size={200} className='theme-danger' />
+                  </div>
+                  <p className='text-center my-2 theme-font'>(No Company Selected)</p>
+                  <h3 className='theme-font'>Please Select The Company From Filters</h3>
+                </div>
+            }
           </div>
           <br/>
           <br/>
@@ -191,6 +216,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                     image={item.image_url}
                     handleClick={() => handleManager({id: JSON.parse(item.employee_id)})}
                     designation={item.job_title}
+                    handleDelete={() => delEmployee(item.employee_id)}
                   />
                 </div>
               ))}
@@ -207,6 +233,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                               image={item.image_url}
                               handleClick={() => console.log('')}
                               designation={item.job_title}
+                              handleDelete={() => delEmployee(item.employee_id)}
                           />
                       </div>
                   ))}

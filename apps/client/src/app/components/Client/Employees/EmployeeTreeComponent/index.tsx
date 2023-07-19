@@ -191,6 +191,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                     image={item?.image_url}
                     handleClick={() => handleEmployee({id: JSON.parse(item.company_id)})}
                     designation=''
+                    company_id={item?.company_id}
                     handleDelete={''}
                   />
                 ))}
@@ -214,6 +215,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                     employee_id={JSON.parse(item.employee_id)}
                     name={item.employee_name}
                     image={item.image_url}
+                    company_id=''
                     handleClick={() => handleManager({id: JSON.parse(item.employee_id)})}
                     designation={item.job_title}
                     handleDelete={() => delEmployee(item.employee_id)}
@@ -231,6 +233,7 @@ const EmployeeTreeComponent = (props: filterInterface) => {
                               employee_id={JSON.parse(item.employee_id)}
                               name={item.employee_name}
                               image={item.image_url}
+                              company_id=''
                               handleClick={() => console.log('')}
                               designation={item.job_title}
                               handleDelete={() => delEmployee(item.employee_id)}

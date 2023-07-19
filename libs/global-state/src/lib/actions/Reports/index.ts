@@ -4,13 +4,13 @@ import * as api from "../../api";
 export const fetchAssetReportByCompany = createAsyncThunk(
   "report/getAsset",
   async (
-    { company_id }: {company_id: any},
+    { company_id, page_no }: {company_id: any, page_no: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { company }: any = getState();
       let data = {};
-      await api.getAssetReport({company_id}).then((res: any) => {
+      await api.getAssetReport({company_id, page_no}).then((res: any) => {
         data = res.data.result;
       });
       return data;

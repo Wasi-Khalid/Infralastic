@@ -10,8 +10,8 @@ import {fetchEmployee, fetchEmployeeAsset, useGlobalDispatch} from "@infralastic
 
 import {createSearchParams, useNavigate} from "react-router-dom";
 const EmployeeCardComponent = (
-   {name, employee_id, image, designation, handleClick, handleDelete}:
-   {name: any, employee_id: any, image: any, designation: any, handleClick: any, handleDelete: any}) => {
+   {name, employee_id, image, designation, handleClick, handleDelete, company_id}:
+   {name: any, employee_id: any, image: any, designation: any, handleClick: any, handleDelete: any, company_id: any}) => {
     const [visible, setVisible] = useState(false);
     const router = useNavigate();
     const [show, setShow] = useState(false);
@@ -76,8 +76,11 @@ const EmployeeCardComponent = (
                           title={<BiDotsVerticalRounded />}
                       >
                           <Dropdown.Item onClick={() => handleData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Details</Dropdown.Item>
+                        {(company_id === '') && <>
                           <Dropdown.Item onClick={() => editEmployee()} className='text-muted fs-7' as="button"><AiOutlineEdit className='me-2' />Edit</Dropdown.Item>
                           <Dropdown.Item onClick={handleDelete} className='text-muted fs-7' as="button"><MdDelete className='me-2' />Delete</Dropdown.Item>
+                        </>
+                        }
                       </DropdownButton>
                       <button className='bg-transparent border-0 m-0 p-0'></button>
                   </div>

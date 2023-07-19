@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {storage} from "../../../../services/config/firebase";
 import {toast} from "react-toastify";
 import {
-  addNewDepartment,
+  addNewDepartment, fetchAllCompany,
   fetchDepartmentById,
   updateDepartmentById,
 } from "@infralastic/global-state";
@@ -25,6 +25,8 @@ const DepartmentFormComponent = () => {
     const [file, setFile] = useState<any>(null);
     const [imageFile, setImageFile] = useState('');
     const [imageURL, setImageURL] = useState('');
+    const [company, setCompany] = useState('');
+    const [companyData, setCompanyData] = useState<any>([])
     const [searchParams, setSearchParams] = useSearchParams();
     const id: any = searchParams.get('department_id')
 
@@ -129,10 +131,23 @@ const DepartmentFormComponent = () => {
         }
     }
 
+    const getCompany = () => {
+      const config: any = {}
+      try {
+        dispatch(fetchAllCompany(config)).then(async (res: any) => {
+          setCompanyData(res.payload.company_details)
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
+    }
+
     useEffect(() => {
         getEmployees();
+        getCompany();
         if (id) {
-            getDepartment()
+            getDepartment();
+            getCompany();
         }
     }, [])
 
@@ -201,18 +216,35 @@ const DepartmentFormComponent = () => {
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
-                                  <Form.Group className="mb-2" controlId="formBasicManager">
-                                    <Form.Label className='fs-7 mb-1 theme-font'>Department Head</Form.Label>
-                                    <Select
-                                      className='fs-7 theme-font text-muted custom-search-select'
-                                      options={employeeData?.map((item: any) => ({
-                                        value: item.employee_id,
-                                        label: item.employee_name
-                                      }))}
-                                      onChange={(selectedOption: any) => setDepartmentHead(selectedOption.value)}
-                                      placeholder="Select Department Head"
-                                    />
-                                  </Form.Group>
+                                    <Form.Group className="mb-2" controlId="formBasicManager">
+                                        <Form.Label className='fs-7 mb-1 theme-font'>Department Head</Form.Label>
+                                        <Select
+                                            className='fs-7 theme-font text-muted custom-search-select'
+                                            options={employeeData?.map((item: any) => ({
+                                                value: item.employee_id,
+                                                label: item.employee_name
+                                            }))}
+                                            onChange={(selectedOption: any) => setDepartmentHead(selectedOption.value)}
+                                            placeholder="Select Department Head"
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group className="mb-2" controlId="formBasicCompany">
+                                        <Form.Label className='fs-7 mb-1 theme-font'>Company</Form.Label>
+                                        <Form.Select
+                                            className='fs-7 theme-font text-muted custom-search-select'
+                                            aria-label="Default select example"
+                                            required={true}
+                                            value={company}
+                                            onChange={(e) => setCompany(e.target.value)}
+                                            >
+                                            <option value=''>Select Company</option>
+                                            {companyData?.map((item: any) => (
+                                              <option value={item?.company_id}>{item?.company_name}</option>
+                                            ))}
+                                        </Form.Select>
+                                    </Form.Group>
                                 </Col>
                             </Row>
                         </Form>

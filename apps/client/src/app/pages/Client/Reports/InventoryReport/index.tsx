@@ -15,6 +15,7 @@ const InventoryReport = () => {
   function fetchAssetInfo() {
     const formData = {
       company_id: 1,
+      page_no: 1
     };
     dispatch(fetchAssetReportByCompany(formData)).then((res: any) => {
       setAssetInfo(res?.payload?.asset_details);

@@ -199,7 +199,7 @@ const CheckOutFormComponent = () => {
                                             onChange={(e) => setDepartmentId(e.target.value)}
                                         >
                                             <option value=''>Select Department</option>
-                                            {department?.filter((item: any) => item.company_id === company).map((item: any) => (
+                                            {department?.filter((item: any) => item.company_id == company).map((item: any) => (
                                                 <option value={item.department_id}>{item.department_name}</option>
                                             ))}
                                         </Form.Select>

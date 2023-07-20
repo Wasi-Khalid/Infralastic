@@ -1,15 +1,43 @@
-  import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import * as api from "../../api";
 
-export const cartData = createAsyncThunk(
-  "global/cart",
+
+export const getCartListById = createAsyncThunk(
+  "cart/get",
   async (
-    { cart_data }: { cart_data: any },
+    {cartlist_no}: { cartlist_no: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { cart }: any = getState();
-      const data: any = {};
-      data.cart_data = cart_data;
+      let data = {};
+      await api.getCartList({cartlist_no}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const addToCartList = createAsyncThunk(
+  "cart/add",
+  async (
+    {cartlist_no, product_id}
+      : { cartlist_no: any, product_id: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data = {};
+      await api.addCartList({cartlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
       return data;
     } catch (error: any) {
       if (error.response && error.response.data.message) {
@@ -22,17 +50,88 @@ export const cartData = createAsyncThunk(
 );
 
 export const cartDelete = createAsyncThunk(
-  "global/cartRemove",
+  "cart/delete",
   async (
-    { cart_data, index }: { cart_data: any[], index: number },
+    { cartlist_no, product_id }
+      : { cartlist_no: any, product_id: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { cart }: any = getState();
-      const updatedCartData = [...cart_data];
-      updatedCartData.splice(index, 1);
-      const data: any = {};
-      data.cart_data = updatedCartData;
+      let data: any = {};
+      await api.deleteCartList({cartlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const getWishListById = createAsyncThunk(
+  "wish/get",
+  async (
+    { wishlist_no }: { wishlist_no: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data = {};
+      await api.getWishList({wishlist_no}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const addToWishList = createAsyncThunk(
+  "wish/add",
+  async (
+    {wishlist_no, product_id}
+      : { wishlist_no: any, product_id: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data = {};
+      await api.addWishList({wishlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const wishDelete = createAsyncThunk(
+  "wish/delete",
+  async (
+    {wishlist_no, product_id}
+      : { wishlist_no: any, product_id: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data: any = {};
+      await api.deleteWishList({wishlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
       return data;
     } catch (error: any) {
       if (error.response && error.response.data.message) {

@@ -116,7 +116,6 @@ const AssetFormComponent = () => {
                       time_added: timeAdded,
                       location_id: JSON.parse(location),
                       category_id: JSON.parse(category),
-                      company_id: JSON.parse(company),
                       image_url: url
                     }
                     toast.success('Image Uploaded Successfully');
@@ -158,7 +157,6 @@ const AssetFormComponent = () => {
                       time_added: timeAdded,
                       location_id: JSON.parse(location),
                       category_id: JSON.parse(category),
-                      company_id: JSON.parse(company),
                       image_url: url
                     }
                     toast.success('Image Uploaded Successfully');
@@ -530,23 +528,6 @@ const AssetFormComponent = () => {
                                         <option value=''>Select Location</option>
                                         {locationData?.map((item: any) => (
                                             <option value={item?.location_id}>{item?.location_name}</option>
-                                        ))}
-                                    </Form.Select>
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Group className="mb-2" controlId="formBasicCompany">
-                                    <Form.Label className='fs-7 mb-1 theme-font'>Company</Form.Label>
-                                    <Form.Select
-                                        className='px-2 py-1 fs-7 theme-font text-muted'
-                                        aria-label="Default select example"
-                                        required={true}
-                                        value={company}
-                                        onChange={(e) => setCompany(e.target.value)}
-                                    >
-                                        <option value=''>Select Company</option>
-                                        {companyData?.map((item: any) => (
-                                            <option value={item?.company_id}>{item?.company_name}</option>
                                         ))}
                                     </Form.Select>
                                 </Form.Group>

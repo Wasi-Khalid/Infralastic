@@ -31,7 +31,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Apple (15)</label>
+                <label className="text-muted fs-7 ms-2">Apple</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -43,7 +43,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">APC (1)</label>
+                <label className="text-muted fs-7 ms-2">APC</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -55,7 +55,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Acer (4)</label>
+                <label className="text-muted fs-7 ms-2">Acer</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -67,7 +67,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Asus (3)</label>
+                <label className="text-muted fs-7 ms-2">Asus</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -79,7 +79,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Belkin (8)</label>
+                <label className="text-muted fs-7 ms-2">Belkin</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -91,7 +91,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">BenQ (8)</label>
+                <label className="text-muted fs-7 ms-2">BenQ</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -103,7 +103,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Dell (17)</label>
+                <label className="text-muted fs-7 ms-2">Dell</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -115,7 +115,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">HP (5)</label>
+                <label className="text-muted fs-7 ms-2">HP</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -127,7 +127,7 @@ const BrandFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Jabra (4)</label>
+                <label className="text-muted fs-7 ms-2">Jabra</label>
               </div>
             </form>
           )}

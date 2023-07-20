@@ -84,7 +84,8 @@ const CheckOutFormComponent = () => {
             digital_stamp: "digital_stamp",
             check_out_date: checkOutDate,
             due_by_date: dueByDate,
-            department_id: JSON.parse(departmentId)
+            department_id: JSON.parse(departmentId),
+            company_id: JSON.parse(company)
         }
         checkOut(formData).then((res: any) => {
             toast.success(res.data.result.msg)
@@ -198,7 +199,7 @@ const CheckOutFormComponent = () => {
                                             onChange={(e) => setDepartmentId(e.target.value)}
                                         >
                                             <option value=''>Select Department</option>
-                                            {department?.map((item: any) => (
+                                            {department?.filter((item: any) => item.company_id === company).map((item: any) => (
                                                 <option value={item.department_id}>{item.department_name}</option>
                                             ))}
                                         </Form.Select>

@@ -59,6 +59,7 @@ const DepartmentFormComponent = () => {
                         department_name: name,
                         manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
                         image_url: url,
+                        company_id: JSON.parse(company)
                       }
                       try {
                         dispatch(addNewDepartment(formData)).then(async (res: any) => {
@@ -81,7 +82,8 @@ const DepartmentFormComponent = () => {
                         department_name: name,
                         manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
                         image_url: url,
-                        department_id: id
+                        department_id: id,
+                        company_id: JSON.parse(company)
                       }
                       try {
                         dispatch(updateDepartmentById(formData)).then(async (res: any) => {

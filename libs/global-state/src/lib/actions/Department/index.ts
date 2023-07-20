@@ -26,14 +26,14 @@ export const fetchAllDepartment = createAsyncThunk(
 export const addNewDepartment = createAsyncThunk(
     "department/add",
     async (
-        {department_name,manager_id,image_url}
-            : { department_name: any, manager_id: any, image_url: any },
+        {department_name, manager_id, image_url, company_id}
+            : { department_name: any, manager_id: any, image_url: any, company_id: any },
         { getState, rejectWithValue }
     ) => {
         try {
             const { department }: any = getState();
             let data = {};
-            await api.createDepartment({department_name,manager_id,image_url}).then((res: any) => {
+            await api.createDepartment({department_name,manager_id,image_url,company_id}).then((res: any) => {
                 data = res.data.result;
             });
             return data;

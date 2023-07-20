@@ -6,7 +6,12 @@ import {ItemTypes} from "../../ItemTypes";
 import warranty from '../../../assets/warranty.png'
 import {AiFillHeart, AiFillPlusCircle, AiOutlineHeart, AiOutlinePlusCircle} from "react-icons/ai";
 import {useState} from "react";
-import {addCartList, addWishList, deleteCartList, deleteWishList} from "@infralastic/global-state";
+import {
+  addCartList, addToCartList,
+  addToWishList,
+  deleteWishList,
+  useGlobalDispatch, wishDelete
+} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 
 interface productProps {
@@ -21,11 +26,13 @@ interface productProps {
 
 const ProductCard = (props: productProps) => {
   const router = useNavigate();
+  const dispatch = useGlobalDispatch();
   const [wish, setWish] = useState(false);
   const [{ isDragging }, drag] = useDrag<any, any, { isDragging: boolean }>({
     item: {
       type: ItemTypes.BOX,
       productProps: props,
+      product_id: props.productId
     },
     collect: monitor => ({
       isDragging: monitor.isDragging()
@@ -33,17 +40,14 @@ const ProductCard = (props: productProps) => {
     type: ItemTypes.BOX
   });
 
-  const addToWishlist = (id: any) => {
+  const addWishlist = (id: any) => {
     const formData: any = {
       wishlist_no: 1,
       product_id: id
     }
-    addWishList(formData).then((res: any) => {
-      if (res.data.result.success === true) {
+    dispatch(addToWishList(formData)).then((res: any) => {
+      if (res?.payload?.success === true) {
         toast.success('Successfully Added to WishList');
-        setTimeout(() => {
-          window.location.reload();
-        })
       }
     })
   }
@@ -52,26 +56,20 @@ const ProductCard = (props: productProps) => {
       wishlist_no: 1,
       product_id: id
     }
-    deleteWishList(formData).then((res: any) => {
-      if (res.data.result.success === true) {
+    dispatch(wishDelete(formData)).then((res: any) => {
+      if (res?.payload?.success === true) {
         toast.success('Successfully Removed From WishList');
-        setTimeout(() => {
-          window.location.reload();
-        })
       }
     })
   }
-  const addToCartList = (id: any) => {
+  const addCartList = (id: any) => {
     const formData: any = {
       cartlist_no: 1,
       product_id: id
     }
-    addCartList(formData).then((res: any) => {
-      if (res.data.result.success === true) {
+    dispatch(addToCartList(formData)).then((res: any) => {
+      if (res?.payload?.success === true) {
         toast.success('Successfully Added to CartList');
-        setTimeout(() => {
-          window.location.reload();
-        })
       }
     })
   }
@@ -80,13 +78,13 @@ const ProductCard = (props: productProps) => {
   const handleWishList = () => {
     setWish(!wish);
     if (!wish) {
-      addToWishlist(props?.productId)
+      addWishlist(props?.productId)
     } else if (wish) {
       removeFromWishlist(props?.productId)
     }
   }
   const handleCartList = () => {
-      addToCartList(props?.productId)
+      addCartList(props?.productId)
   }
   return(
     <div ref={drag}>

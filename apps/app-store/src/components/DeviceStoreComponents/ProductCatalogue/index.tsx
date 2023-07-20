@@ -4,17 +4,22 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {useDrop} from "react-dnd";
 import {ItemTypes} from "../../ItemTypes";
-import {cartData, getCartList, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
+import {
+  addToCartList,
+  getCartList,
+  getCartListById,
+  useGlobalDispatch,
+  useGlobalSelector
+} from "@infralastic/global-state";
 import {BsCart2} from "react-icons/bs";
 
 const ProductCatalogue = ({onData}: {onData: any}) => {
   const router = useNavigate();
   const [count, setCount] = useState(0);
   const dispatch = useGlobalDispatch();
-  const [cartCount, setCartCount] = useState<any>(null)
+  const [cartCount, setCartCount] = useState<any>(null);
   const [droppedProducts, setDroppedProducts] = useState<any[]>([]);
-  const cart = useGlobalSelector((state) => state.cart);
-  console.log(cart)
+  const cart = useGlobalSelector((state) => state.cart.cartInfo);
   const sendDataToParent = (data: any) => {
     onData(data);
   };
@@ -26,11 +31,15 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
       if (item.productProps) {
         const newDroppedProducts = [...droppedProducts, { ...item.productProps, click: null }];
         setDroppedProducts(newDroppedProducts);
+        const product_id = item.product_id;
         const formData = {
-          cart_data: newDroppedProducts
+          cartlist_no: 1,
+          product_id: product_id
         }
         try {
-          await dispatch(cartData(formData))
+          await dispatch(addToCartList(formData)).then((res: any) => {
+            console.log(res)
+          })
         } catch (error) {
           console.log(error)
         }
@@ -46,16 +55,9 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
     const formData: any = {
       cartlist_no: 1
     }
-    getCartList(formData).then(async (res: any) => {
-      setCartCount(res?.data?.result?.cart_details)
-      const formData = {
-        cart_data: res?.data?.result?.cart_details
-      }
-      try {
-        await dispatch(cartData(formData))
-      } catch (error) {
-        console.log(error)
-      }
+    dispatch(getCartListById(formData)).then(async (res: any) => {
+      console.log(res)
+      setCartCount(res?.payload?.cart_details)
     })
   }
 
@@ -85,13 +87,13 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
           </div>
           </div>
           <div className="d-flex align-items-center overflow-auto">
-            {droppedProducts?.map((item: any, index: number) => (
-              <div key={index} className='px-1 bg-transparent border-0'>
-                <img src={item?.image} width='152' height='80' alt="Top Deals" />
-                <p className='fs-7 mb-0 theme-font text-center py-2'>{item?.description}</p>
-              </div>
-            ))}
-            {cartCount?.map((count: any, index: number) => (
+            {/*{droppedProducts?.map((item: any, index: number) => (*/}
+            {/*  <div key={index} className='px-1 bg-transparent border-0'>*/}
+            {/*    <img src={item?.image} width='152' height='80' alt="Top Deals" />*/}
+            {/*    <p className='fs-7 mb-0 theme-font text-center py-2'>{item?.description}</p>*/}
+            {/*  </div>*/}
+            {/*))}*/}
+            {cart?.cart_details?.map((count: any, index: number) => (
               <div key={index} className='px-1 bg-transparent border-0'>
                 <img src={count?.image} width='152' height='80' alt="Top Deals" />
                 <p className='fs-7 mb-0 theme-font text-center py-2'>{count?.product_name}</p>
@@ -101,13 +103,13 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
           {isActive && <div>
             <h6 className='theme-font text-center'>Drop Items here</h6>
           </div>}
-          {/*{cart?.cartInfo?.map((item: any) => (*/}
-          {/*  <button className='px-1 bg-transparent border-0'>*/}
-          {/*    <img src={item?.image} width='152' height='80' alt="Top Deals" />*/}
-          {/*    <p*/}
-          {/*      className='fs-7 mb-0 theme-font text-center py-2'>{item?.description}</p>*/}
-          {/*  </button>*/}
-          {/*))}*/}
+          {cart?.cartInfo?.map((item: any) => (
+            <button className='px-1 bg-transparent border-0'>
+              <img src={item?.image} width='152' height='80' alt="Top Deals" />
+              <p
+                className='fs-7 mb-0 theme-font text-center py-2'>{item?.product_name}</p>
+            </button>
+          ))}
         </Card.Body>
       </Card>
     </div>

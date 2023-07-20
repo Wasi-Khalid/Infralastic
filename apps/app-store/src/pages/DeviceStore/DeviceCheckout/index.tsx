@@ -1,11 +1,17 @@
 import {Breadcrumb, Card, Col, Form, InputGroup, Row} from "react-bootstrap";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import creditCard from '../../../assets/payment/credit-card.png';
 import debitCard from '../../../assets/payment/debit-card.png';
 import paypalCard from '../../../assets/payment/paypal.png';
 import {CiShoppingCart} from "react-icons/ci";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import { cartDelete, checkoutOrder, useGlobalDispatch, useGlobalSelector } from "@infralastic/global-state";
+import {
+  cartDelete,
+  checkoutOrder,
+  deleteCartList,
+  useGlobalDispatch,
+  useGlobalSelector
+} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {AiOutlineDelete} from "react-icons/ai";
 import {BiArrowBack} from "react-icons/bi";
@@ -26,17 +32,22 @@ const DeviceCheckout = () => {
   const [creditCardNumber, setCreditCardNumber] = useState<any>(null);
   const [exp, setExp] = useState('');
   const [cvv, setCvv] = useState<any>(null);
+  const [cartItems, setCartItems] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const cartData = useGlobalSelector((state) => state.cart);
-  const totalCost = cartData?.cartInfo.reduce((total: number, item: any) => total + item?.cost, 0);
-
-  console.log(cartData, 'cart data')
+  const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
+  const totalCost = cartInfo?.cart_details?.reduce((total: number, item: any) => total + item?.price, 0) || 0;
 
   const id: any = searchParams.get('productId');
 
-  const product = cartData?.cartInfo.map((item: any) => ({
+  const product = cartInfo?.cart_details?.map((item: any) => ({
     product_id: item.productId
   }));
+
+  useEffect(() => {
+    if (cartInfo && cartInfo.cart_details) {
+      setCartItems(cartInfo.cart_details);
+    }
+  }, [cartInfo]);
 
   const createDownloadableTxtFile = (orderNo: any) => {
     const content = `Order Number: ${orderNo}`;
@@ -86,14 +97,17 @@ const DeviceCheckout = () => {
     })
   }
 
-  const handleDelete = async (index: any) => {
+  const handleDelete = async (id: any) => {
     const formData: any = {
-      cart_data: cartData?.cartInfo,
-      index: index
+      cartlist_no: 1,
+      product_id: id
     }
     try {
-      await dispatch(cartDelete(formData)).then(() => {
+      dispatch(cartDelete(formData)).then(() => {
         toast.success('Item Removed Successfully')
+        setCartItems((prevCartItems) =>
+          prevCartItems.filter((item: any) => item.product_id !== id)
+        );
       })
     } catch (error) {
       console.log(error)
@@ -359,11 +373,11 @@ const DeviceCheckout = () => {
                         <p className='theme-font'>Your cart</p>
                       </div>
                       <div className='w-50 d-flex justify-content-end'>
-                        <span className='theme-font'><CiShoppingCart size={22} /><span className='ms-1 m-0'>{cartData?.cartInfo?.length} item</span></span>
+                        <span className='theme-font'><CiShoppingCart size={22} /><span className='ms-1 m-0'>{cartItems?.length} item</span></span>
                       </div>
                     </div>
                     <div className="py-3">
-                      {cartData?.cartInfo.map((item: any, index: any) => (
+                      {cartItems?.map((item: any, index: any) => (
                         <>
                           <div className="d-flex w-100">
                             <div className="d-flex justify-content-start w-75">
@@ -372,16 +386,16 @@ const DeviceCheckout = () => {
                                 <button
                                   className='bg-theme-danger border-0 w-auto rounded text-white'
                                   type='button'
-                                  onClick={() => handleDelete(index)}
+                                  onClick={() => handleDelete(item?.product_id)}
                                 ><AiOutlineDelete /></button>
                               </div>
                               <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
-                                <p className='theme-font mb-1'>{item?.description}</p>
+                                <p className='theme-font mb-1'>{item?.product_name}</p>
                                 <p className='theme-font fs-7 text-muted'>Brief description </p>
                               </div>
                             </div>
                             <div className="d-flex flex-column justify-content-end w-25">
-                              <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.cost}</h5>
+                              <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.price}</h5>
                             </div>
                           </div>
                           <hr/>

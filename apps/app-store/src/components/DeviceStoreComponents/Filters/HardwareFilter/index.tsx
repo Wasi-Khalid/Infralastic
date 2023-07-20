@@ -31,7 +31,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Other (75)</label>
+                <label className="text-muted fs-7 ms-2">Other</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -43,7 +43,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Desktop (3)</label>
+                <label className="text-muted fs-7 ms-2">Desktop</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -55,7 +55,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Laptop (3)</label>
+                <label className="text-muted fs-7 ms-2">Laptop</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -67,7 +67,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Keyboard (5)</label>
+                <label className="text-muted fs-7 ms-2">Keyboard</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -79,7 +79,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Mouse (11)</label>
+                <label className="text-muted fs-7 ms-2">Mouse</label>
               </div>
               <div className="d-flex py-1">
                 <input
@@ -91,7 +91,7 @@ const HardwareFilter = ({ onData }: { onData: any }) => {
                   type="checkbox"
                   className="form-check-input"
                 />
-                <label className="text-muted fs-7 ms-2">Display (35)</label>
+                <label className="text-muted fs-7 ms-2">Display</label>
               </div>
             </form>
           )}

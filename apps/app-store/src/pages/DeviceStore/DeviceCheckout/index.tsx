@@ -6,9 +6,10 @@ import paypalCard from '../../../assets/payment/paypal.png';
 import {CiShoppingCart} from "react-icons/ci";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {
-  cartDelete,
+  addToCartList,
+  cartDelete, cartRemove,
   checkoutOrder,
-  deleteCartList,
+  deleteCartList, getLocation,
   useGlobalDispatch,
   useGlobalSelector
 } from "@infralastic/global-state";
@@ -33,6 +34,7 @@ const DeviceCheckout = () => {
   const [exp, setExp] = useState('');
   const [cvv, setCvv] = useState<any>(null);
   const [cartItems, setCartItems] = useState([]);
+  const [locationData, setLocationData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
   const totalCost = cartInfo?.cart_details?.reduce((total: number, item: any) => total + item?.price, 0) || 0;
@@ -40,7 +42,7 @@ const DeviceCheckout = () => {
   const id: any = searchParams.get('productId');
 
   const product = cartInfo?.cart_details?.map((item: any) => ({
-    product_id: item.productId
+    product_id: item.product_id
   }));
 
   useEffect(() => {
@@ -70,13 +72,14 @@ const DeviceCheckout = () => {
       username: userName,
       address: address,
       address_2: address2,
-      zip_code: JSON.parse(zip),
+      zip_code: 1,
       country_id: JSON.parse(country),
-      state_id: JSON.parse(state),
+      state_id: 1,
       user: 1,
       product_ids: product,
       company_id: 1,
-      company_name:"My Company"
+      company_name:"My Company",
+      cartlist_no: 1
     }
     checkoutOrder(formData).then((res: any) => {
       if (res.data?.result?.success === true) {
@@ -105,14 +108,61 @@ const DeviceCheckout = () => {
     try {
       dispatch(cartDelete(formData)).then(() => {
         toast.success('Item Removed Successfully')
-        setCartItems((prevCartItems) =>
-          prevCartItems.filter((item: any) => item.product_id !== id)
+        setCartItems((prevCartItems:any) =>
+          prevCartItems.map((item: any) =>
+            item.product_id === id ? { ...item, product_qty: item.product_qty - 1 } : item
+          )
         );
       })
     } catch (error) {
       console.log(error)
     }
   }
+  const handleRemove = async (id: any) => {
+    const formData: any = {
+      cartlist_no: 1,
+      product_id: id
+    }
+    try {
+      dispatch(cartRemove(formData)).then(() => {
+        toast.success('Item Removed Successfully')
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const handleAddCart = async (id: any) => {
+    const formData = {
+      cartlist_no: 1,
+      product_id: id
+    }
+    try {
+      await dispatch(addToCartList(formData)).then((res: any) => {
+        toast.success('Item Added Successfully')
+        console.log(res)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchLocation = () => {
+    const config = {}
+    getLocation(config).then((res: any) => {
+      setLocationData(res.data.result.location_details)
+    })
+  }
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  const calculateTotal = (items: any) => {
+    let total = 0;
+    items.forEach((item: any) => {
+      total += item.price * item.product_qty;
+    });
+    return total;
+  };
 
 
   return(
@@ -226,40 +276,36 @@ const DeviceCheckout = () => {
                           required={true}
                           onChange={(e: any) => setCountry(e.target.value)}
                         >
-                          <option value='0'>Select Country</option>
-                          <option value='1'>London</option>
-                          <option value='2'>Barcelona</option>
+                          <option value=''>Select Country</option>
+                          {locationData.map((item: any) => (
+                            <option value={item?.location_id}>{item?.location_name}</option>
+                          ))}
                         </Form.Select>
                       </Form.Group>
                     </Col>
                     <Col md={4}>
+
                       <Form.Group className="mb-3" controlId="state">
                         <Form.Label className='fs-7 mb-1 theme-font'>State</Form.Label>
-                        <Form.Select
+                        <Form.Control
+                          type="name"
+                          value={state}
                           className='bg-white shadow fs-7 theme-font p-2 px-3'
-                          aria-label="Default select example"
+                          onChange={(e) => setState(e.target.value)}
                           required={true}
-                          onChange={(e: any) => setState(e.target.value)}
-                        >
-                          <option value='0'>Select State</option>
-                          <option value='1'>Europe</option>
-                          <option value='2'>USA</option>
-                        </Form.Select>
+                        />
                       </Form.Group>
                       </Col>
                     <Col md={4}>
                       <Form.Group className="mb-3" controlId="country">
                         <Form.Label className='fs-7 mb-1 theme-font'>Zip</Form.Label>
-                        <Form.Select
+                        <Form.Control
+                          type="name"
+                          value={zip}
                           className='bg-white shadow fs-7 theme-font p-2 px-3'
-                          aria-label="Default select example"
+                          onChange={(e) => setZip(e.target.value)}
                           required={true}
-                          onChange={(e: any) => setZip(e.target.value)}
-                        >
-                          <option value='0'>Select Zip</option>
-                          <option value='39350'>39350</option>
-                          <option value='39898'>39898</option>
-                        </Form.Select>
+                        />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -386,7 +432,7 @@ const DeviceCheckout = () => {
                                 <button
                                   className='bg-theme-danger border-0 w-auto rounded text-white'
                                   type='button'
-                                  onClick={() => handleDelete(item?.product_id)}
+                                  onClick={() => handleRemove(item?.product_id)}
                                 ><AiOutlineDelete /></button>
                               </div>
                               <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
@@ -394,8 +440,21 @@ const DeviceCheckout = () => {
                                 <p className='theme-font fs-7 text-muted'>Brief description </p>
                               </div>
                             </div>
-                            <div className="d-flex flex-column justify-content-end w-25">
-                              <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.price}</h5>
+                            <div className="d-flex flex-column w-25">
+                              <div className='d-flex justify-content-end'>
+                                <button
+                                  className='m-0 border-0 bg-transparent'
+                                  onClick={() => handleAddCart(item?.product_id)}
+                                >+</button>
+                                <span>{item?.product_qty}</span>
+                                <button
+                                  className='m-0 border-0 bg-transparent'
+                                  onClick={() => handleDelete(item?.product_id)}
+                                >-</button>
+                              </div>
+                              <div className="d-flex flex-column justify-content-end">
+                                <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.price * item?.product_qty}</h5>
+                              </div>
                             </div>
                           </div>
                           <hr/>
@@ -417,7 +476,7 @@ const DeviceCheckout = () => {
                           <h5 className='theme-font'>Total</h5>
                         </div>
                         <div className="w-50 text-end">
-                          <h5 className='theme-font theme-danger m-0'>${totalCost}</h5>
+                          <h5 className='theme-font theme-danger m-0'>${calculateTotal(cartItems)}</h5>
                         </div>
                       </div>
                     </div>

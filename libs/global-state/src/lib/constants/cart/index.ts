@@ -4,7 +4,7 @@ import {
   addToCartList,
   getWishListById,
   addToWishList,
-  wishDelete
+  wishDelete, cartRemove, wishRemove
 } from "../../actions/Cart";
 
 export const GetCartActionType: any = {
@@ -22,6 +22,11 @@ export const CartDeleteActionType: any = {
   CartDeleteSuccess: cartDelete.fulfilled,
   CartDeleteFail: cartDelete.rejected,
 };
+export const CartRemoveActionType: any = {
+  CartRemovePending: cartRemove.pending,
+  CartRemoveSuccess: cartRemove.fulfilled,
+  CartRemoveFail: cartRemove.rejected,
+};
 export const GetWishActionType: any = {
   GetWishPending: getWishListById.pending,
   GetWishSuccess: getWishListById.fulfilled,
@@ -36,4 +41,9 @@ export const WishDeleteActionType: any = {
   WishDeletePending: wishDelete.pending,
   WishDeleteSuccess: wishDelete.fulfilled,
   WishDeleteFail: wishDelete.rejected,
+};
+export const WishRemoveActionType: any = {
+  WishRemovePending: wishRemove.pending,
+  WishRemoveSuccess: wishRemove.fulfilled,
+  WishRemoveFail: wishRemove.rejected,
 };

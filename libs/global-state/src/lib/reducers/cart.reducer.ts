@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   AddCartActionType,
   AddWishActionType,
-  CartDeleteActionType,
+  CartDeleteActionType, CartRemoveActionType,
   GetCartActionType,
-  GetWishActionType, WishDeleteActionType
+  GetWishActionType, WishDeleteActionType, WishRemoveActionType
 } from "../constants/cart";
 
 const initialState: any = {
@@ -68,6 +68,21 @@ const cartSlice = createSlice({
       state.error = payload;
     },
 
+    [CartRemoveActionType.CartRemovePending]: (state: any) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [CartRemoveActionType.CartRemoveSuccess]: (state, {payload}) => {
+      state.loading = false;
+      state.success = true;
+      state.error = null;
+      state.message = "Cart Removed";
+    },
+    [CartRemoveActionType.CartRemoveFail]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
     [GetWishActionType.GetWishPending]: (state: any) => {
       state.loading = true;
       state.error = null;
@@ -111,6 +126,21 @@ const cartSlice = createSlice({
       state.message = "WishList Deleted";
     },
     [WishDeleteActionType.WishDeleteFail]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
+    [WishRemoveActionType.WishRemovePending]: (state: any) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [WishRemoveActionType.WishRemoveSuccess]: (state, {payload}) => {
+      state.loading = false;
+      state.success = true;
+      state.error = null;
+      state.message = "WishList Removed";
+    },
+    [WishRemoveActionType.WishRemoveFail]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

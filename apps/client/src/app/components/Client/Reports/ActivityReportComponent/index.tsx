@@ -6,7 +6,7 @@ import { BiDotsHorizontalRounded, BiDotsVerticalRounded } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { saveAs } from "file-saver";
 import {
-  fetchAssetReportByCompany,
+  fetchAssetReportByCompany, getAllAssets,
   useGlobalDispatch,
 } from "@infralastic/global-state";
 
@@ -15,13 +15,22 @@ const ActivityReportComponent = () => {
   const router = useNavigate();
   const [assetInfo, setAssetInfo] = useState([]);
 
+  // function fetchAssetInfo() {
+  //   const formData = {
+  //     company_id: 1,
+  //     page_no: 1
+  //   };
+  //   dispatch(fetchAssetReportByCompany(formData)).then((res: any) => {
+  //     setAssetInfo(res?.payload?.asset_details);
+  //   });
+  // }
   function fetchAssetInfo() {
     const formData = {
       company_id: 1,
       page_no: 1
     };
-    dispatch(fetchAssetReportByCompany(formData)).then((res: any) => {
-      setAssetInfo(res?.payload?.asset_details);
+    getAllAssets(formData).then((res: any) => {
+      setAssetInfo(res?.data?.result?.asset_details);
     });
   }
 
@@ -50,6 +59,14 @@ const ActivityReportComponent = () => {
     saveAs(blob, `${id}.csv`);
   }
 
+  const calculateTotalCost = (data: any) => {
+    let totalCost = 0;
+    data.forEach((item: any) => {
+      totalCost += parseFloat(item.cost);
+    });
+    return totalCost.toFixed(2);
+  };
+
   return (
     <>
       <Card>
@@ -57,6 +74,7 @@ const ActivityReportComponent = () => {
           <div className="d-flex w-100 p-2">
             <div className="d-flex align-items-center w-25">
               <h5 className="m-0 theme-font">Activity Report</h5>
+              <h5 className="ms-5 mb-0 theme-font">Total: <span className='theme-danger'>${calculateTotalCost(assetInfo)}</span></h5>
             </div>
             <div className="w-75 d-flex justify-content-end">
               <div>
@@ -158,6 +176,18 @@ const ActivityReportComponent = () => {
               </th>
               <th>
                 <p className="py-2 m-0 fs-13 text-uppercase">
+                  Location
+                  <HiChevronUpDown size={18} className="ms-1" />
+                </p>
+              </th>
+              <th>
+                <p className="py-2 m-0 fs-13 text-uppercase">
+                  Department
+                  <HiChevronUpDown size={18} className="ms-1" />
+                </p>
+              </th>
+              <th>
+                <p className="py-2 m-0 fs-13 text-uppercase">
                   Assigned to
                   <HiChevronUpDown size={18} className="ms-1" />
                 </p>
@@ -196,6 +226,16 @@ const ActivityReportComponent = () => {
                   </h6>
                 </td>
                 <td>
+                  <h6 className="text-muted fs-7 m-0">
+                    {item?.location_name}
+                  </h6>
+                </td>
+                <td>
+                  <h6 className="text-muted fs-7 m-0">
+                    {item?.department_name}
+                  </h6>
+                </td>
+                <td>
                   {item?.employee_id ? (
                     <div className="d-flex align-items-center">
                       <img
@@ -216,7 +256,7 @@ const ActivityReportComponent = () => {
                   )}
                 </td>
                 <td>
-                  <h6 className="text-muted fs-7 m-0">{item?.cost}</h6>
+                  <h6 className="text-muted fs-7 m-0">{item?.cost}$</h6>
                 </td>
                 <td>
                   <div className="d-flex justify-content-end align-items-center">

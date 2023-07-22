@@ -63,7 +63,7 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
 
   useEffect(() => {
     getCart()
-  }, [])
+  }, [cart.message])
 
   const isActive = canDrop && isOver;
 
@@ -95,6 +95,11 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
             {/*))}*/}
             {cart?.cart_details?.map((count: any, index: number) => (
               <div key={index} className='px-1 bg-transparent border-0'>
+                <div className="position-absolute mb-3 me-3">
+                  <span className="rounded-circle px-1 fs-13 text-white bg-theme-danger">
+                    {count?.product_qty}
+                  </span>
+                </div>
                 <img src={count?.image} width='152' height='80' alt="Top Deals" />
                 <p className='fs-7 mb-0 theme-font text-center py-2'>{count?.product_name}</p>
               </div>
@@ -104,11 +109,13 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
             <h6 className='theme-font text-center'>Drop Items here</h6>
           </div>}
           {cart?.cartInfo?.map((item: any) => (
-            <button className='px-1 bg-transparent border-0'>
-              <img src={item?.image} width='152' height='80' alt="Top Deals" />
-              <p
-                className='fs-7 mb-0 theme-font text-center py-2'>{item?.product_name}</p>
-            </button>
+            <>
+              <button className='px-1 bg-transparent border-0'>
+                <img src={item?.image} width='152' height='80' alt="Top Deals" />
+                <p
+                  className='fs-7 mb-0 theme-font text-center py-2'>{item?.product_name}</p>
+              </button>
+            </>
           ))}
         </Card.Body>
       </Card>

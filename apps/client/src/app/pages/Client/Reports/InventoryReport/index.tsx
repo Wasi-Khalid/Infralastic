@@ -1,33 +1,69 @@
-import {Button, Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
+import {Button, Card, Dropdown, DropdownButton, Form, InputGroup, Table} from "react-bootstrap";
 import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import {BiDotsVerticalRounded, BiArrowBack} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {fetchAssetReportByCompany, useGlobalDispatch} from "@infralastic/global-state";
+import {
+  fetchAllDepartment,
+  fetchAssetReportByCompany,
+  getAllAssets, getLocation,
+  useGlobalDispatch
+} from "@infralastic/global-state";
 import {saveAs} from "file-saver";
+import {HiFilter} from "react-icons/hi";
+import {LuSettings2} from "react-icons/lu";
+import {BsPlus} from "react-icons/bs";
 
 const InventoryReport = () => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
-  const [assetInfo, setAssetInfo] = useState([]);
+  const [assets, setAssets] = useState<any>([]);
+  const [originalData, setOriginalData] = useState<any>([])
+  const [department, setDepartment] = useState<any>([]);
+  const [location, setLocation] = useState<any>([]);
+  const [locationFilter, setLocationFilter] = useState('');
+  const [departmentFilter, setDepartmentFilter] = useState('');
 
   function fetchAssetInfo() {
     const formData = {
       company_id: 1,
       page_no: 1
     };
-    dispatch(fetchAssetReportByCompany(formData)).then((res: any) => {
-      setAssetInfo(res?.payload?.asset_details);
+    getAllAssets(formData).then((res: any) => {
+      setOriginalData(res?.data?.result?.asset_details);
+      setAssets(res?.data?.result?.asset_details);
     });
+  }
+  const getDepartment = () => {
+    const config: any = {}
+    try {
+      dispatch(fetchAllDepartment(config)).then(async (res: any) => {
+        setDepartment(res.payload.departments_details)
+      });
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
+  const fetchLocation = () => {
+    const config = {}
+    getLocation(config).then((res: any) => {
+      setLocation(res.data.result.location_details)
+    })
   }
 
   useEffect(() => {
     fetchAssetInfo();
+    getDepartment();
+    fetchLocation()
   }, []);
 
+  useEffect(() => {
+    applyFilters();
+  }, [locationFilter, departmentFilter]);
+
   function downloadCSV() {
-    const csvData = assetInfo.map((item) =>
+    const csvData = assets.map((item: any) =>
       Object.values(item).join(",")
     );
     const csvContent = csvData.join("\n");
@@ -37,7 +73,7 @@ const InventoryReport = () => {
   }
   function downloadSingleCSV(id: any) {
     // Convert assetInfo to CSV format
-    const csvData = assetInfo.filter((res: any) => res.asset_unique_id === id).map((item) =>
+    const csvData = assets.filter((res: any) => res.asset_unique_id === id).map((item: any) =>
       Object.values(item).join(",")
     )
     const csvContent = csvData.join("\n");
@@ -46,6 +82,46 @@ const InventoryReport = () => {
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
     saveAs(blob, `${id}.csv`);
   }
+
+  const calculateTotalCost = (data: any) => {
+    let totalCost = 0;
+    data.forEach((item: any) => {
+      totalCost += parseFloat(item.cost);
+    });
+    return totalCost.toFixed(2);
+  };
+
+  const applyFilters = () => {
+    setAssets((prevAssets: any) => {
+      let filteredData = [...originalData];
+
+      if (locationFilter !== '') {
+        filteredData = filteredData.filter((res) => res.location_name === locationFilter);
+      }
+
+      if (departmentFilter !== '') {
+        filteredData = filteredData.filter((res) => res.department_name === departmentFilter && res.employee_id);
+      }
+
+      return filteredData;
+    });
+  };
+
+  const filterLocation = (value: any) => {
+    if (value === '') {
+      setAssets(originalData)
+    }
+    setLocationFilter(value);
+    applyFilters();
+  };
+
+  const filterDepartment = (value: any) => {
+    if (value === '') {
+      setAssets(originalData)
+    }
+    setDepartmentFilter(value);
+    applyFilters();
+  };
   return(
     <>
       <br/>
@@ -62,8 +138,43 @@ const InventoryReport = () => {
           <div className='d-flex w-100 p-2'>
             <div className='d-flex align-items-center w-25'>
               <h5 className='m-0 theme-font'>Inventory Report</h5>
+              <h5 className="ms-5 mb-0 theme-font">Total: <span className='theme-danger'>${calculateTotalCost(assets)}</span></h5>
             </div>
             <div className="w-75 d-flex justify-content-end">
+              <Form.Group className="py-1 mx-2" controlId="location">
+                <InputGroup className="py-1 w-50 float-end">
+                  <InputGroup.Text id="basic-addon1" className='bg-transparent px-2'><HiFilter className='me-1 theme-danger'/></InputGroup.Text>
+                  <Form.Select
+                    className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
+                    aria-label="Default select example"
+                    required={true}
+                    value={locationFilter}
+                    onChange={(e: any) => filterLocation(e.target.value)}
+                  >
+                    <option onClick={() => setAssets(originalData)} value=''>Select Location</option>
+                    {location?.map((item: any) => (
+                      <option value={item.location_name} className='theme-font fs-7'>{item?.location_name}</option>
+                    ))}
+                  </Form.Select>
+                </InputGroup>
+              </Form.Group>
+              <Form.Group className="py-1 mx-2" controlId="department">
+                <InputGroup className="py-1">
+                  <InputGroup.Text id="basic-addon3" className='bg-transparent px-2'><HiFilter className='me-1 theme-danger'/></InputGroup.Text>
+                  <Form.Select
+                    className='py-1 ps-0 fs-7 theme-font text-muted border-start-0 '
+                    aria-label="Default select example"
+                    required={true}
+                    value={departmentFilter}
+                    onChange={(e: any) => filterDepartment(e.target.value)}
+                  >
+                    <option onClick={() => setAssets(originalData)} value=''>Select Department</option>
+                    {department?.map((item: any) => (
+                      <option value={item.department_name} className='theme-font fs-7'>{item.department_name}</option>
+                    ))}
+                  </Form.Select>
+                </InputGroup>
+              </Form.Group>
               <div>
                 <input placeholder='Search' type="search" className='form-control'/>
               </div>
@@ -108,6 +219,18 @@ const InventoryReport = () => {
               </th>
               <th>
                 <p className="py-2 m-0 fs-13 text-uppercase">
+                  Location
+                  <HiChevronUpDown size={18} className="ms-1" />
+                </p>
+              </th>
+              <th>
+                <p className="py-2 m-0 fs-13 text-uppercase">
+                  Department
+                  <HiChevronUpDown size={18} className="ms-1" />
+                </p>
+              </th>
+              <th>
+                <p className="py-2 m-0 fs-13 text-uppercase">
                   Assigned to
                   <HiChevronUpDown size={18} className="ms-1" />
                 </p>
@@ -118,7 +241,7 @@ const InventoryReport = () => {
             </tr>
             </thead>
             <tbody>
-            {assetInfo?.map((item: any) => (
+            {assets?.map((item: any) => (
               <tr key={item.id}>
                 <td>
                   <div className="d-flex align-items-center">
@@ -146,6 +269,16 @@ const InventoryReport = () => {
                   </h6>
                 </td>
                 <td>
+                  <h6 className="text-muted fs-7 m-0">
+                    {item?.location_name}
+                  </h6>
+                </td>
+                <td>
+                  <h6 className="text-muted fs-7 m-0">
+                    {item?.department_name}
+                  </h6>
+                </td>
+                <td>
                   {item?.employee_id ? (
                     <div className="d-flex align-items-center">
                       <img
@@ -166,7 +299,7 @@ const InventoryReport = () => {
                   )}
                 </td>
                 <td>
-                  <h6 className="text-muted fs-7 m-0">{item?.cost}</h6>
+                  <h6 className="text-muted fs-7 m-0">{item?.cost}$</h6>
                 </td>
                 <td>
                   <div className="d-flex justify-content-end align-items-center">

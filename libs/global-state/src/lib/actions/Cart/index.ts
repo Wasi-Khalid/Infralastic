@@ -72,6 +72,29 @@ export const cartDelete = createAsyncThunk(
     }
   }
 );
+export const cartRemove = createAsyncThunk(
+  "cart/remove",
+  async (
+    { cartlist_no, product_id }
+      : { cartlist_no: any, product_id: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data: any = {};
+      await api.removeCartProduct({cartlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
 export const getWishListById = createAsyncThunk(
   "wish/get",
   async (
@@ -130,6 +153,29 @@ export const wishDelete = createAsyncThunk(
       const { cart }: any = getState();
       let data: any = {};
       await api.deleteWishList({wishlist_no, product_id}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+export const wishRemove = createAsyncThunk(
+  "wish/remove",
+  async (
+    {wishlist_no, product_id}
+      : { wishlist_no: any, product_id: any},
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { cart }: any = getState();
+      let data: any = {};
+      await api.removeWishlistProduct({wishlist_no, product_id}).then((res: any) => {
         data = res.data.result;
       });
       return data;

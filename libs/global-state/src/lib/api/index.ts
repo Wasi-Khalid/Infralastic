@@ -156,6 +156,9 @@ export const getWishList = (formData: any) =>
 export const deleteWishList = (formData: any) =>
   API.post('/api/delete_wish_list_product', formData)
 
+export const removeWishlistProduct = (formData: any) =>
+  API.post('/api/remove_wish_list_product', formData)
+
 export const addCartList = (formData: any) =>
   API.post('/api/add_cart_list_product', formData)
 
@@ -164,6 +167,9 @@ export const getCartList = (formData: any) =>
 
 export const deleteCartList = (formData: any) =>
   API.post('/api/delete_cart_list_product', formData)
+
+export const removeCartProduct = (formData: any) =>
+  API.post('/api/remove_cart_list_product', formData)
 
 
 

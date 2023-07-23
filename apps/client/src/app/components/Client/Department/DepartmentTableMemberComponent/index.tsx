@@ -163,6 +163,7 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
               assetData={assetData}
               data={data}
               show={show}
+              company_id={''}
               hide={() => setShow(false)}
             />
           }

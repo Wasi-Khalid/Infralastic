@@ -123,8 +123,7 @@ const OrderDetail = () => {
                   <img src={fake} width='71' height='65' alt=""/>
                   <div className='d-flex flex-column px-3'>
                     <p className='mb-2 theme-font'>{productData[0]?.address}</p>
-                    <p className='mb-1 fs-7 theme-font text-muted'>326, Hoffman Avenue, New york</p>
-                    <p className='mb-1 fs-7 theme-font text-muted'>United States - 10016</p>
+                    <p className='mb-1 fs-7 theme-font text-muted'>{productData[0]?.state_name} -{productData[0]?.zip_code}</p>
                     <p className='theme-font'>Phone Number  - +1 XXXXX YYYYY</p>
                   </div>
                 </div>

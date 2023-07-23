@@ -44,8 +44,8 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
       if (company) {
         setViewport((prevState) => ({
           ...prevState,
-          latitude: company.latitude,
-          longitude: company.longitude,
+          latitude: company?.latitude,
+          longitude: company?.longitude,
         }));
       }
     }, [query]);
@@ -78,8 +78,8 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
                             />
                         </div>
                     }
-                    longitude={item.longitude}
-                    latitude={item.latitude}
+                    longitude={item?.longitude ? item?.longitude : 0}
+                    latitude={item?.latitude ? item?.longitude : 0}
                 />
             ))}
         </ReactMapGL>

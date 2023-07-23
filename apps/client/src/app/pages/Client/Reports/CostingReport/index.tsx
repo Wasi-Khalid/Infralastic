@@ -9,7 +9,7 @@ import {
   useGlobalDispatch,
   useGlobalSelector
 } from "@infralastic/global-state";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {saveAs} from "file-saver";
 
 const CostingReport = () => {
@@ -118,39 +118,89 @@ const CostingReport = () => {
               </thead>
               <tbody>
               {data?.map((item: any) => (
-                <tr>
+                <tr key={item.id}>
                   <td>
-                    <h6 className='text-muted fs-7 m-0'>{item?.product_name}</h6>
+                    <div className="d-flex align-items-center">
+                      <img
+                        src={item?.image_url}
+                        alt=""
+                        width="38"
+                        height="38"
+                        className="rounded"
+                      />
+                      <div className="d-flex flex-column">
+                        <p className="m-0 ms-2 fs-7">{item?.asset_name}</p>
+                      </div>
+                    </div>
                   </td>
                   <td>
-                    <h6 className='text-muted fs-7 m-0'>{item?.username}</h6>
+                    <h6 className="text-muted fs-7 m-0">{item?.date_added}</h6>
                   </td>
                   <td>
-                    <h6 className='text-muted fs-7 m-0'>{item?.email}</h6>
+                    <h6 className="text-muted fs-7 m-0">{item?.asset_tracking}</h6>
                   </td>
                   <td>
-                    <h6 className='text-muted fs-7 m-0'>{item?.order_no}</h6>
+                    <h6 className="text-muted fs-7 m-0">
+                      {item?.serial_number}
+                    </h6>
                   </td>
                   <td>
-                    <h6 className='text-muted fs-7 m-0'>{item?.product_qty}</h6>
+                    <h6 className="text-muted fs-7 m-0">
+                      {item?.location_name}
+                    </h6>
                   </td>
                   <td>
-                    <div className='d-flex justify-content-end align-items-center'>
+                    <h6 className="text-muted fs-7 m-0">
+                      {item?.department_name}
+                    </h6>
+                  </td>
+                  <td>
+                    {item?.employee_id ? (
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={item?.employee_image}
+                          alt=""
+                          width="32"
+                          height="32"
+                          className="rounded-circle"
+                        />
+                        <p className="m-0 ms-2 fs-7 text-muted">
+                          {item?.employee_name}
+                        </p>
+                      </div>
+                    ) : (
+                      <button className="bg-danger fs-7 text-white border-0 rounded px-2">
+                        un-assigned
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    <h6 className="text-muted fs-7 m-0">{item?.cost}$</h6>
+                  </td>
+                  <td>
+                    <div className="d-flex justify-content-end align-items-center">
                       <button
-                        className='bg-transparent border-0'
-                        type='button'
-                        onClick={() => downloadSingleCSV(item?.product_id)}
+                        className="bg-transparent border-0"
+                        onClick={() => downloadSingleCSV(item?.asset_unique_id)}
                       >
-                        <AiOutlineDownload className='me-2 mt-1' size={20} />
+                        <AiOutlineDownload className="me-2 mt-1" size={20} />
                       </button>
                       <DropdownButton
                         className="bg-transparent custom-btn"
                         id="dropdown-item-button"
-                        title={<BiDotsVerticalRounded className='me-2' size={20} />}
+                        title={
+                          <BiDotsVerticalRounded className="me-2" size={20} />
+                        }
                       >
-                        <Dropdown.Item className='theme-font fs-7' as="button">Archive</Dropdown.Item>
-                        <Dropdown.Item className='theme-font fs-7' as="button">Letigation Hold</Dropdown.Item>
-                        <Dropdown.Item className='theme-font fs-7' as="button">Cyber Investigation</Dropdown.Item>
+                        <Dropdown.Item className="theme-font fs-7" as="button">
+                          Archive
+                        </Dropdown.Item>
+                        <Dropdown.Item className="theme-font fs-7" as="button">
+                          Letigation Hold
+                        </Dropdown.Item>
+                        <Dropdown.Item className="theme-font fs-7" as="button">
+                          Cyber Investigation
+                        </Dropdown.Item>
                       </DropdownButton>
                     </div>
                   </td>

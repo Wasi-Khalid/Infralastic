@@ -2,7 +2,7 @@ import './agent-modal.scss';
 import {Button, Col, Modal, ProgressBar, Row} from "react-bootstrap";
 import {StepLabel, Stepper, Typography, Step} from "@mui/material";
 import React, {useState} from "react";
-import {getInstaller, getSaltInstaller} from "@infralastic/global-state";
+import {getInstaller} from "@infralastic/global-state";
 import { saveAs } from "file-saver";
 import {Loader} from "@infralastic/loader";
 
@@ -14,8 +14,6 @@ const AgentModal = (props: AgentModal) => {
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [installer, setInstaller] = useState<any>('');
-  const [installedUrl, setInstalledUrl] = useState<any>(null);
-  const [saltInstalledUrl, setSaltInstalledUrl] = useState<any>(null);
   const [visible, setVisible] = useState<any>(false);
 
   const steps = [
@@ -27,12 +25,11 @@ const AgentModal = (props: AgentModal) => {
     }
   ];
 
-
   const handleInstaller = () => {
     const config: any = {};
-    const xhr = new XMLHttpRequest();
     getInstaller(config).then((res: any) => {
-      setInstalledUrl(res.data.data.windows);
+      const installerUrl = res.data.data.windows;
+      const xhr = new XMLHttpRequest();
 
       xhr.onprogress = (event) => {
         if (event.lengthComputable) {
@@ -45,46 +42,14 @@ const AgentModal = (props: AgentModal) => {
       xhr.onload = () => {
         console.log('Download Complete');
         setVisible(false)
-        saveAs(installedUrl, "fleet-installer.msi");
+        saveAs(installerUrl, "agent-installer.msi");
       };
       xhr.onerror = () => {
         console.log('Download Error');
       };
-      xhr.open('GET', installedUrl, true);
+      xhr.open('GET', installerUrl, true);
       xhr.send();
     });
-  }
-
-  const handleSaltInstaller = () => {
-    const config: any = {};
-    const xhr = new XMLHttpRequest();
-    getSaltInstaller(config).then((res: any) => {
-      setSaltInstalledUrl(res.data.data.windows);
-
-      xhr.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percentage = Math.round((event.loaded / event.total) * 100);
-          console.log(percentage)
-          setVisible(true);
-          setProgress(percentage)
-        }
-      };
-      xhr.onload = () => {
-        console.log('Download Complete');
-        setVisible(false)
-        saveAs(saltInstalledUrl, "fleet-installer.msi");
-      };
-      xhr.onerror = () => {
-        console.log('Download Error');
-      };
-      xhr.open('GET', saltInstalledUrl, true);
-      xhr.send();
-    });
-  }
-
-  const handleDownload = async () => {
-    handleInstaller();
-    handleSaltInstaller();
   }
   return(
     <>
@@ -156,7 +121,7 @@ const AgentModal = (props: AgentModal) => {
                       <p className='theme-font'>Download the agent installer</p>
                       <button
                         className='theme-font bg-theme-danger border-0 text-white py-2 px-3 rounded'
-                        onClick={() => handleDownload()}
+                        onClick={() => handleInstaller()}
                       >Download</button>
                       {visible && <div className='my-2'>
                         <ProgressBar now={progress} label={`${progress}%`} />

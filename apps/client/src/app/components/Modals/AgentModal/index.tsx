@@ -24,11 +24,16 @@ const AgentModal = (props: AgentModal) => {
       label: 'Download'
     }
   ];
-
   const handleInstaller = () => {
     const config: any = {};
+    let installerUrl: any;
     getInstaller(config).then((res: any) => {
-      const installerUrl = res.data.data.windows;
+      if (installer === 'Window') {
+        installerUrl = res.data.data.windows;
+      } else if (installer === 'Mac') {
+        installerUrl = res.data.data.mac
+      }
+
       const xhr = new XMLHttpRequest();
 
       xhr.onprogress = (event) => {

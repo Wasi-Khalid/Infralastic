@@ -6,7 +6,13 @@ import EmployeeModalComponent from "../../../Modals/EmployeeModal";
 import {AiOutlineEdit} from "react-icons/ai";
 import {MdDelete} from "react-icons/md";
 import {HiBars3} from "react-icons/hi2";
-import {fetchEmployee, fetchEmployeeAsset, useGlobalDispatch} from "@infralastic/global-state";
+import {
+  fetchAllCompany,
+  fetchEmployee,
+  fetchEmployeeAsset,
+  getCompanyById,
+  useGlobalDispatch
+} from "@infralastic/global-state";
 
 import {createSearchParams, useNavigate} from "react-router-dom";
 const EmployeeCardComponent = (
@@ -17,6 +23,7 @@ const EmployeeCardComponent = (
     const [show, setShow] = useState(false);
     const [data, setData] = useState<any>(null);
     const [assetData, setAssetData] = useState<any>(null);
+    const [companyData, setCompanyData] = useState<any>(null);
     const dispatch = useGlobalDispatch();
     const getEmployee = () => {
         const formData: any = {
@@ -33,6 +40,29 @@ const EmployeeCardComponent = (
         }
     }
 
+    const getCompany = () => {
+      const config: any = {}
+      try {
+        dispatch(fetchAllCompany(config)).then(async (res: any) => {
+          setAssetData(res.payload.company_details);
+          setShow(!show);
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
+    }
+    const fetchCompanyById = () => {
+      const config: any = {
+        company_id: company_id
+      }
+      try {
+        getCompanyById(config).then(async (res: any) => {
+          setData(res.data.result);
+        });
+      } catch (err: any) {
+        console.error(err);
+      }
+    }
     const getEmployeeAsset = () => {
       const formData: any = {
         employee_id: employee_id,
@@ -50,6 +80,10 @@ const EmployeeCardComponent = (
     const handleData = () => {
       getEmployee();
       getEmployeeAsset();
+    }
+    const handleCompanyData = () => {
+      getCompany();
+      fetchCompanyById();
     }
     const editEmployee = async () => {
         router({
@@ -75,8 +109,11 @@ const EmployeeCardComponent = (
                           id="dropdown-item-button"
                           title={<BiDotsVerticalRounded />}
                       >
-                          <Dropdown.Item onClick={() => handleData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Details</Dropdown.Item>
+                        {(company_id !== '') && <>
+                          <Dropdown.Item onClick={() => handleCompanyData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Company Details</Dropdown.Item>
+                        </>}
                         {(company_id === '') && <>
+                          <Dropdown.Item onClick={() => handleData()} className='text-muted fs-7' as="button"><HiBars3 className='me-2' />Details</Dropdown.Item>
                           <Dropdown.Item onClick={() => editEmployee()} className='text-muted fs-7' as="button"><AiOutlineEdit className='me-2' />Edit</Dropdown.Item>
                           <Dropdown.Item onClick={handleDelete} className='text-muted fs-7' as="button"><MdDelete className='me-2' />Delete</Dropdown.Item>
                         </>
@@ -101,6 +138,7 @@ const EmployeeCardComponent = (
               assetData={assetData}
               data={data}
               show={show}
+              company_id={company_id}
               hide={() => setShow(false)}
             />
           }

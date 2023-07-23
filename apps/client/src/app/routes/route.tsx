@@ -37,6 +37,7 @@ import Alerts from "../pages/Client/Alerts";
 import AssetChanges from "../pages/Client/AssetDevices/AssetChanges";
 import AssetProof from "../pages/Client/AssetDevices/AssetProof";
 import AssetNotification from "../pages/Client/AssetDevices/AssetNotification";
+import CostingReport from "../pages/Client/Reports/CostingReport";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -173,6 +174,10 @@ const AppRoutes = () => {
               <Route
                     path="/inventory-reports"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<InventoryReport />} />}
+                />
+              <Route
+                    path="/costing-reports"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<CostingReport />} />}
                 />
               <Route
                     path="/license-reports"

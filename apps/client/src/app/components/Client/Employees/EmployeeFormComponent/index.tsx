@@ -387,10 +387,11 @@ const EmployeeFormComponent = () => {
                                             className='px-2 py-1 fs-7 theme-font text-muted'
                                             aria-label="Default select example"
                                             value={department}
+                                            disabled={company === ''}
                                             onChange={(e) => setDepartment(e.target.value)}
                                         >
                                             <option value='0'>Select Department</option>
-                                            {departmentData?.map((item: any) => (
+                                            {departmentData?.filter((item: any) => item?.company_id == company).map((item: any) => (
                                                 <option value={item?.department_id}>{item?.department_name}</option>
                                             ))}
                                         </Form.Select>
@@ -419,9 +420,10 @@ const EmployeeFormComponent = () => {
                                             className='px-2 py-1 fs-7 theme-font text-muted'
                                             aria-label="Default select example"
                                             onChange={(e) => setLocation(e.target.value)}
+                                            disabled={company === ''}
                                         >
                                           <option value=''>Select Location</option>
-                                          {locationData?.map((item: any) => (
+                                          {companyData?.filter((item: any) => item?.company_id == company).map((item: any) => (
                                             <option value={item?.location_id} className='theme-font fs-7'>{item?.location_name}</option>
                                           ))}
                                         </Form.Select>

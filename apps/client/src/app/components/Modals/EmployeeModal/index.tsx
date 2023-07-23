@@ -5,15 +5,20 @@ import desktop from '../../../../assets/desktop1.png';
 import laptop from '../../../../assets/laptop1.png';
 import { AiFillMobile } from "react-icons/ai";
 import { BsHeadphones } from "react-icons/bs";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import {fetchAllCompany, getCompanyById, useGlobalDispatch} from "@infralastic/global-state";
 
-const EmployeeModalComponent = ({show, assetData, hide, data}: {show: any, hide: any,assetData: any, data: any}) => {
+const EmployeeModalComponent = ({show, assetData, company_id, hide, data}: {show: any, hide: any, company_id: any, assetData: any, data: any}) => {
+  const dispatch = useGlobalDispatch()
   const [assets, setAssets] = useState<any>([])
+  const [companyData, setCompanyData] = useState<any>([])
   const lapCount = assetData?.filter((item: any) => item.category_name === 'Laptop');
   const mouseCount = assetData?.filter((item: any) => item.category_name === 'Mouse');
   const desktopCount = assetData?.filter((item: any) => item.category_name === 'Desktop');
   const mobileCount = assetData?.filter((item: any) => item.category_name === 'Mobile');
   const headphoneCount = assetData?.filter((item: any) => item.category_name === 'Headphone');
+
+
   return(
       <>
           <Modal show={show} onHide={hide} size='xl'>
@@ -21,39 +26,66 @@ const EmployeeModalComponent = ({show, assetData, hide, data}: {show: any, hide:
                   <Row>
                       <Col md={6}>
                           <div className='py-3 mb-2 d-flex align-items-center'>
-                              <img src={data.image_url} className='rounded-circle' height='42' width='42' alt=""/>
-                              <h5 className='theme-danger px-2 m-0 theme-font'>{data.employee_name}</h5>
+                              <img src={data?.image_url} className='rounded-circle' height='42' width='42' alt=""/>
+                            {(company_id !== '') ?
+                              <h5 className='theme-danger px-2 m-0 theme-font'>{data?.company_name}</h5>
+                              : <h5 className='theme-danger px-2 m-0 theme-font'>{data?.employee_name}</h5>
+                            }
                           </div>
                           <hr/>
                           <Row>
+                            {(company_id === '') &&
                               <Col md={6}>
                                   <p className='mb-1 theme-font fs-7'>Email</p>
-                                  <p className='theme-danger theme-font fs-7'>{data.email}</p>
+                                  <p className='theme-danger theme-font fs-7'>{data?.email}</p>
                               </Col>
+                            }
+                            {(company_id !== '') &&
                               <Col md={6}>
-                                  <p className='mb-1 theme-font fs-7'>Employee ID</p>
-                                  <p className='theme-danger theme-font fs-7'>#{data.employee_id}</p>
+                                <p className='mb-1 theme-font fs-7'>Name</p>
+                                <p className='theme-danger theme-font fs-7'>{data?.company_name}</p>
                               </Col>
+                            }
+                            {(company_id !== '') ?
                               <Col md={6}>
+                                  <p className='mb-1 theme-font fs-7'>Company ID</p>
+                                  <p className='theme-danger theme-font fs-7'>#{data?.company_id}</p>
+                              </Col> :
+                              <Col md={6}>
+                                <p className='mb-1 theme-font fs-7'>Employee ID</p>
+                                <p className='theme-danger theme-font fs-7'>#{data?.employee_id}</p>
+                              </Col>
+                            }
+                            {(company_id !== '') &&
+                              <Col md={6}>
+                                <p className='mb-1 theme-font fs-7'>Location</p>
+                                <p className='theme-danger theme-font fs-7'>{data?.location_name}</p>
+                              </Col>
+                            }
+                            {(company_id === '') &&
+                              <>
+                                <Col md={6}>
                                   <p className='mb-1 theme-font fs-7'>Phone #</p>
-                                  <p className='theme-font fs-7'>+92 {data.phone}</p>
-                              </Col>
-                              <Col md={6}>
+                                  <p className='theme-font fs-7'>+92 {data?.phone}</p>
+                                </Col>
+                                <Col md={6}>
                                   <p className='mb-1 theme-font fs-7'>Job Designation</p>
-                                  <p className='theme-danger theme-font fs-7'>{data.job_title}</p>
-                              </Col>
-                              <Col md={6}>
+                                  <p className='theme-danger theme-font fs-7'>{data?.job_title}</p>
+                                </Col>
+                                <Col md={6}>
                                   <p className='mb-1 theme-font fs-7'>Department</p>
-                                  <p className='theme-font fs-7'>{data.department_name}</p>
-                              </Col>
-                              <Col md={6}>
+                                  <p className='theme-font fs-7'>{data?.department_name}</p>
+                                </Col>
+                                <Col md={6}>
                                   <p className='mb-1 theme-font fs-7'>Status</p>
                                   <p className='theme-danger theme-font fs-7'>
-                                      <Badge bg="success">
-                                          Active
-                                      </Badge>
+                                    <Badge bg="success">
+                                      Active
+                                    </Badge>
                                   </p>
-                              </Col>
+                                </Col>
+                              </>
+                            }
                           </Row>
                       </Col>
                       <Col md={6}>
@@ -113,7 +145,7 @@ const EmployeeModalComponent = ({show, assetData, hide, data}: {show: any, hide:
                             </Col>
                         </Row>
                         <hr/>
-                        {assets?.map((item: any) => (
+                        {assets?.filter((item: any) => item?.company_id == company_id).map((item: any) => (
                           <Row>
                             <Col md={6}>
                               <p className='mb-1 theme-font fs-7'>Asset Name</p>

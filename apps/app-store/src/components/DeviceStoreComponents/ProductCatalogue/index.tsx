@@ -5,13 +5,15 @@ import React, {useEffect, useState} from "react";
 import {useDrop} from "react-dnd";
 import {ItemTypes} from "../../ItemTypes";
 import {
-  addToCartList,
+  addToCartList, cartRemove,
   getCartList,
   getCartListById,
   useGlobalDispatch,
   useGlobalSelector
 } from "@infralastic/global-state";
 import {BsCart2} from "react-icons/bs";
+ import {AiOutlineDelete} from "react-icons/ai";
+ import {toast} from "react-toastify";
 
 const ProductCatalogue = ({onData}: {onData: any}) => {
   const router = useNavigate();
@@ -67,6 +69,21 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
 
   const isActive = canDrop && isOver;
 
+  const handleRemove = async (id: any) => {
+    const formData: any = {
+      cartlist_no: 1,
+      product_id: id
+    }
+    try {
+      dispatch(cartRemove(formData)).then(() => {
+        toast.success('Item Removed Successfully');
+        getCart();
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return(
     <div ref={drop} className='py-3'>
       <Card>
@@ -95,14 +112,26 @@ const ProductCatalogue = ({onData}: {onData: any}) => {
             {/*))}*/}
             {cart?.cart_details?.map((count: any, index: number) => (
               <div key={index} className='px-1 bg-transparent border-0'>
-                <div className="position-absolute mb-3 me-3">
-                  <span className="rounded-circle px-1 fs-13 text-white bg-theme-danger">
-                    {count?.product_qty}
-                  </span>
+                <div className='d-flex w-100 product-catalogue'>
+                  <div className='w-50'>
+                    <button
+                      className='bg-theme-danger border-0 w-auto rounded text-white'
+                      type='button'
+                      onClick={() => handleRemove(count?.product_id)}
+                    ><AiOutlineDelete /></button>
+                  </div>
+                  <div className="w-50 d-flex justify-content-end">
+                    <div className="">
+                      <span className="rounded-circle px-2 py-1 fs-13 text-white bg-theme-danger">
+                        {count?.product_qty}
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <img src={count?.image} width='152' height='80' alt="Top Deals" />
                 <p className='fs-7 mb-0 theme-font text-center py-2'>{count?.product_name}</p>
               </div>
+
             ))}
           </div>
           {isActive && <div>

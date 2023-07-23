@@ -16,3 +16,6 @@ export const getHostDetail = (config: any) =>
 
 export const getInstaller = (config: any) =>
   API.get(`/installer/fleet`, config)
+
+export const getSaltInstaller = (config: any) =>
+  API.get(`/installer/salt`, config)

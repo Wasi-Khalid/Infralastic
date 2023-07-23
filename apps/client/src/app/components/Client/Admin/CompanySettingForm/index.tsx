@@ -129,31 +129,6 @@ const CompanySettingForm = () => {
               </div>
             </form>
             <br/>
-          </Card.Body>
-        </Card>
-        <Card className='border-0'>
-
-
-          <Card.Header className='bg-dark text-white theme-font'>
-            <p className='m-0 p-2 fs-5'><span className='theme-danger'>Company Details</span></p>
-          </Card.Header>
-          <Card.Body>
-            <div className='d-flex flex-column p-3'>
-              <div className="d-flex mb-3">
-                <p className='w-25 fs-7 theme-font m-0'>Name :</p>
-                <p className='w-75 fs-7 theme-font m-0'>Sheraz Ahmed</p>
-              </div>
-              <div className="d-flex mb-3">
-                <p className='w-25 fs-7 theme-font m-0'>Infralastic Admin :</p>
-                <p className='w-75 fs-7 theme-font m-0'>sheraz@bytelegion.com</p>
-              </div>
-              <div className="d-flex mb-3">
-                <p className='w-25 fs-7 theme-font m-0'>Super Admin:</p>
-                <p className='w-75 fs-7 theme-font m-0'>sheraz@bytelegion.com</p>
-              </div>
-            </div>
-            <br/>
-            <br/>
             <div className="d-flex justify-content-end w-100">
               <button className='border-0 bg-gray text-white px-3 py-2 rounded mx-2'>Cancel</button>
               <button

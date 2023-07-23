@@ -1,4 +1,9 @@
-import {fetchAssetReportByCompany, fetchAllBudgetReport, fetchAllPurchaseReport} from "../../actions/Reports";
+import {
+  fetchAssetReportByCompany,
+  fetchAllBudgetReport,
+  fetchAllPurchaseReport,
+  fetchAllCostingReport
+} from "../../actions/Reports";
 
 export const GetAssetReportActionType: any = {
   GetAssetReportCompanyPending: [fetchAssetReportByCompany.pending],
@@ -14,4 +19,9 @@ export const GetSalesReportActionType: any = {
   GetSalesReportCompanyPending: [fetchAllPurchaseReport.pending],
   GetSalesReportCompanySuccess: [fetchAllPurchaseReport.fulfilled],
   GetSalesReportCompanyFail: [fetchAllPurchaseReport.rejected]
+}
+export const GetCostingReportActionType: any = {
+  GetCostingReportCompanyPending: [fetchAllCostingReport.pending],
+  GetCostingReportCompanySuccess: [fetchAllCostingReport.fulfilled],
+  GetCostingReportCompanyFail: [fetchAllCostingReport.rejected]
 }

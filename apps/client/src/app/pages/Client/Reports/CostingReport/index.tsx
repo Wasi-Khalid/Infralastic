@@ -3,11 +3,16 @@ import {AiOutlineDownload} from "react-icons/ai";
 import {HiChevronUpDown} from "react-icons/hi2";
 import {BiArrowBack, BiDotsVerticalRounded} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
-import {fetchAllPurchaseReport, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
+import {
+  fetchAllCostingReport,
+  fetchAllPurchaseReport,
+  useGlobalDispatch,
+  useGlobalSelector
+} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {saveAs} from "file-saver";
 
-const PurchaseReport = () => {
+const CostingReport = () => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
   const { userInfo } = useGlobalSelector((state) => state.user);
@@ -18,13 +23,13 @@ const PurchaseReport = () => {
 
   const fetchPurchase = () => {
     const formData = {
-      company_id: 1,
+      page_no: 1,
       date_from: from,
       date_to: to
     }
-      dispatch(fetchAllPurchaseReport(formData)).then((res: any) => {
-        setData(res?.payload?.sale_details)
-      })
+    dispatch(fetchAllCostingReport(formData)).then((res: any) => {
+      setData(res?.payload?.asset_details)
+    })
   }
   function downloadCSV() {
     const csvData = data.map((item: any) =>
@@ -65,7 +70,7 @@ const PurchaseReport = () => {
         <Card.Body className='overflow-hidden'>
           <div className='d-flex w-100 p-2'>
             <div className='d-flex align-items-center w-25'>
-              <h5 className='m-0 theme-font'>Purchase Report</h5>
+              <h5 className='m-0 theme-font'>Costing Report</h5>
             </div>
             <div className="w-75 d-flex justify-content-end">
               <div className='mx-2 d-flex align-items-center'>
@@ -150,7 +155,7 @@ const PurchaseReport = () => {
                     </div>
                   </td>
                 </tr>
-                ))}
+              ))}
               </tbody>
             </Table>
           </div>
@@ -174,4 +179,4 @@ const PurchaseReport = () => {
     </>
   )
 }
-export default PurchaseReport;
+export default CostingReport;

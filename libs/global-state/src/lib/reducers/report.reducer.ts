@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {GetAllCompanyActionType, GetCompanyActionType} from "../constants/company";
-import {GetAssetReportActionType, GetPurchaseReportActionType, GetSalesReportActionType} from "../constants/reports";
+import {
+  GetAssetReportActionType,
+  GetCostingReportActionType,
+  GetPurchaseReportActionType,
+  GetSalesReportActionType
+} from "../constants/reports";
 
 const initialState: any = {
   loading: false,
@@ -51,6 +56,19 @@ const reportSlice = createSlice({
       state.purchaseInfo = payload;
     },
     [GetSalesReportActionType.GetSalesReportCompanyFail]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
+    [GetCostingReportActionType.GetCostingReportCompanyPending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [GetCostingReportActionType.GetCostingReportCompanySuccess]: (state, { payload }) => {
+      state.loading = false;
+      state.purchaseInfo = payload;
+    },
+    [GetCostingReportActionType.GetCostingReportCompanyFail]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

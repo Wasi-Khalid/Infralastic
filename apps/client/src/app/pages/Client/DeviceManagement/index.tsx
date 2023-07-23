@@ -7,7 +7,7 @@ import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
 import {useEffect, useState} from "react";
-import {getHosts} from "@infralastic/global-state";
+import {getHosts, getSaltInstaller} from "@infralastic/global-state";
 import {HiDownload} from "react-icons/hi";
 import {LuSettings2} from "react-icons/lu";
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
@@ -110,7 +110,7 @@ const DeviceManagement = () => {
             </tr>
             </thead>
             <tbody>
-            {data.map((item: any) => (
+            {data?.map((item: any) => (
               <tr>
                 <td>
                   <div className='d-flex align-items-center'>

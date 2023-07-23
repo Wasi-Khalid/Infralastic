@@ -1,4 +1,4 @@
-import {Breadcrumb, Card, Col, Row} from "react-bootstrap";
+import {Breadcrumb, Button, Card, Col, Row} from "react-bootstrap";
 import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {fetchAllProductList, fetchProductById, useGlobalDispatch} from "@infralastic/global-state";
@@ -82,6 +82,12 @@ const DeviceDetail  = () => {
                 <hr/>
                 <p className='theme-font text-muted fs-7'>Lorem ipsum dolor sit amet consectetur. Tincidunt lacus id ornare elementum. Fames integer lectus nisi senectus vitae ipsum libero. In aliquet dolor nibh ullamcorper porta pellentesque. Imperdiet lacus penatibus enim tristique massa tellus. Facilisis nunc faucibus metus volutpat rhoncus est blandit. Magna sem congue et ac in. Ipsum enim in elit suscipit libero tempor et. Morbi posuere posuere molestie vel.</p>
                 <h2 className='theme-danger fw-semibold'>${productData?.price}</h2>
+                <div className='my-2 d-flex'>
+                  <Button
+                    className='bg-theme-danger text-white border-0 theme-font me-3'
+                  >Add To Cart</Button>
+                  <Button variant='outline-danger'>Add To Wishlist</Button>
+                </div>
               </div>
             </Col>
           </Row>
@@ -177,7 +183,7 @@ const DeviceDetail  = () => {
           <div className="p-3">
             <h5 className='theme-font'>Related Devices</h5>
             <Row>
-              {allProductData?.map((item: any) => (
+              {allProductData?.filter((item: any) => item?.brand === productData?.brand).map((item: any) => (
                 <Col md={3}>
                   <ProductCard
                     click={() => router({

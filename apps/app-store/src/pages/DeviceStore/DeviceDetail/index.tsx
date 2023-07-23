@@ -1,9 +1,16 @@
 import {Breadcrumb, Button, Card, Col, Row} from "react-bootstrap";
 import ProductCard from "../../../components/DeviceStoreComponents/ProductCard";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
-import {fetchAllProductList, fetchProductById, useGlobalDispatch} from "@infralastic/global-state";
+import {
+  addToCartList,
+  addToWishList,
+  fetchAllProductList,
+  fetchProductById,
+  useGlobalDispatch
+} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {BiArrowBack} from "react-icons/bi";
+import {toast} from "react-toastify";
 const DeviceDetail  = () => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
@@ -28,6 +35,32 @@ const DeviceDetail  = () => {
       setAllProductData(res?.payload?.result?.product_details);
     })
   }
+  const handleAddCart = async (id: any) => {
+    const formData = {
+      cartlist_no: 1,
+      product_id: id
+    }
+    try {
+      await dispatch(addToCartList(formData)).then((res: any) => {
+        toast.success('Item Added Successfully')
+        console.log(res)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const addWishlist = (id: any) => {
+    const formData: any = {
+      wishlist_no: 1,
+      product_id: id
+    }
+    dispatch(addToWishList(formData)).then((res: any) => {
+      if (res?.payload?.success === true) {
+        toast.success('Successfully Added to WishList');
+      }
+    })
+  }
 
   useEffect(() => {
     fetchProduct();
@@ -38,7 +71,7 @@ const DeviceDetail  = () => {
     <div className='d-flex flex-column w-100 h-100vh overflow-y-scroll p-3'>
       <div>
         <Breadcrumb>
-          <Breadcrumb.Item href="">Device Store</Breadcrumb.Item>
+          <Breadcrumb.Item onClick={() => router(-1)}>Device Store</Breadcrumb.Item>
           <Breadcrumb.Item active>{productData?.product_name}</Breadcrumb.Item>
         </Breadcrumb>
       </div>
@@ -85,8 +118,12 @@ const DeviceDetail  = () => {
                 <div className='my-2 d-flex'>
                   <Button
                     className='bg-theme-danger text-white border-0 theme-font me-3'
+                    onClick={() => handleAddCart(productData?.product_id)}
                   >Add To Cart</Button>
-                  <Button variant='outline-danger'>Add To Wishlist</Button>
+                  <Button
+                    variant='outline-danger'
+                    onClick={() => addWishlist(productData?.product_id)}
+                  >Add To Wishlist</Button>
                 </div>
               </div>
             </Col>

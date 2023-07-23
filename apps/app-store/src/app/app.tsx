@@ -24,6 +24,7 @@ function App() {
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
   const wishInfo = useGlobalSelector((state) => state.cart.wishInfo);
   const location = useLocation();
+  const [totalProductQuantity, setTotalProductQuantity] = useState<number>(0);
   const [wishCount, setWishCount] = useState<any>(null)
   const [cartCount, setCartCount] = useState<any>(null)
   const getWish = () => {
@@ -38,6 +39,19 @@ function App() {
     getWish();
   }, [])
 
+
+  const getTotalProductQuantity = (cartDetails: any[]): number => {
+    let totalQuantity = 0;
+    for (const cartItem of cartDetails) {
+      totalQuantity += cartItem.product_qty;
+    }
+    return totalQuantity;
+  };
+
+  useEffect(() => {
+    setTotalProductQuantity(getTotalProductQuantity(cartInfo?.cart_details || []));
+  }, [cartInfo]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles['bg-layout']}>
@@ -49,7 +63,7 @@ function App() {
                   <button className='bg-transparent border-0'>
                     <div className="position-absolute mb-3 me-3">
                       <span className="rounded-circle px-1 fs-13 text-white bg-theme-danger">
-                        {cartInfo?.cart_details?.length}
+                        {totalProductQuantity}
                       </span>
                     </div>
                     <IoBasketOutline className='m-1' size={26} />
@@ -69,7 +83,7 @@ function App() {
                   <button className='bg-transparent border-0'>
                     <div className="position-absolute mb-3 me-3">
                       <span className="rounded-circle px-1 fs-13 text-white bg-theme-danger">
-                        {wishInfo?.wishlist_details?.length}
+                        {wishInfo?.wishlist_details?.length ? wishInfo?.wishlist_details?.length : 0}
                       </span>
                     </div>
                     <AiOutlineHeart className='m-1' size={26} />

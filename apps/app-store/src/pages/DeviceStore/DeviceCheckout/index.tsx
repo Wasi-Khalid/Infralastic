@@ -11,7 +11,7 @@ import {
   checkoutOrder,
   deleteCartList, getLocation,
   useGlobalDispatch,
-  useGlobalSelector
+  useGlobalSelector, wishRemove
 } from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {AiOutlineDelete} from "react-icons/ai";
@@ -34,9 +34,11 @@ const DeviceCheckout = () => {
   const [exp, setExp] = useState('');
   const [cvv, setCvv] = useState<any>(null);
   const [cartItems, setCartItems] = useState([]);
+  const [wishItems, setWishItems] = useState([]);
   const [locationData, setLocationData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
+  const wishInfo = useGlobalSelector((state) => state.cart.wishInfo);
   const totalCost = cartInfo?.cart_details?.reduce((total: number, item: any) => total + item?.price, 0) || 0;
 
   const id: any = searchParams.get('productId');
@@ -46,10 +48,13 @@ const DeviceCheckout = () => {
   }));
 
   useEffect(() => {
-    if (cartInfo && cartInfo.cart_details) {
-      setCartItems(cartInfo.cart_details);
+    if (cartInfo && cartInfo?.cart_details) {
+      setCartItems(cartInfo?.cart_details);
     }
-  }, [cartInfo]);
+    if (wishInfo && wishInfo?.wishlist_details) {
+      setWishItems(wishInfo?.wishlist_details);
+    }
+  }, [cartInfo, wishInfo]);
 
   const createDownloadableTxtFile = (orderNo: any) => {
     const content = `Order Number: ${orderNo}`;
@@ -103,35 +108,98 @@ const DeviceCheckout = () => {
   const handleDelete = async (id: any) => {
     const formData: any = {
       cartlist_no: 1,
+      product_id: id,
+    };
+    try {
+      dispatch(cartDelete(formData)).then(() => {
+        toast.success("Item Removed Successfully");
+        setCartItems((prevCartItems: any) =>
+          prevCartItems.map((item: any) =>
+            item.product_id === id
+              ? { ...item, product_qty: item.product_qty - 1 }
+              : item
+          )
+        );
+        dispatch((state: any) => ({
+          ...state,
+          cart: {
+            ...state?.cart,
+            cartInfo: {
+              ...state?.cart?.cartInfo,
+              cart_details: state?.cart?.cartInfo?.cart_details.map((item: any) =>
+                item?.product_id === id
+                  ? { ...item, product_qty: item?.product_qty - 1 }
+                  : item
+              ).filter((item: any) => item?.product_qty > 0), // Filter out items with quantity 0
+            },
+          },
+        }));
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const handleRemove = async (id: any) => {
+    const formData: any = {
+      cartlist_no: 1,
+      product_id: id,
+    };
+    try {
+      dispatch(cartRemove(formData)).then(() => {
+        toast.success("Item Deleted Successfully");
+        dispatch((state: any) => ({
+          ...state,
+          cart: {
+            ...state?.cart,
+            cartInfo: {
+              ...state?.cart?.cartInfo,
+              cart_details: state?.cart?.cartInfo?.cart_details.filter(
+                (item: any) => item?.product_id !== id
+              ),
+            },
+          },
+        }));
+        setCartItems((prevCartItems: any) =>
+          prevCartItems.filter((item: any) => item.product_id !== id)
+        );
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleWishRemove = async (id: any) => {
+    const formData: any = {
+      wishlist_no: 1,
       product_id: id
     }
     try {
-      dispatch(cartDelete(formData)).then(() => {
-        toast.success('Item Removed Successfully')
-        setCartItems((prevCartItems:any) =>
-          prevCartItems.map((item: any) =>
-            item.product_id === id ? { ...item, product_qty: item.product_qty - 1 } : item
-          )
+      dispatch(wishRemove(formData)).then(() => {
+        toast.success('Item Deleted Successfully')
+        dispatch((state: any) => ({
+          ...state,
+          cart: {
+            ...state?.cart,
+            wishInfo: {
+              ...state?.cart?.wishInfo,
+              wishlist_details: state?.cart?.wishInfo?.wishlist_details.filter(
+                (item: any) => item?.product_id !== id
+              )
+            }
+          }
+        }));
+        setWishItems((prevCartItems: any) =>
+          prevCartItems.filter((item: any) => item?.product_id !== id)
         );
       })
     } catch (error) {
       console.log(error)
     }
   }
-  const handleRemove = async (id: any) => {
-    const formData: any = {
-      cartlist_no: 1,
-      product_id: id
-    }
-    try {
-      dispatch(cartRemove(formData)).then(() => {
-        toast.success('Item Removed Successfully')
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleAddCart = async (id: any) => {
+
+  const handleAddCart = async (id: any, wish: boolean) => {
     const formData = {
       cartlist_no: 1,
       product_id: id
@@ -140,6 +208,9 @@ const DeviceCheckout = () => {
       await dispatch(addToCartList(formData)).then((res: any) => {
         toast.success('Item Added Successfully')
         console.log(res)
+        if (wish) {
+          handleWishRemove(id);
+        }
       })
     } catch (error) {
       console.log(error)
@@ -423,7 +494,12 @@ const DeviceCheckout = () => {
                       </div>
                     </div>
                     <div className="py-3">
-                      {cartItems?.map((item: any, index: any) => (
+                      {cartItems?.map((item: any, index: any) => {
+                        if (item.product_qty === 0) {
+                          handleRemove(item.product_id);
+                          return null;
+                        }
+                        return (
                         <>
                           <div className="d-flex w-100">
                             <div className="d-flex justify-content-start w-75">
@@ -444,13 +520,13 @@ const DeviceCheckout = () => {
                               <div className='d-flex justify-content-end'>
                                 <button
                                   className='m-0 border-0 bg-transparent'
-                                  onClick={() => handleAddCart(item?.product_id)}
-                                >+</button>
+                                  onClick={() => handleDelete(item?.product_id)}
+                                >-</button>
                                 <span>{item?.product_qty}</span>
                                 <button
                                   className='m-0 border-0 bg-transparent'
-                                  onClick={() => handleDelete(item?.product_id)}
-                                >-</button>
+                                  onClick={() => handleAddCart(item?.product_id, false)}
+                                >+</button>
                               </div>
                               <div className="d-flex flex-column justify-content-end">
                                 <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.price * item?.product_qty}</h5>
@@ -459,7 +535,8 @@ const DeviceCheckout = () => {
                           </div>
                           <hr/>
                         </>
-                      ))}
+                        );
+                      })}
                       <div className="d-flex w-100 p-2 redeem theme-danger rounded">
                         <div className="d-flex justify-content-start align-items-center w-75">
                           <div className='d-flex flex-column h-100 ms-2  justify-content-center'>
@@ -495,6 +572,55 @@ const DeviceCheckout = () => {
                     />
                     <InputGroup.Text className='bg-theme-danger text-white theme-font border-0' id="basic-addon2">Redeem</InputGroup.Text>
                   </InputGroup>
+                </Card.Body>
+              </Card>
+              <br/>
+              <Card className='p-3 shadow'>
+                <Card.Body>
+                  <div className='d-flex flex-column w-100'>
+                    <div className="d-flex w-100">
+                      <div className='w-50 d-flex justify-content-start'>
+                        <p className='theme-font'>Your Wishlsit</p>
+                      </div>
+                      <div className='w-50 d-flex justify-content-end'>
+                        <span className='theme-font'><CiShoppingCart size={22} /><span className='ms-1 m-0'>{wishItems?.length} item</span></span>
+                      </div>
+                    </div>
+                    <div className="py-3">
+                      {wishItems?.map((item: any, index: any) => (
+                        <>
+                          <div className="d-flex w-100">
+                            <div className="d-flex justify-content-start w-75">
+                              <img src={item?.image} width='60' height='60' alt=""/>
+                              <div className='position-absolute d-flex justify-content-end'>
+                                <button
+                                  className='bg-theme-danger border-0 w-auto rounded text-white'
+                                  type='button'
+                                  onClick={() => handleRemove(item?.product_id)}
+                                ><AiOutlineDelete /></button>
+                              </div>
+                              <div className='d-flex flex-column h-100 ms-2 justify-content-center'>
+                                <p className='theme-font mb-1'>{item?.product_name}</p>
+                                <p className='theme-font fs-7 text-muted'>Brief description </p>
+                              </div>
+                            </div>
+                            <div className="d-flex flex-column w-25">
+                              <div className='d-flex justify-content-end'>
+                                <button
+                                  className='m-0 border-0 bg-theme-danger text-white rounded fs-7 mb-2'
+                                  onClick={() => handleAddCart(item?.product_id, true)}
+                                >Add To Cart</button>
+                              </div>
+                              <div className="d-flex flex-column justify-content-end">
+                                <h5 className='m-0 fw-semibold  theme-danger text-end'>{item?.price * item?.product_qty}</h5>
+                              </div>
+                            </div>
+                          </div>
+                          <hr/>
+                        </>
+                      ))}
+                    </div>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

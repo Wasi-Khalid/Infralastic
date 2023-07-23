@@ -18,7 +18,7 @@ const PurchaseReport = () => {
 
   const fetchPurchase = () => {
     const formData = {
-      company_id: userInfo?.result?.company_id,
+      company_id: 1,
       date_from: from,
       date_to: to
     }

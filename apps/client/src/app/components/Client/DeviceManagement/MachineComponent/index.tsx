@@ -20,8 +20,16 @@ const MachineComponent = ({item}: {item: any}) => {
            <div className="w-50">
              <p className='m-0 theme-font text-uppercase fs-5'>{item?.computer_name}</p>
              <div className="d-flex align-items-center">
-               <div className='status-ico bg-success me-2'></div>
-               <p className='theme-font m-0 fs-7'>{item?.status}</p>
+               {(item?.status === 'online') ? <>
+                   <div className='status-ico bg-success me-2'></div>
+                   <p className='theme-font m-0'>{item?.status}</p>
+                 </>
+                 :
+                 <>
+                   <div className='status-ico bg-secondary me-2'></div>
+                   <p className='theme-font m-0'>{item?.status}</p>
+                 </>
+               }
              </div>
            </div>
            <div className="w-50">

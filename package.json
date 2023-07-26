@@ -29,6 +29,7 @@
     "fetch-jsonp": "^1.2.3",
     "file-saver": "^2.0.5",
     "firebase": "^9.22.0",
+    "js-file-download": "^0.4.12",
     "json2csv": "^6.0.0-alpha.2",
     "mapbox-gl": "^2.14.1",
     "papaparse": "^5.4.1",

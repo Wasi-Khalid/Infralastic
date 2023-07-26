@@ -23,6 +23,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
     const [jobData, setJobData] = useState<any>([]);
     const fetchLocation = () => {
         const config = {}
+
         getLocation(config).then((res: any) => {
             setLocationData(res.data.result.location_details)
         })
@@ -72,7 +73,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
                       type='text'
                       className='fs-7 border-0'
                       id='outline-none'
-                      placeholder="Search Employee"
+                      placeholder="  Employee"
                       aria-label="Username"
                       onChange={(e: any) => props.searchData(e.target.value)}
                   />
@@ -80,25 +81,25 @@ const EmployeeFilterComponent = (props: filterProps) => {
           </div>
           <div className='bg-dark filter-container rounded p-2'>
               <Row>
-                  <Col className='br-1' md={3}>
-                      <Form.Group controlId="location">
-                          <InputGroup>
-                              <InputGroup.Text id="basic-addon1" className='bg-white px-2'><FiMapPin className='me-1'/></InputGroup.Text>
-                              <Form.Select
-                                className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '
-                                aria-label="Default select example"
-                                required={true}
-                                onChange={(e: any) => props.location(e.target.value)}
-                              >
-                                <option value=''>Select Location</option>
-                                {locationData?.map((item: any) => (
-                                  <option value={item.location_name} className='theme-font fs-7'>{item?.location_name}</option>
-                                ))}
-                              </Form.Select>
-                          </InputGroup>
-                      </Form.Group>
-                  </Col>
-                  <Col className='br-1' md={3}>
+                  {/*<Col className='br-1' md={3}>*/}
+                  {/*    <Form.Group controlId="location">*/}
+                  {/*        <InputGroup>*/}
+                  {/*            <InputGroup.Text id="basic-addon1" className='bg-white px-2'><FiMapPin className='me-1'/></InputGroup.Text>*/}
+                  {/*            <Form.Select*/}
+                  {/*              className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '*/}
+                  {/*              aria-label="Default select example"*/}
+                  {/*              required={true}*/}
+                  {/*              onChange={(e: any) => props.location(e.target.value)}*/}
+                  {/*            >*/}
+                  {/*              <option value=''>Select Location</option>*/}
+                  {/*              {locationData?.map((item: any) => (*/}
+                  {/*                <option value={item.location_name} className='theme-font fs-7'>{item?.location_name}</option>*/}
+                  {/*              ))}*/}
+                  {/*            </Form.Select>*/}
+                  {/*        </InputGroup>*/}
+                  {/*    </Form.Group>*/}
+                  {/*</Col>*/}
+                  <Col className='br-1' md={4}>
                       <Form.Group controlId="company">
                           <InputGroup>
                               <InputGroup.Text id="basic-addon2" className='bg-white px-2'><BsBuildings className='me-2'/></InputGroup.Text>
@@ -116,7 +117,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
                           </InputGroup>
                       </Form.Group>
                   </Col>
-                  <Col className='br-1' md={3}>
+                  <Col className='br-1' md={4}>
                       <Form.Group controlId="department">
                           <InputGroup>
                               <InputGroup.Text id="basic-addon2" className='bg-white px-2'><BiSitemap className='me-2'/></InputGroup.Text>
@@ -134,7 +135,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
                         </InputGroup>
                       </Form.Group>
                   </Col>
-                  <Col md={3}>
+                  <Col md={4}>
                       <Form.Group controlId="designation">
                           <InputGroup>
                               <InputGroup.Text id="basic-addon2" className='bg-white px-2'><BiUserCheck className='me-2'/></InputGroup.Text>

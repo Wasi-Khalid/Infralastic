@@ -19,3 +19,16 @@ export const getInstaller = (config: any) =>
 
 export const getSaltInstaller = (config: any) =>
   API.get(`/installer/salt`, config)
+
+export const getSaltMinion = (config: any) =>
+  API.get(`/salt/getMinionIds`, config)
+
+export const acceptSaltMinion = (formData: any) =>
+  API.post(`/salt/acceptMinion`, formData)
+
+export const executeSaltCommands = (formData: any) =>
+  API.post(`/salt/executeCmd`, formData)
+
+export const getIpAddress = (config: any) =>
+  axios.get('https://ipgeolocation.abstractapi.com/v1/', config)
+

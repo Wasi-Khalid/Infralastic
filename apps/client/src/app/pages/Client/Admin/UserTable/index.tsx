@@ -1,4 +1,3 @@
-import './global-setting.scss';
 import {Card, Col, Row} from "react-bootstrap";
 import {useState} from "react";
 import GlobalSettingTable from "../../../../components/Client/Admin/GlobalSettingTable";

@@ -78,7 +78,6 @@ const DepartmentFormComponent = () => {
                         toast.error('Access Denied');
                       }
                     } else if (id) {
-                        debugger;
                       const formData: any = {
                         department_name: name,
                         manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,

@@ -189,25 +189,3 @@ export const wishRemove = createAsyncThunk(
   }
 );
 
-export const cartDelete = createAsyncThunk(
-  "global/cartRemove",
-  async (
-    { cart_data, index }: { cart_data: any[], index: number },
-    { getState, rejectWithValue }
-  ) => {
-    try {
-      const { cart }: any = getState();
-      const updatedCartData = [...cart_data];
-      updatedCartData.splice(index, 1);
-      const data: any = {};
-      data.cart_data = updatedCartData;
-      return data;
-    } catch (error: any) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);

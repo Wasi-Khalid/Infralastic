@@ -19,11 +19,11 @@ const EmployeeFilterComponent = (props: filterProps) => {
     const dispatch = useGlobalDispatch();
     const [locationData, setLocationData] = useState<any>([]);
     const [companyData, setCompanyData] = useState<any>([]);
+    const [company, setCompany] = useState<any>('');
     const [departmentData, setDepartmentData] = useState<any>([]);
     const [jobData, setJobData] = useState<any>([]);
     const fetchLocation = () => {
         const config = {}
-
         getLocation(config).then((res: any) => {
             setLocationData(res.data.result.location_details)
         })
@@ -38,11 +38,16 @@ const EmployeeFilterComponent = (props: filterProps) => {
             console.error(err);
         }
     }
+    function handleCompany(e: any )
+    {
+        props.company(e.target.value)
+        setCompany(e.target.value)
+    }
     const getDepartment = () => {
         const config: any = {}
         try {
             dispatch(fetchAllDepartment(config)).then(async (res: any) => {
-                setDepartmentData(res.payload.departments_details)
+                setDepartmentData(res?.payload?.departments_details)
             });
         } catch (err: any) {
             console.error(err);
@@ -51,7 +56,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
     const getJobs = () => {
       const config: any = {}
       getAllJobs(config).then((res: any) => {
-        setJobData(res.data.result.job_details)
+        setJobData(res?.data.result?.job_details)
       })
     }
     useEffect(() => {
@@ -73,7 +78,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
                       type='text'
                       className='fs-7 border-0'
                       id='outline-none'
-                      placeholder="  Employee"
+                      placeholder="Search Employee"
                       aria-label="Username"
                       onChange={(e: any) => props.searchData(e.target.value)}
                   />
@@ -81,24 +86,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
           </div>
           <div className='bg-dark filter-container rounded p-2'>
               <Row>
-                  {/*<Col className='br-1' md={3}>*/}
-                  {/*    <Form.Group controlId="location">*/}
-                  {/*        <InputGroup>*/}
-                  {/*            <InputGroup.Text id="basic-addon1" className='bg-white px-2'><FiMapPin className='me-1'/></InputGroup.Text>*/}
-                  {/*            <Form.Select*/}
-                  {/*              className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '*/}
-                  {/*              aria-label="Default select example"*/}
-                  {/*              required={true}*/}
-                  {/*              onChange={(e: any) => props.location(e.target.value)}*/}
-                  {/*            >*/}
-                  {/*              <option value=''>Select Location</option>*/}
-                  {/*              {locationData?.map((item: any) => (*/}
-                  {/*                <option value={item.location_name} className='theme-font fs-7'>{item?.location_name}</option>*/}
-                  {/*              ))}*/}
-                  {/*            </Form.Select>*/}
-                  {/*        </InputGroup>*/}
-                  {/*    </Form.Group>*/}
-                  {/*</Col>*/}
+
                   <Col className='br-1' md={4}>
                       <Form.Group controlId="company">
                           <InputGroup>
@@ -107,9 +95,9 @@ const EmployeeFilterComponent = (props: filterProps) => {
                                 className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '
                                 aria-label="Default select example"
                                 required={true}
-                                onChange={(e: any) => props.company(e.target.value)}
+                                onChange={(e: any) => handleCompany(e)}
                               >
-                                <option value=''>Select Company</option>
+                                <option value=''>Select Site</option>
                                 {companyData?.map((item: any) => (
                                   <option value={item?.company_name} className='theme-font fs-7'>{item?.company_name}</option>
                                 ))}
@@ -122,14 +110,15 @@ const EmployeeFilterComponent = (props: filterProps) => {
                           <InputGroup>
                               <InputGroup.Text id="basic-addon2" className='bg-white px-2'><BiSitemap className='me-2'/></InputGroup.Text>
                               <Form.Select
+                                disabled={company === ""}
                                 className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '
                                 aria-label="Default select example"
                                 required={true}
                                 onChange={(e: any) => props.department(e.target.value)}
                               >
                                 <option value=''>Select Department</option>
-                                {departmentData?.map((item: any) => (
-                                  <option value={item.department_name} className='theme-font fs-7'>{item?.department_name}</option>
+                                {departmentData?.filter((item:any) => item.company_name == company).map((item: any) => (
+                                  <option value={item?.department_name} className='theme-font fs-7'>{item?.department_name}</option>
                                 ))}
                               </Form.Select>
                         </InputGroup>

@@ -4,13 +4,16 @@ import DepartmentTableComponent from "../../../components/Client/Department/Depa
 import {BsPlus} from "react-icons/bs";
 import {useNavigate} from "react-router-dom";
 import './department.scss'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {saveAs} from "file-saver";
-import {useGlobalSelector} from "@infralastic/global-state";
+import {fetchAllCompany, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
 
 const Department = () => {
   const router = useNavigate();
+  const dispatch = useGlobalDispatch();
   const [department, setDepartment] = useState<any>('');
+  const [company, setCompany] = useState<any>('');
+  const [companyData, setCompanyData] = useState<any>([]);
   const { departmentInfo } = useGlobalSelector((state) => state.department);
 
   function downloadCSV() {
@@ -22,13 +25,42 @@ const Department = () => {
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
     saveAs(blob, "department.csv");
   }
+
+  const getCompany = () => {
+    const config: any = {}
+    try {
+        dispatch(fetchAllCompany(config)).then(async (res: any) => {
+            setCompanyData(res.payload.company_details)
+        });
+    } catch (err: any) {
+        console.error(err);
+    }
+}
+    useEffect(() => {
+        getCompany()
+    }, [])
   return(
       <>
           <Card className='rounded mt-4'>
               <Card.Body>
                   <div className='d-flex w-100 align-items-center py-2'>
-                      <div className="w-100">
+                      <div className="w-100 d-flex ">
                           <h5 className='theme-font m-0'>DEPARTMENTS</h5>
+                          <div className="d-flex w-100 justify-content-center">
+                          <div className="d-flex w-50">
+                            <Form.Select
+                                className='py-2 fs-7 theme-font text-muted'
+                                aria-label="Default select example"
+                                required={true}
+                                onChange={(e: any) => setCompany(e.target.value)}
+                              >
+                                <option value=''>Select Site</option>
+                                {companyData?.map((item: any) => (
+                                  <option value={item?.company_name} className='theme-font fs-7'>{item?.company_name}</option>
+                                ))}
+                              </Form.Select>
+                            </div>
+                          </div>
                       </div>
                       <div className="w-100 d-flex justify-content-end">
                           <div className='w-100 d-flex justify-content-end'>
@@ -64,7 +96,7 @@ const Department = () => {
                       </div>
                   </div>
                   <hr className='mb-0'/>
-                  <DepartmentTableComponent searchFilter={department} />
+                  <DepartmentTableComponent searchFilter={department} companyFilter={company} />
               </Card.Body>
           </Card>
       </>

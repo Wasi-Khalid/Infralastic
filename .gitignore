@@ -1,3 +1,7 @@
 ./node_modules
 ./.idea
 ./dist
+<<<<<<< HEAD
+node_modules
+=======
+>>>>>>> 71f3906435fc118a207c4060bccb5128dc5094c4

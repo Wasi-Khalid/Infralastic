@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import * as api from "../../api";
+import * as api from "../../../api";
 
 export const fetchAllDepartment = createAsyncThunk(
     "department/get",
@@ -26,14 +26,14 @@ export const fetchAllDepartment = createAsyncThunk(
 export const addNewDepartment = createAsyncThunk(
     "department/add",
     async (
-        {department_name, manager_id, image_url, company_id, user_id}
-            : { department_name: any, manager_id: any, image_url: any, company_id: any, user_id: any },
+        {department_name,manager_id,image_url}
+            : { department_name: any, manager_id: any, image_url: any },
         { getState, rejectWithValue }
     ) => {
         try {
             const { department }: any = getState();
             let data = {};
-            await api.createDepartment({department_name,manager_id,image_url,company_id,user_id}).then((res: any) => {
+            await api.createDepartment({department_name,manager_id,image_url}).then((res: any) => {
                 data = res.data.result;
             });
             return data;
@@ -73,14 +73,14 @@ export const fetchDepartmentEmployees = createAsyncThunk(
 export const updateDepartmentById = createAsyncThunk(
     "department/update",
     async (
-        {department_name,manager_id,image_url,department_id, company_id, user_id}
-            : { department_name: any, manager_id: any, image_url: any, department_id: any, company_id: any, user_id: any},
+        {department_name,manager_id,image_url,department_id}
+            : { department_name: any, manager_id: any, image_url: any, department_id: any },
         { getState, rejectWithValue }
     ) => {
         try {
             const { department }: any = getState();
             let data = {};
-            await api.updateDepartment({department_name,manager_id,image_url,department_id,company_id, user_id}).then((res: any) => {
+            await api.updateDepartment({department_name,manager_id,image_url,department_id}).then((res: any) => {
                 data = res.data.result;
             });
             return data;

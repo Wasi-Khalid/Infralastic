@@ -11,6 +11,7 @@ import {
   addNewDepartment, fetchAllCompany,
   fetchDepartmentById,
   updateDepartmentById,
+  useGlobalSelector,
 } from "@infralastic/global-state";
 import {fetchAllEmployee} from "@infralastic/global-state";
 import {useGlobalDispatch} from "@infralastic/global-state";
@@ -28,6 +29,7 @@ const DepartmentFormComponent = () => {
     const [company, setCompany] = useState('');
     const [companyData, setCompanyData] = useState<any>([])
     const [searchParams, setSearchParams] = useSearchParams();
+    const { userInfo } = useGlobalSelector((state) => state.user);
     const id: any = searchParams.get('department_id')
 
     const clear = () => {
@@ -59,7 +61,8 @@ const DepartmentFormComponent = () => {
                         department_name: name,
                         manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
                         image_url: url,
-                        company_id: JSON.parse(company)
+                        company_id: JSON.parse(company),
+                        user_id: userInfo?.result?.user_id
                       }
                       try {
                         dispatch(addNewDepartment(formData)).then(async (res: any) => {
@@ -83,7 +86,8 @@ const DepartmentFormComponent = () => {
                         manager_id: departmentHead !== '' ? JSON.parse(departmentHead) : 0,
                         image_url: url,
                         department_id: id,
-                        company_id: JSON.parse(company)
+                        company_id: JSON.parse(company),
+                        user_id: userInfo?.result?.user_id
                       }
                       try {
                         dispatch(updateDepartmentById(formData)).then(async (res: any) => {
@@ -126,6 +130,7 @@ const DepartmentFormComponent = () => {
             dispatch(fetchDepartmentById(formData)).then(async (res: any) => {
                setImageFile(res.payload.image_url);
                setName(res.payload.department_name);
+               setCompany(res.payload.company_id)
                setDepartmentHead(res.payload.manager_id)
             });
         } catch (err: any) {
@@ -222,7 +227,8 @@ const DepartmentFormComponent = () => {
                                         <Form.Label className='fs-7 mb-1 theme-font'>Department Head</Form.Label>
                                         <Select
                                             className='fs-7 theme-font text-muted custom-search-select'
-                                            options={employeeData?.map((item: any) => ({
+                                            isDisabled={company === ''}
+                                            options={employeeData?.filter((res: any) => res.company_id == company).map((item: any) => ({
                                                 value: item.employee_id,
                                                 label: item.employee_name
                                             }))}
@@ -241,7 +247,7 @@ const DepartmentFormComponent = () => {
                                             value={company}
                                             onChange={(e) => setCompany(e.target.value)}
                                             >
-                                            <option value=''>Select Company</option>
+                                            <option value=''>Select Site</option>
                                             {companyData?.map((item: any) => (
                                               <option value={item?.company_id}>{item?.company_name}</option>
                                             ))}

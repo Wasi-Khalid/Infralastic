@@ -14,6 +14,7 @@ import {toast} from "react-toastify";
 
 interface filterProps {
   searchFilter: any;
+  companyFilter: any;
 }
 
 const DepartmentTableComponent = (props: filterProps) => {
@@ -88,13 +89,16 @@ const DepartmentTableComponent = (props: filterProps) => {
             return departmentName.includes(searchLetter);
           });
         }
+        if (props.companyFilter !== '') {
+          filteredData = filteredData.filter((res: any) => res.company_name === props.companyFilter)
+        }
         setDepartment(filteredData)
     }
 
 
     useEffect(() => {
       applyFilters()
-    }, [props.searchFilter, originalData])
+    }, [props.searchFilter, props.companyFilter, originalData])
     return(
         <>
             <Table striped className='theme-font' id='departmentTable'>

@@ -1,17 +1,17 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import * as api from "../../api";
+import * as api from "../../../api";
 
 export const addEmployee = createAsyncThunk(
     "employee/create",
     async (
-        {first_name, last_name, email, phone, image_url, job_title, company_id, manager_id, department_id, location_id, employee_status, user_id}:
-            { first_name: any,last_name: any,email: any,phone: any,image_url: any,job_title: any, company_id: any, manager_id: any, department_id: any, location_id: any, employee_status: any, user_id: any },
+        {first_name, last_name, email, phone, image_url, job_title, company_id, manager_id, department_id, employee_status}:
+            { first_name: any,last_name: any,email: any,phone: any,image_url: any,job_title: any, company_id: any, manager_id: any, department_id: any, employee_status: any },
         { getState, rejectWithValue }
     ) => {
         try {
             const { employee }: any = getState();
             let data = {};
-            await api.createEmployee({first_name,last_name,email,phone,image_url,job_title,company_id, manager_id, department_id, location_id, employee_status,user_id}).then((res: any) => {
+            await api.createEmployee({first_name,last_name,email,phone,image_url,job_title,company_id, manager_id, department_id, employee_status}).then((res: any) => {
                 data = res.data.result;
             });
             return data;
@@ -94,14 +94,14 @@ export const fetchManager = createAsyncThunk(
 export const updateEmployeeById = createAsyncThunk(
     "employee/update",
     async (
-        {first_name, last_name, email, phone, image_url, job_title, company_id, manager_id, department_id, location_id, employee_status, employee_id, user_id}:
-            { first_name: any,last_name: any,email: any,phone: any,image_url: any,job_title: any, company_id: any, manager_id: any, department_id: any, location_id: any, employee_status: any, employee_id:any,user_id:any },
+        {first_name, last_name, email, phone, image_url, job_title, company_id, manager_id, department_id, employee_status, employee_id}:
+            { first_name: any,last_name: any,email: any,phone: any,image_url: any,job_title: any, company_id: any, manager_id: any, department_id: any, employee_status: any, employee_id: any },
         { getState, rejectWithValue }
     ) => {
         try {
             const { employee }: any = getState();
             let data = {};
-            await api.updateEmployee({first_name,last_name,email,phone,image_url,job_title,company_id, manager_id, department_id, location_id, employee_status, employee_id,user_id}).then((res: any) => {
+            await api.updateEmployee({first_name,last_name,email,phone,image_url,job_title,company_id, manager_id, department_id, employee_status, employee_id}).then((res: any) => {
                 data = res.data.result;
             });
             return data;
@@ -118,13 +118,13 @@ export const updateEmployeeById = createAsyncThunk(
 export const fetchEmployeeAsset = createAsyncThunk(
   "employee/asset",
   async (
-    { employee_id, page_no }: {employee_id: any, page_no: any},
+    { employee_id }: {employee_id: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { employee }: any = getState();
       let data = {};
-      await api.getEmployeeAsset({employee_id, page_no}).then((res: any) => {
+      await api.getEmployeeAsset({employee_id}).then((res: any) => {
         data = res.data.result;
       });
       return data;

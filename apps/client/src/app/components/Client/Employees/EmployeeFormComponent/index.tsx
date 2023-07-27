@@ -12,7 +12,7 @@ import {
   addEmployee,
   fetchAllEmployee,
   fetchEmployee, getLocation,
-  updateEmployeeById, useGlobalDispatch
+  updateEmployeeById, useGlobalDispatch, useGlobalSelector
 } from "@infralastic/global-state";
 import {fetchAllCompany} from "@infralastic/global-state";
 import {fetchAllDepartment} from "@infralastic/global-state";
@@ -41,6 +41,7 @@ const EmployeeFormComponent = () => {
     const [locationData, setLocationData] = useState<any>([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const id: any = searchParams.get('employee_id')
+    const { userInfo } = useGlobalSelector((state) => state.user);
 
 
 
@@ -182,7 +183,8 @@ const EmployeeFormComponent = () => {
                 manager_id: JSON.parse(manager),
                 location_id: JSON.parse(location),
                 department_id: JSON.parse(department),
-                employee_status: JSON.parse(employmentStatus)
+                employee_status: JSON.parse(employmentStatus),
+                user_id: userInfo?.result?.user_id,
               }
               try {
                 dispatch(addEmployee(formData)).then(async (res: any) => {
@@ -212,7 +214,9 @@ const EmployeeFormComponent = () => {
                 manager_id: JSON.parse(manager),
                 location_id: JSON.parse(location),
                 department_id: JSON.parse(department),
-                employee_status: JSON.parse(employmentStatus)
+                employee_status: JSON.parse(employmentStatus),
+                user_id: userInfo?.result?.user_id
+
               }
               try {
                 dispatch(updateEmployeeById(formData)).then(async (res: any) => {
@@ -404,10 +408,11 @@ const EmployeeFormComponent = () => {
                                             className='px-2 py-1 fs-7 theme-font text-muted'
                                             aria-label="Default select example"
                                             value={manager}
+                                            disabled={company === ""}
                                             onChange={(e) => setManager(e.target.value)}
                                         >
                                             <option value='0'>Select Manager</option>
-                                            {managerData?.filter((res: any) => res.manager_name === false).map((item: any) => (
+                                            {managerData?.filter((res: any) => (res.manager_name === false && res.company_id == company)).map((item: any) => (
                                                 <option value={item?.employee_id}>{item.employee_name}</option>
                                             ))}
                                         </Form.Select>

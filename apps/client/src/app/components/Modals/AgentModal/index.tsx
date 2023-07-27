@@ -2,9 +2,7 @@ import './agent-modal.scss';
 import {Button, Col, Modal, ProgressBar, Row} from "react-bootstrap";
 import {StepLabel, Stepper, Typography, Step} from "@mui/material";
 import React, {useState} from "react";
-import {getInstaller} from "@infralastic/global-state";
-import { saveAs } from "file-saver";
-import {Loader} from "@infralastic/loader";
+import {getInstaller, getSaltInstaller} from "@infralastic/global-state";
 
 interface AgentModal {
   show: any;
@@ -12,9 +10,7 @@ interface AgentModal {
 }
 const AgentModal = (props: AgentModal) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [progress, setProgress] = useState(0);
   const [installer, setInstaller] = useState<any>('');
-  const [visible, setVisible] = useState<any>(false);
 
   const steps = [
     {
@@ -24,37 +20,45 @@ const AgentModal = (props: AgentModal) => {
       label: 'Download'
     }
   ];
+
+  const openInstallerUrl = (installerUrl: any) => {
+    const newTab: any = window.open(installerUrl, '_blank');
+    newTab.focus();
+  };
   const handleInstaller = () => {
-    const config: any = {};
+    const config = {};
     let installerUrl: any;
-    getInstaller(config).then((res: any) => {
-      if (installer === 'Window') {
-        installerUrl = res.data.data.windows;
-      } else if (installer === 'Mac') {
-        installerUrl = res.data.data.mac
-      }
-
-      const xhr = new XMLHttpRequest();
-
-      xhr.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percentage = Math.round((event.loaded / event.total) * 100);
-          console.log(percentage)
-          setVisible(true);
-          setProgress(percentage)
+    getInstaller(config)
+      .then((res) => {
+        if (installer === 'Window') {
+          installerUrl = res.data.data.windows;
+        } else if (installer === 'Mac') {
+          installerUrl = res.data.data.mac;
         }
-      };
-      xhr.onload = () => {
-        console.log('Download Complete');
-        setVisible(false)
-        saveAs(installerUrl, "agent-installer.msi");
-      };
-      xhr.onerror = () => {
-        console.log('Download Error');
-      };
-      xhr.open('GET', installerUrl, true);
-      xhr.send();
-    });
+        openInstallerUrl(installerUrl);
+      })
+      .catch((error) => {
+        console.error('Error occurred during installation:', error);
+      });
+  };
+
+  const handleSaltInstaller = () => {
+    const config = {};
+    let installerUrl: any;
+    getSaltInstaller(config)
+      .then((res) => {
+        if (installer === 'Window') {
+          installerUrl = res.data.data.windows;
+        } else if (installer === 'Mac') {
+          installerUrl = res.data.data.mac;
+        }
+        openInstallerUrl(installerUrl);
+      });
+  };
+  function fetchInstaller() {
+    handleInstaller();
+    handleSaltInstaller();
+    window.close();
   }
   return(
     <>
@@ -126,12 +130,8 @@ const AgentModal = (props: AgentModal) => {
                       <p className='theme-font'>Download the agent installer</p>
                       <button
                         className='theme-font bg-theme-danger border-0 text-white py-2 px-3 rounded'
-                        onClick={() => handleInstaller()}
+                        onClick={() => fetchInstaller()}
                       >Download</button>
-                      {visible && <div className='my-2'>
-                        <ProgressBar now={progress} label={`${progress}%`} />
-                      </div>
-                      }
                     </div>
                   : <></>
                 }

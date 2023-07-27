@@ -19,7 +19,7 @@ const Admin = () => {
                 icon={<AiOutlineSetting size={20} />}
                 name='Global Settings'
                 description='Lorem ipsum dolor sit amet consectetur. Fringilla ipsum amet turpis tempor.'
-                click={() => router('/global-setting')}
+                click={() => router('/user-table')}
                 />
             </Col>
             <Col md={3}>

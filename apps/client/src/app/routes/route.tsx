@@ -39,6 +39,7 @@ import AssetProof from "../pages/Client/AssetDevices/AssetProof";
 import AssetNotification from "../pages/Client/AssetDevices/AssetNotification";
 import CostingReport from "../pages/Client/Reports/CostingReport";
 import EmployeeReport from "../pages/Client/Reports/EmployeeReport";
+import UserTable from "../pages/Client/Admin/UserTable";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -159,6 +160,10 @@ const AppRoutes = () => {
               <Route
                     path="/global-setting"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<GlobalSetting />} />}
+                />
+              <Route
+                    path="/user-table"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserTable />} />}
                 />
               <Route
                     path="/device-management"

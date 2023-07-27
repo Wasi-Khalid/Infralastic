@@ -7,10 +7,11 @@ import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
 import {useEffect, useState} from "react";
-import {getHosts, getSaltInstaller} from "@infralastic/global-state";
+import {acceptSaltMinion, getHosts, getSaltInstaller, getSaltMinion} from "@infralastic/global-state";
 import {HiDownload} from "react-icons/hi";
 import {LuSettings2} from "react-icons/lu";
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
+import {toast} from "react-toastify";
 
 const DeviceManagement = () => {
   const router = useNavigate();
@@ -24,9 +25,28 @@ const DeviceManagement = () => {
     })
   }
 
+  function fetchSaltMinion() {
+    const config = {}
+    getSaltMinion(config).then((res: any) => {
+      console.log(res.data)
+    })
+  }
+
   useEffect(() => {
-    fetchHosts()
+    fetchHosts();
+    fetchSaltMinion();
   }, [])
+
+  function handleAccept(name: any) {
+    const formData: any = {
+      minionId: name
+    }
+    acceptSaltMinion(formData).then((res) => {
+      if(res.data.status) {
+        toast.success('Connected Successfully')
+      }
+    })
+   }
   return(
     <>
       <br/>
@@ -102,7 +122,7 @@ const DeviceManagement = () => {
           <Table striped className='theme-font' id='departmentTable'>
             <thead className='p-3'>
             <tr className='fs-7'>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>DEPARTMENT nAME<HiChevronUpDown size={18} className='ms-1' /></p></th>
+              <th><p className='py-2 m-0 fs-13 text-uppercase'>nAME<HiChevronUpDown size={18} className='ms-1' /></p></th>
               <th><p className='py-2 m-0 fs-13 text-uppercase'>Availability<HiChevronUpDown size={18} className='ms-1' /></p></th>
               <th><p className='py-2 m-0 fs-13 text-uppercase'>Alerts<HiChevronUpDown size={18} className='ms-1' /></p></th>
               <th><p className='py-2 m-0 fs-13 text-uppercase'>Remote Access<HiChevronUpDown size={18} className='ms-1' /></p></th>
@@ -123,8 +143,16 @@ const DeviceManagement = () => {
                 </td>
                 <td>
                   <div className='d-flex align-items-center'>
-                    <div className='status-ico bg-success mx-2'></div>
-                    <p className='theme-font m-0'>{item?.status}</p>
+                    {(item?.status === 'online') ? <>
+                      <div className='status-ico bg-success mx-2'></div>
+                      <p className='theme-font m-0'>{item?.status}</p>
+                      </>
+                      :
+                      <>
+                        <div className='status-ico bg-secondary mx-2'></div>
+                        <p className='theme-font m-0'>{item?.status}</p>
+                      </>
+                    }
                   </div>
                 </td>
                 <td>
@@ -146,16 +174,12 @@ const DeviceManagement = () => {
                   </div>
                 </td>
                 <td>
-                  <Dropdown>
-                    <Dropdown.Toggle className='bg-transparent border-0'>
-                      <button className='theme-border-danger bg-transparent theme-danger theme-font p-2 px-3 rounded'>
-                        <BsFileEarmarkArrowUp size={18} className='me-1' /> Connect
-                      </button>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className='theme-font text-muted'>
-                      <Dropdown.Item href="#/action-1">None</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <button
+                    className='theme-border-danger bg-transparent theme-danger theme-font p-2 px-3 rounded'
+                    onClick={() => handleAccept(item?.hostname)}
+                  >
+                    <BsFileEarmarkArrowUp size={18} className='me-1' /> Connect
+                  </button>
                 </td>
                 <td>
                   <div className='d-flex justify-content-end align-items-center'>

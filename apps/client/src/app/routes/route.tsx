@@ -40,6 +40,7 @@ import AssetNotification from "../pages/Client/AssetDevices/AssetNotification";
 import CostingReport from "../pages/Client/Reports/CostingReport";
 import EmployeeReport from "../pages/Client/Reports/EmployeeReport";
 import UserTable from "../pages/Client/Admin/UserTable";
+import AssetCheckinCheckoutTab from "../pages/Client/AssetDevices/CheckinCheckoutTab";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -108,6 +109,10 @@ const AppRoutes = () => {
                 <Route
                     path="/asset-view"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetView />} />}
+                />
+                <Route
+                    path="/asset-checkin-checkout-tab"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetCheckinCheckoutTab />} />}
                 />
                 <Route
                     path="/check-in"

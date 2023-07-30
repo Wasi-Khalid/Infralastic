@@ -1,20 +1,20 @@
-import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 import {useState} from "react";
 import {FiUsers} from "react-icons/fi";
 import {AiOutlineSync} from "react-icons/ai";
 import {IoIosAttach} from "react-icons/io";
 import {BsBell} from "react-icons/bs";
-import AssetChangeComponent from "../../../../components/Client/AssetDevices/AssetChangeComponent";
+import AssetNotificationComponent from "../../../../components/Client/AssetDevices/AssetNotificationComponent";
+import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
 
-const AssetChanges = () => {
+const AssetCheckinCheckoutTab = () => {
   const router = useNavigate();
   const [detail, setDetail] = useState(false)
-  const [changes, setChanges] = useState(true)
+  const [changes, setChanges] = useState(false)
   const [proof, setProof] = useState(false)
   const [notification, setNotification] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams();
+  const [checkincheckout, setCheckinCheckout] = useState(true);
   const id: any = searchParams.get('asset_unique_id');
-  const [checkincheckout, setCheckinCheckout] = useState(false);
   return(
     <div>
       <div className="d-flex theme-font py-4">
@@ -76,18 +76,18 @@ const AssetChanges = () => {
                 'bg-transparent px-3 py-1 text-muted border-0 mx-2 fs-7 d-flex align-items-center'
             }
             onClick={() => {router({
-              pathname:"/asset-checkin-checkout-tab",
-              search: `?${createSearchParams({
+                pathname:"/asset-checkin-checkout-tab",
+                search: `?${createSearchParams({
                 asset_unique_id: id
-              })}`
+                })}`
             })}}
         ><BsBell className='me-1' />Checkin Checkout
         </button>
       </div>
       <div>
-        <AssetChangeComponent />
+        {/* <AssetNotificationComponent /> */}
       </div>
     </div>
   )
 }
-export default AssetChanges;
+export default AssetCheckinCheckoutTab;

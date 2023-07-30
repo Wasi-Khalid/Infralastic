@@ -25,7 +25,7 @@ const CheckOutFormComponent = () => {
     const [employeeData, setEmployeeData] = useState<any>([]);
     const [company, setCompany] = useState('');
     const [companyData, setCompanyData] = useState<any>([]);
-
+    const [assetStatus, setAssetStatus] = useState<any>('');
     function fetchAssets() {
         const formData: any = {
             page_no: 1
@@ -152,6 +152,23 @@ const CheckOutFormComponent = () => {
                                         />
                                     </Form.Group>
                                 </Col>
+                                <Col md={6}>
+                                <Form.Group className="mb-2" controlId="formBasicStatus">
+                                    <Form.Label className='fs-7 mb-1 theme-font'>Asset Status</Form.Label>
+                                    <Form.Select
+                                        className='px-2 py-1 fs-7 theme-font text-muted'
+                                        aria-label="Default select example"
+                                        required={true}
+                                        value={assetStatus}
+                                        onChange={(e) => setAssetStatus(e.target.value)}
+                                    >
+                                        <option value=''>Select Status</option>
+                                        <option value='Permanent'>Permanent</option>
+                                        <option value='Temporary'>Temporary</option>
+                                        
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
                                 <Col md={6}>
                                     <Form.Group className="mb-2" controlId="formBasicCompany">
                                         <Form.Label className='fs-7 mb-1 theme-font'>Assignee</Form.Label>

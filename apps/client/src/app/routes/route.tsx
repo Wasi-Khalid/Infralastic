@@ -45,6 +45,7 @@ import AdminUserForm from "../components/Client/Admin/AdminUserForm";
 import AdminRoleForm from "../components/Client/Admin/AdminRoleForm";
 import CompanySettingTable from "../components/Client/Admin/CompanySettingTable";
 import CompanySettingForm from "../components/Client/Admin/CompanySettingForm";
+import AssetCheckinCheckoutTab from "../pages/Client/AssetDevices/CheckinCheckoutTab";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -113,6 +114,10 @@ const AppRoutes = () => {
                 <Route
                     path="/asset-view"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetView />} />}
+                />
+                <Route
+                    path="/asset-checkin-checkout-tab"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AssetCheckinCheckoutTab />} />}
                 />
                 <Route
                     path="/check-in"

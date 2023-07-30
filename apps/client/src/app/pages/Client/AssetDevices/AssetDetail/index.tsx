@@ -7,6 +7,8 @@ const AssetDetail = () => {
     const [location, setLocation] = useState(false);
     const [employee, setEmployee] = useState(false);
     const [reports, setReports] = useState(false);
+    const [checkincheckout, setCheckinCheckout] = useState(false);
+
     return(
         <>
             <div className="d-flex justify-content-center py-4 w-100 align-items-center">

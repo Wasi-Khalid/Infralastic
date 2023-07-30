@@ -40,6 +40,11 @@ import AssetNotification from "../pages/Client/AssetDevices/AssetNotification";
 import CostingReport from "../pages/Client/Reports/CostingReport";
 import EmployeeReport from "../pages/Client/Reports/EmployeeReport";
 import UserTable from "../pages/Client/Admin/UserTable";
+import RoleTable from "../pages/Client/Admin/RoleTable";
+import AdminUserForm from "../components/Client/Admin/AdminUserForm";
+import AdminRoleForm from "../components/Client/Admin/AdminRoleForm";
+import CompanySettingTable from "../components/Client/Admin/CompanySettingTable";
+import CompanySettingForm from "../components/Client/Admin/CompanySettingForm";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -158,12 +163,32 @@ const AppRoutes = () => {
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Admin />} />}
                 />
               <Route
+                    path="/company-table"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<CompanySettingTable />} />}
+                />
+              <Route
                     path="/global-setting"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<GlobalSetting />} />}
                 />
               <Route
                     path="/user-table"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserTable />} />}
+                />
+              <Route
+                    path="/user-form"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AdminUserForm />} />}
+                />
+              <Route
+                    path="/role-table"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<RoleTable />} />}
+                />
+              <Route
+                    path="/role-form"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AdminRoleForm />} />}
+                />
+              <Route
+                    path="/company-form"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<CompanySettingForm />} />}
                 />
               <Route
                     path="/device-management"

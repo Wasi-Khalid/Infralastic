@@ -3,6 +3,8 @@ import {Card} from "react-bootstrap";
 import {addAdminUser, getAllRoles} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
+import {BiArrowBack} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
 
 const AdminUserForm = (id: any) => {
 
@@ -11,6 +13,7 @@ const AdminUserForm = (id: any) => {
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
   const [phone, setPhone] = useState<any>('');
+  const router = useNavigate()
 
 
   const fetchRoles = () => {
@@ -36,7 +39,18 @@ const AdminUserForm = (id: any) => {
   }, [])
   return(
     <div>
+      <br/>
+      <br/>
+      <br/>
       <Card className='border-0'>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Card.Header className='bg-dark text-white theme-font'>
           <p className='m-0 p-2 fs-5'>Step 01: <span className='theme-danger'>Add User</span></p>
         </Card.Header>

@@ -2,12 +2,15 @@ import {Card, Table} from "react-bootstrap";
 import {addRoleControl, useGlobalSelector} from "@infralastic/global-state";
 import {useState} from "react";
 import {toast} from "react-toastify";
+import {BiArrowBack} from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
 
 
 const AdminRoleForm = () => {
   const [role, setRole] = useState('')
   const [description, setDescription] = useState('')
   const { userInfo } = useGlobalSelector((state) => state.user);
+  const router = useNavigate();
   function handleSubmit() {
     const formData: any = {
       role_name: role,
@@ -29,7 +32,18 @@ const AdminRoleForm = () => {
   }
   return(
     <div>
+      <br/>
+      <br/>
+      <br/>
       <Card className='border-0'>
+        <div className='position-absolute back-btn'>
+          <button
+            className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+            onClick={() => router(-1)}
+          >
+            <BiArrowBack />
+          </button>
+        </div>
         <Card.Header className='bg-dark text-white theme-font'>
           <p className='m-0 p-2 fs-5'>Step 01: <span className='theme-danger'>Define Role</span></p>
         </Card.Header>

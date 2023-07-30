@@ -5,9 +5,12 @@ import {toast} from "react-toastify";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
 import {BsCloudUpload} from "react-icons/bs";
+import route from "../../../../routes/route";
+import {useNavigate} from "react-router-dom";
 
 const CompanySettingForm = () => {
   const [name, setName] = useState('');
+  const router = useNavigate();
   const [webUrl, setWebUrl] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
@@ -55,6 +58,9 @@ const CompanySettingForm = () => {
               addCompany(formData).then(async (res: any) => {
                 if (res?.data?.result?.success === true) {
                   toast.success(res?.data?.result?.msg);
+                  setTimeout(() => {
+                    router(-1)
+                  }, 3000)
                 } else {
                   toast.error(res?.payload);
                 }
@@ -71,6 +77,9 @@ const CompanySettingForm = () => {
   }, [])
   return(
     <div>
+      <br/>
+      <br/>
+      <br/>
       <div>
         <Card className='border-0'>
           <Card.Header className='bg-dark text-white theme-font'>

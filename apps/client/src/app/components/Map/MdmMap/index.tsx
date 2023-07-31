@@ -19,7 +19,7 @@ interface IMapProps {
 
 }
 
-const Map: React.FC<IMapProps> = ({ mapboxToken, lat, lng, isLoading }) => {
+const MdmMap: React.FC<IMapProps> = ({ mapboxToken, lat, lng, isLoading }) => {
   const MapStyle = "mapbox://styles/mapbox/streets-v9";
 
 
@@ -50,4 +50,4 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, lat, lng, isLoading }) => {
   );
 };
 
-export default Map;
+export default MdmMap;

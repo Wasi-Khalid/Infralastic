@@ -12,7 +12,7 @@ import {
   getAllCategories, getAssetById,
   getLocation,
   getSites, updateAsset,
-  useGlobalDispatch
+  useGlobalDispatch, useGlobalSelector
 } from "@infralastic/global-state";
 import {useNavigate, useSearchParams} from "react-router-dom";
 
@@ -46,7 +46,7 @@ const AssetFormComponent = () => {
     const [timeAdded, setTimeAdded] = useState('');
     const router = useNavigate();
     const dispatch = useGlobalDispatch();
-
+    const { userInfo } = useGlobalSelector((state) => state.user);
     const [searchParams, setSearchParams] = useSearchParams();
     const id: any = searchParams.get('asset_unique_id');
 
@@ -116,7 +116,8 @@ const AssetFormComponent = () => {
                       time_added: timeAdded,
                       location_id: JSON.parse(location),
                       category_id: JSON.parse(category),
-                      image_url: url
+                      image_url: url,
+                      user_id: userInfo?.result?.user_id
                     }
                     toast.success('Image Uploaded Successfully');
                     try {

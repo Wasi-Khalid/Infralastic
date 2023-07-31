@@ -192,6 +192,10 @@ const AppRoutes = () => {
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AdminRoleForm />} />}
                 />
               <Route
+                    path="/company-table"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<CompanySettingTable />} />}
+                />
+              <Route
                     path="/company-form"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<CompanySettingForm />} />}
                 />

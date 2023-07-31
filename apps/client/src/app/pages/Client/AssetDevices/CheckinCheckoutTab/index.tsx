@@ -1,10 +1,12 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FiUsers} from "react-icons/fi";
 import {AiOutlineSync} from "react-icons/ai";
 import {IoIosAttach} from "react-icons/io";
 import {BsBell} from "react-icons/bs";
 import AssetNotificationComponent from "../../../../components/Client/AssetDevices/AssetNotificationComponent";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
+import {getAssetById} from "@infralastic/global-state";
+import {Card, Col, Row} from "react-bootstrap";
 
 const AssetCheckinCheckoutTab = () => {
   const router = useNavigate();
@@ -13,8 +15,22 @@ const AssetCheckinCheckoutTab = () => {
   const [proof, setProof] = useState(false)
   const [notification, setNotification] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams();
-  const [checkincheckout, setCheckinCheckout] = useState(true);
+  const [checkinCheckout, setCheckinCheckout] = useState(true);
+  const [asset, setAsset] = useState<any>()
   const id: any = searchParams.get('asset_unique_id');
+
+  const fetchAssetById = () => {
+    const formData: any = {
+      asset_unique_id: JSON.parse(id)
+    }
+    getAssetById(formData).then((res: any) => {
+      setAsset(res?.data?.result)
+    })
+  }
+
+  useEffect(() => {
+    fetchAssetById()
+  }, [])
   return(
     <div>
       <div className="d-flex theme-font py-4">
@@ -71,7 +87,7 @@ const AssetCheckinCheckoutTab = () => {
         ><BsBell className='me-1' />Notifications History
         </button>
         <button
-            className={checkincheckout?
+            className={checkinCheckout?
                 'bg-theme-danger text-white rounded px-3 py-1 fs-7 border-0 mx-2 d-flex align-items-center':
                 'bg-transparent px-3 py-1 text-muted border-0 mx-2 fs-7 d-flex align-items-center'
             }
@@ -84,8 +100,33 @@ const AssetCheckinCheckoutTab = () => {
         ><BsBell className='me-1' />Checkin Checkout
         </button>
       </div>
-      <div>
-        {/* <AssetNotificationComponent /> */}
+      <div className='theme-font'>
+        <br/>
+        <br/>
+        <Row>
+          <Col md={6}>
+            <Card>
+              <Card.Body>
+                <h5 className='text-center'>Checkin Note</h5>
+                {asset?.check_in_notes !== false ?
+                  <p>{asset?.check_in_notes}</p> :
+                  <p className='theme-danger'>Asset Not Checked In Yet!</p>
+                }
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card>
+              <Card.Body>
+                <h5 className='text-center'>Check-Out Note</h5>
+                {asset?.check_out_notes !== false ?
+                  <p>{asset?.check_out_notes}</p> :
+                  <p className='theme-danger'>Asset Not Checked Out Yet!</p>
+                }
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </div>
     </div>
   )

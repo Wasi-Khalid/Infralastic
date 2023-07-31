@@ -11,24 +11,35 @@ const AdminRoleForm = () => {
   const [description, setDescription] = useState('')
   const { userInfo } = useGlobalSelector((state) => state.user);
   const router = useNavigate();
+  const [accessControl, setAccessControl] = useState([
+    { model_id: 419, module_name: 'Enrollment', read: false, write: false, create: false, delete: false },
+    { model_id: 420, module_name: 'Profile Management', read: false, write: false, create: false, delete: false },
+    { model_id: 420, module_name: 'App Management', read: false, write: false, create: false, delete: false },
+    { model_id: 420, module_name: 'Content Management', read: false, write: false, create: false, delete: false },
+    { model_id: 420, module_name: 'Group Management', read: false, write: false, create: false, delete: false },
+    { model_id: 420, module_name: 'Inventory', read: false, write: false, create: false, delete: false },
+  ]);
+
+  const handleAccessControlChange = (moduleIndex: any, field: any) => {
+    setAccessControl((prevAccessControl: any) => {
+      const updatedControl = [...prevAccessControl];
+      updatedControl[moduleIndex][field] = !updatedControl[moduleIndex][field];
+      return updatedControl;
+    });
+  };
   function handleSubmit() {
     const formData: any = {
       role_name: role,
       description: description,
       user_id: userInfo?.result?.user_id,
-      access_control: [
-        {"model_id": 419, "read": "False", "write": "True", "create": "True", "delete": "True"}, {
-          "model_id": 420,
-          "read": "False",
-          "write": "True",
-          "create": "True",
-          "delete": "True"
-        }
-      ]
+      access_control: accessControl
     }
-    addRoleControl(formData).then((res: any) => (
+    addRoleControl(formData).then((res: any) => {
       toast.success(res.data.result.msg)
-    ))
+      setTimeout(() => {
+        router(-1)
+      }, 3000)
+    })
   }
   return(
     <div>
@@ -73,117 +84,158 @@ const AdminRoleForm = () => {
           <hr className='mb-0' />
           <Table striped className='theme-font p-2' id='departmentTable'>
             <thead className='p-3'>
-            <tr className='fs-7'>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Module Name</p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Full Control</p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Write</p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>Read</p></th>
-              <th><p className='py-2 m-0 fs-13 text-uppercase'>No Access</p></th>
-            </tr>
+              <tr className='fs-7'>
+                <th><p className='py-2 m-0 fs-13 text-uppercase'>Module Name</p></th>
+                <th><p className='py-2 m-0 fs-13 text-uppercase'>Full Control</p></th>
+                <th><p className='py-2 m-0 fs-13 text-uppercase'>Write</p></th>
+                <th><p className='py-2 m-0 fs-13 text-uppercase'>Read</p></th>
+                <th><p className='py-2 m-0 fs-13 text-uppercase'>No Access</p></th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
+            <>
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>Enrollment</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>Profile Management</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>App Management</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>Content Management</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>Group Management</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+            {/*  <tr>*/}
+            {/*  <td>*/}
+            {/*    <h6 className='text-muted fs-7 m-0'>Inventory</h6>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*  <td>*/}
+            {/*    <input type="checkbox" className='form-check'/>*/}
+            {/*  </td>*/}
+            {/*</tr>*/}
+              </>
+            {accessControl.map((module, index) => (
+            <tr key={module.model_id}>
               <td>
-                <h6 className='text-muted fs-7 m-0'>Enrollment</h6>
+                <h6 className="text-muted fs-7 m-0">{module.module_name}</h6>
               </td>
               <td>
-                <input type="checkbox" className='form-check'/>
+                <input
+                  type="checkbox"
+                  className="form-check"
+                  checked={module.write}
+                  onChange={() => handleAccessControlChange(index, "write")}
+                />
               </td>
               <td>
-                <input type="checkbox" className='form-check'/>
+                <input
+                  type="checkbox"
+                  className="form-check"
+                  checked={module.read}
+                  onChange={() => handleAccessControlChange(index, "read")}
+                />
               </td>
               <td>
-                <input type="checkbox" className='form-check'/>
+                <input
+                  type="checkbox"
+                  className="form-check"
+                  checked={module.delete}
+                  onChange={() => handleAccessControlChange(index, "delete")}
+                />
               </td>
               <td>
-                <input type="checkbox" className='form-check'/>
+                <input
+                  type="checkbox"
+                  className="form-check"
+                  checked={!module.read && !module.write && !module.delete}
+                  onChange={() => handleAccessControlChange(index, "read")}
+                />
               </td>
             </tr>
-              <tr>
-              <td>
-                <h6 className='text-muted fs-7 m-0'>Profile Management</h6>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-            </tr>
-              <tr>
-              <td>
-                <h6 className='text-muted fs-7 m-0'>App Management</h6>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-            </tr>
-              <tr>
-              <td>
-                <h6 className='text-muted fs-7 m-0'>Content Management</h6>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-            </tr>
-              <tr>
-              <td>
-                <h6 className='text-muted fs-7 m-0'>Group Management</h6>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-            </tr>
-              <tr>
-              <td>
-                <h6 className='text-muted fs-7 m-0'>Inventory</h6>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-              <td>
-                <input type="checkbox" className='form-check'/>
-              </td>
-            </tr>
+            ))}
             </tbody>
           </Table>
           <br/>

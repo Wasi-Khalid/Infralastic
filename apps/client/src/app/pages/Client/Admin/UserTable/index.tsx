@@ -21,6 +21,14 @@ const UserTable = () => {
       <Row>
         <Col md={3}>
           <Card>
+            <div className='position-absolute back-btn'>
+              <button
+                className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+                onClick={() => router(-1)}
+              >
+                <BiArrowBack />
+              </button>
+            </div>
             <Card.Body>
               <div className="p-2">
                 <h5 className='mb-3'>Global Settings</h5>
@@ -47,14 +55,6 @@ const UserTable = () => {
         <Col md={9}>
           <div>
             <Card>
-              <div className='position-absolute back-btn'>
-                <button
-                  className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
-                  onClick={() => router(-1)}
-                >
-                  <BiArrowBack />
-                </button>
-              </div>
               <Card.Body>
                 <div className="d-flex theme-font p-2">
                   <div className='d-flex align-items-center'>

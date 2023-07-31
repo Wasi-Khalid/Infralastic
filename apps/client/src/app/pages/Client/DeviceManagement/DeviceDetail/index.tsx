@@ -1,7 +1,6 @@
 import './device-detail.scss'
 import MachineComponent from "../../../../components/Client/DeviceManagement/MachineComponent";
 import {Card, Col, Row} from "react-bootstrap";
-import Map from "../../../../components/Map";
 import CustomFields from "../../../../components/Client/DeviceManagement/CustomFields";
 import SoftwareComponent from "../../../../components/Client/DeviceManagement/SoftwareComponent";
 import HardwareComponent from "../../../../components/Client/DeviceManagement/HardwareComponent";

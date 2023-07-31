@@ -48,7 +48,7 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
           longitude: company?.longitude,
         }));
       }
-    }, [query]);
+    }, [query, location]);
 
     const [viewport, setViewport] = useState<IViewport>({
         latitude: 41.638409,
@@ -57,6 +57,10 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
         width: '100%',
         height: '100%',
     });
+
+  function isValidCoordinate(cord: any) {
+    return typeof cord === 'number' && !isNaN(cord) && cord >= -90 && cord <= 90;
+  }
 
     return (
         <ReactMapGL
@@ -67,6 +71,7 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
         >
             {location?.map((item: any) => (
                 <Marker
+                  key={item?.company_id}
                   children={
                         <div>
                             <SiteCard
@@ -78,8 +83,8 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
                             />
                         </div>
                     }
-                    longitude={item?.longitude ? item?.longitude : 0}
-                    latitude={item?.latitude ? item?.longitude : 0}
+                  longitude={isValidCoordinate(item?.longitude) ? item?.longitude : 0}
+                  latitude={isValidCoordinate(item?.latitude) ? item?.latitude : 0}
                 />
             ))}
         </ReactMapGL>

@@ -6,6 +6,7 @@ import {BsBell} from "react-icons/bs";
 import {useState} from "react";
 import AssetViewComponent from "../../../../components/Client/AssetDevices/AssetViewComponent";
 import {createSearchParams, useNavigate, useSearchParams} from "react-router-dom";
+import {GoNote} from "react-icons/go";
 
 const AssetView = () => {
   const router = useNavigate();
@@ -13,7 +14,7 @@ const AssetView = () => {
   const [changes, setChanges] = useState(false);
   const [proof, setProof] = useState(false);
   const [notification, setNotification] = useState(false);
-  const [checkincheckout, setCheckinCheckout] = useState(false);
+  const [checkinCheckout, setCheckinCheckout] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const id: any = searchParams.get('asset_unique_id');
   return(
@@ -72,7 +73,7 @@ const AssetView = () => {
                 ><BsBell className='me-1' />Notifications History
                 </button>
                 <button
-                    className={checkincheckout?
+                    className={checkinCheckout?
                         'bg-theme-danger text-white rounded px-3 py-1 fs-7 border-0 mx-2 d-flex align-items-center':
                         'bg-transparent px-3 py-1 text-muted border-0 mx-2 fs-7 d-flex align-items-center'
                     }
@@ -82,7 +83,7 @@ const AssetView = () => {
                         asset_unique_id: id
                       })}`
                     })}}
-                ><BsBell className='me-1' />Checkin Checkout
+                ><GoNote className='me-1' />Checkin Checkout
                 </button>
             </div>
             <div>

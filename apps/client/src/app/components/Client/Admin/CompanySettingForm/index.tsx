@@ -1,6 +1,6 @@
 import {Card} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import {addCompany, addEmployee, getLocation, updateEmployeeById} from "@infralastic/global-state";
+import {addCompany, addEmployee, getLocation, updateEmployeeById, useGlobalSelector} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
@@ -19,6 +19,7 @@ const CompanySettingForm = () => {
   const [file, setFile] = useState<any>(null);
   const [imageFile, setImageFile] = useState('');
   const [imageURL, setImageURL] = useState('');
+  const { userInfo } = useGlobalSelector((state) => state.user);
 
   const fetchLocation = () => {
     const config = {}
@@ -52,7 +53,8 @@ const CompanySettingForm = () => {
               location_id: JSON.parse(location),
               image_url: url,
               latitude: latitude,
-              longitude: longitude
+              longitude: longitude,
+              user_id: userInfo?.result?.user_id,
             }
             try {
               addCompany(formData).then(async (res: any) => {

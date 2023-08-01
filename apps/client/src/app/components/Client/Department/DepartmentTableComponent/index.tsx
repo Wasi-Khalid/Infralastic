@@ -107,6 +107,7 @@ const DepartmentTableComponent = (props: filterProps) => {
                     <th><p className='p-2 m-0 fs-13'>DEPARTMENT NAME<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>DEPARTMENT HEAD<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>WORKING ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                    <th><p className='p-2 m-0 fs-13'>Total ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13 text-end'>ACTION</p></th>
                 </tr>
                 </thead>
@@ -162,6 +163,9 @@ const DepartmentTableComponent = (props: filterProps) => {
                                     })}
                                 </div>
                           </div>
+                        </td>
+                        <td>
+                          {item?.asset_categorys.length}
                         </td>
                         <td>
                             <div className='d-flex justify-content-end align-items-center'>

@@ -34,7 +34,7 @@ const DeviceManagement = () => {
 
   useEffect(() => {
     fetchHosts();
-    fetchSaltMinion();
+    // fetchSaltMinion();
   }, [])
 
   function handleAccept(name: any) {
@@ -176,7 +176,7 @@ const DeviceManagement = () => {
                 <td>
                   <button
                     className='theme-border-danger bg-transparent theme-danger theme-font p-2 px-3 rounded'
-                    onClick={() => handleAccept(item?.hostname)}
+                    onClick={() => handleAccept(item?.minionId)}
                   >
                     <BsFileEarmarkArrowUp size={18} className='me-1' /> Connect
                   </button>
@@ -188,7 +188,8 @@ const DeviceManagement = () => {
                       onClick={() => router({
                         pathname: '/device-detail',
                         search: `?${createSearchParams({
-                          hostId: item?.id
+                          hostId: item?.id,
+                          minionId: item?.minionId
                         })}`
                       })}><AiOutlineEye className='me-2 mt-1' size={20} />
                     </button>

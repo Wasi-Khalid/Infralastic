@@ -22,14 +22,14 @@ interface IMapProps {
 const MdmMap: React.FC<IMapProps> = ({ mapboxToken, lat, lng, isLoading }) => {
   const MapStyle = "mapbox://styles/mapbox/streets-v9";
 
-
   const [viewport, setViewport] = useState<IViewport>({
-    latitude: 0,
-    longitude: 0,
+    latitude: lat,
+    longitude: lng,
     zoom: 10,
     width: '100%',
     height: '100%',
   });
+
 
   if (isLoading) {
     return <div>Loading...</div>;

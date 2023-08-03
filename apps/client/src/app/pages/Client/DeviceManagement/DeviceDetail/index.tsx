@@ -19,23 +19,23 @@ const DeviceDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   let minion: any;
-  const id: any = searchParams.get('hostId')
+  const hostId: any = searchParams.get('hostId');
+  const minionId: any = searchParams.get('minionId');
   function fetchDeviceDetails() {
-    const config = id
+    const config = hostId
     getHostDetail(config).then((res: any) => {
       setHostData(res.data.data.host);
-      minion = res.data.data.host.hostname
       executeCommand("curl -sS https://api.ipify.org")
     })
   }
 
   function executeCommand(query: any) {
     const formData: any = {
-      minionId: minion,
+      minionId: minionId,
       command: query
     };
     executeSaltCommands(formData).then((res: any) => {
-      const ipAddress = res.data.data[0]?.['DESKTOP-N595GDA'];
+      const ipAddress = res.data.data;
       if (ipAddress !== false) {
         findLatLng(ipAddress)
       }
@@ -61,7 +61,7 @@ const DeviceDetail = () => {
     <div className='h-100'>
       <br/>
       <br/>
-      <MachineComponent item={hostData} />
+      <MachineComponent item={hostData} minionId={minionId} />
       <br/>
       <div className='map-row-2'>
         <Row className='h-100'>
@@ -70,8 +70,8 @@ const DeviceDetail = () => {
               <MdmMap
                 mapboxToken={MAPBOX_TOKEN}
                 query={''}
-                lat={ipData?.latitude}
-                lng={ipData?.longitude}
+                lat={ipData?.latitude ? ipData?.latitude : 0}
+                lng={ipData?.longitude ? ipData?.longitude : 0}
                 isLoading={isLoading}
               />
             </Card>
@@ -86,7 +86,7 @@ const DeviceDetail = () => {
         <Col md={6}>
           <SoftwareComponent item={hostData} />
           <br/>
-          <SecurityComponent />
+          <SecurityComponent item={hostData} />
         </Col>
         <Col md={6}>
           <HardwareComponent item={hostData} />

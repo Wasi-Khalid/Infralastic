@@ -9,9 +9,20 @@ import image5 from '../../../../../assets/device-managment/patches.png';
 import image6 from '../../../../../assets/device-managment/general.png';
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
 import {CiEdit} from "react-icons/ci";
+import {executeSaltCommands} from "@infralastic/global-state";
 
 
-const MachineComponent = ({item}: {item: any}) => {
+const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
+  function executeCommand(query: any) {
+    const formData: any = {
+      minionId: minionId,
+      command: query
+    };
+    executeSaltCommands(formData).then((res: any) => {
+      console.log(res)
+    });
+  }
+
   return(
     <>
      <Card>
@@ -60,8 +71,13 @@ const MachineComponent = ({item}: {item: any}) => {
 
                    <Dropdown.Menu className='theme-font fs-7 text-muted'>
                      <Dropdown.Item href="#/action-1">Service Manager</Dropdown.Item>
-                     <Dropdown.Item href="#/action-2">Task Manager</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => executeCommand('tasklist')}
+                       href="#/action-2">Task Manager</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Software Inventory</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => executeCommand('net user')}
+                       href="#/action-3">Users</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Software Installation</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Patch Management</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Event Viewer</Dropdown.Item>
@@ -71,8 +87,12 @@ const MachineComponent = ({item}: {item: any}) => {
                      <Dropdown.Item href="#/action-3">Run Script</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">File Transfer</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Registry Editor</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Restart</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Shutdown</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => executeCommand('shutdown /r /t 0')}
+                       href="#/action-3">Restart</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => executeCommand('shutdown /s /f /t 0')}
+                       href="#/action-3">Shutdown</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">HelpDesk Agent</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Webroot</Dropdown.Item>
                    </Dropdown.Menu>

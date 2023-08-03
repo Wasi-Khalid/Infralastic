@@ -1,6 +1,12 @@
 import {Card} from "react-bootstrap";
 
-const SecurityComponent = () => {
+const SecurityComponent = ({item}: {item: any}) => {
+
+  const fetchAntivirus = () => {
+    const formData: any = {
+
+    }
+  }
   return(
     <div>
       <Card>

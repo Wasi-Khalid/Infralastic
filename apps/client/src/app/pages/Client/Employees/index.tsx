@@ -43,7 +43,8 @@ const Employees = () => {
           manager_id: 0,
           department_id: 0,
           location_id: 0,
-          employee_status: false
+          employee_status: false,
+          user_id: 1
         }
         try {
           dispatch(addEmployee(formData)).then(async (res: any) => {

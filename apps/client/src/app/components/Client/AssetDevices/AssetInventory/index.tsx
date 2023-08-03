@@ -276,7 +276,7 @@ const AssetInventory = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {Array.isArray(slicedData) && assets ? (
+                        {Array?.isArray(slicedData) && assets ? (
                             slicedData?.map((asset: any) => (
                               <tr>
                                   <td>
@@ -370,7 +370,7 @@ const AssetInventory = () => {
                             </button>
                             <button
                               className='px-3 py-1 text-white border-0 bg-gray fs-7 h-34 rounded mx-1 pagination-hover'
-                              onClick={() => handlePageChange("next")} disabled={assets.length <= showEntries || assets.length <= page * showEntries}>
+                              onClick={() => handlePageChange("next")} disabled={assets?.length <= showEntries || assets?.length <= page * showEntries}>
                               Next
                             </button>
                           </div>

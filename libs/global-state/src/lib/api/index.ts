@@ -214,6 +214,9 @@ export const deleteCompany = (formData: any) =>
 export const addCompany = (formData: any) =>
   API.post('/api/create_company_api', formData)
 
+export const getCompanyByName = (formData: any) =>
+  API.post('/api/get_companies_api_by_name', formData)
+
 export const updateCompany = (formData: any) =>
   API.post('/api/update_company_api', formData)
 

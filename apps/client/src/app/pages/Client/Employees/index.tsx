@@ -4,13 +4,16 @@ import {BsEye} from "react-icons/bs";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Papa from 'papaparse';
-import {addEmployee, useGlobalDispatch} from "@infralastic/global-state";
+import {addEmployee, getCompanyByName, useGlobalDispatch, useGlobalSelector} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 
 const Employees = () => {
   const router = useNavigate();
   const [fileData, setFileData] = useState<any>(null);
   const dispatch = useGlobalDispatch()
+  const [companyId, setCompanyId] = useState<any>(null);
+  const { userInfo } = useGlobalSelector((state) => state.user);
+
 
   function handleRedirect() {
         router('/employee-view')
@@ -22,6 +25,12 @@ const Employees = () => {
       parseFile(file);
     }
   };
+  // function fetchCompanybyName(name:any)
+  // {
+  //   getCompanyByName(formData).then((res:any)=> {
+  //     setCompanyId(res?.data?.result?.company_id)
+  //   })
+  // }
 
   const parseFile = (file: File) => {
     const reader = new FileReader();
@@ -31,7 +40,10 @@ const Employees = () => {
       const { data } = Papa.parse(text, { header: true });
       setFileData(data);
       console.log(data)
-      data?.map((item: any) => {
+      data?.map(async (item: any) => {
+        getCompanyByName({
+          company_name: item?.company
+        }).then((res:any)=> {        
         const formData: any =  {
           first_name: item?.firstName,
           last_name: item?.lastName,
@@ -39,11 +51,12 @@ const Employees = () => {
           phone: item?.phone,
           image_url: '',
           job_title: item?.job,
-          company_id: 1,
+          company_id: res?.data?.result?.company_id,
           manager_id: 0,
           department_id: 0,
           location_id: 0,
-          employee_status: false
+          employee_status: false,
+          user_id: userInfo?.result?.user_id
         }
         try {
           dispatch(addEmployee(formData)).then(async (res: any) => {
@@ -61,6 +74,7 @@ const Employees = () => {
           toast.error('Access Denied');
         }
       })
+    })
     };
 
     reader.readAsText(file);

@@ -29,8 +29,8 @@ const DepartmentTableComponent = (props: filterProps) => {
         const config: any = {}
         try {
             dispatch(fetchAllDepartment(config)).then(async (res: any) => {
-                setOriginalData(res.payload.departments_details)
-                setDepartment(res.payload.departments_details)
+                setOriginalData(res?.payload?.departments_details)
+                setDepartment(res?.payload?.departments_details)
             });
         } catch (err: any) {
             console.error(err);
@@ -84,13 +84,13 @@ const DepartmentTableComponent = (props: filterProps) => {
         if (props.searchFilter !== '') {
           const searchLetter = props.searchFilter.toLowerCase();
 
-          filteredData = filteredData.filter((res: any) => {
+          filteredData = filteredData?.filter((res: any) => {
             const departmentName = res.department_name.toLowerCase();
             return departmentName.includes(searchLetter);
           });
         }
         if (props.companyFilter !== '') {
-          filteredData = filteredData.filter((res: any) => res.company_name === props.companyFilter)
+          filteredData = filteredData?.filter((res: any) => res.company_name === props.companyFilter)
         }
         setDepartment(filteredData)
     }
@@ -107,7 +107,7 @@ const DepartmentTableComponent = (props: filterProps) => {
                     <th><p className='p-2 m-0 fs-13'>DEPARTMENT NAME<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>DEPARTMENT HEAD<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>WORKING ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
-                    <th><p className='p-2 m-0 fs-13'>Total ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                    <th><p className='p-2 m-0 fs-13'>TOTAL ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13 text-end'>ACTION</p></th>
                 </tr>
                 </thead>

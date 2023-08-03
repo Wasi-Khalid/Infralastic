@@ -15,7 +15,7 @@ const DepartmentMember = () => {
                 <Card.Body>
                     <div className='d-flex w-100 align-items-center py-2'>
                         <div className="w-100">
-                            <h5 className='theme-font m-0'>DEPARTMENTS</h5>
+                            <h5 className='theme-font m-0'>DEPARTMENT MEMBERS</h5>
                         </div>
                         <div className="w-100 d-flex justify-content-end">
                             <div className='w-100 d-flex justify-content-end'>

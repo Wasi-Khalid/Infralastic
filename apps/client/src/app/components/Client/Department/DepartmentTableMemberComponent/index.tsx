@@ -105,11 +105,12 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
                     <th><p className='p-2 m-0 fs-13'>MEMBERS ID<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>MEMBERS EMAIL<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13'>PHONE NUMBER<HiChevronUpDown size={18} className='ms-1' /></p></th>
+                    <th><p className='p-2 m-0 fs-13'>EMPLOYEE ASSETS<HiChevronUpDown size={18} className='ms-1' /></p></th>
                     <th><p className='p-2 m-0 fs-13 text-end'>ACTION</p></th>
                 </tr>
                 </thead>
                 <tbody>
-                {Array.isArray(department) && department?.map((item: any) => (
+                {Array?.isArray(department) && department?.map((item: any) => (
                     <tr>
                         <td>
                             <div className='d-flex align-items-center'>
@@ -136,6 +137,7 @@ const DepartmentTableMemberComponent = (props: filterProps) => {
                                 </div>
                             </div>
                         </td>
+                        <td>{item?.employee_assets?.length}</td>
                         <td>
                             <div className='d-flex justify-content-end align-items-center'>
                                 <AiOutlineEye

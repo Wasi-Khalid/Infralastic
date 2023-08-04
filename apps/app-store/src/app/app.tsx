@@ -89,7 +89,7 @@ function App() {
                 </Dropdown.Toggle>
                 <Dropdown.Menu className='m-0 p-0'>
                   <div className="w-100">
-                    <Link to='/device-checkout'>
+                    <Link to='/wishlist-page'>
                       <button className='bg-theme-danger border-0 text-white rounded px-3 py-1 w-100'
                       >View WishList</button>
                     </Link>

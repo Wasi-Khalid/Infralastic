@@ -235,6 +235,9 @@ export const getPurchaseReport = (formData: any) =>
 export const getCostingReport = (formData: any) =>
   API.post('/api/get_costing_asset_api', formData)
 
+export const cancleOrder = (formData: any) =>
+  API.post('/api/cancel_order', formData)
+
 export const archiveAsset = (formData: any) =>
   API.post('/api/archive_asset_api', formData)
 

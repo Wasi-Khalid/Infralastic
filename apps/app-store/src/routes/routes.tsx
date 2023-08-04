@@ -5,6 +5,8 @@ import DeviceDetail from "../pages/DeviceStore/DeviceDetail";
 import DeviceCheckout from "../pages/DeviceStore/DeviceCheckout";
 import CheckoutComplete from "../pages/DeviceStore/CheckoutComplete";
 import OrderDetail from "../pages/OrderTracking/OrderDetail";
+import WishList from "../pages/DeviceStore/Wishlist";
+import Invoice from "../pages/DeviceStore/Invoice";
 
 const ProductRoutes = () => {
   return (
@@ -27,12 +29,20 @@ const ProductRoutes = () => {
           element={<CheckoutComplete />}
         />
         <Route
+          path="/wishlist-page"
+          element={<WishList />}
+        />
+        <Route
           path="/order-tracking"
           element={<OrderTracking />}
         />
         <Route
           path="/order-detail"
           element={<OrderDetail />}
+        />
+        <Route
+          path="/invoice"
+          element={<Invoice />}
         />
       </Routes>
     </>

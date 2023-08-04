@@ -93,7 +93,7 @@ const DeviceCheckout = () => {
         createDownloadableTxtFile(orderNo);
         setTimeout(() => {
           router({
-            pathname: '/checkout-complete',
+            pathname: '/invoice',
             search: `?${createSearchParams({
               orderId: orderNo
             })}`
@@ -573,9 +573,9 @@ const DeviceCheckout = () => {
                     <InputGroup.Text className='bg-theme-danger text-white theme-font border-0' id="basic-addon2">Redeem</InputGroup.Text>
                   </InputGroup>
                 </Card.Body>
-              </Card>
+              </Card> 
               <br/>
-              <Card className='p-3 shadow'>
+              {/* <Card className='p-3 shadow'>
                 <Card.Body>
                   <div className='d-flex flex-column w-100'>
                     <div className="d-flex w-100">
@@ -622,7 +622,7 @@ const DeviceCheckout = () => {
                     </div>
                   </div>
                 </Card.Body>
-              </Card>
+              </Card> */}
             </Col>
           </Row>
         </Card.Body>

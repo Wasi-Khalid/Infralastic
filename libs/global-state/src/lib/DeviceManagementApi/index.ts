@@ -20,8 +20,8 @@ export const getInstaller = (config: any) =>
 export const getSaltInstaller = (config: any) =>
   API.get(`/installer/salt`, config)
 
-export const getAntivirus = (config: any) =>
-  API.get(`/host/checkWindowsAntivirus`, config)
+export const getAntivirus = (formData: any) =>
+  API.post(`/host/checkWindowsAntivirus`, formData)
 
 export const getSaltMinion = (config: any) =>
   API.get(`/salt/getMinionIds`, config)

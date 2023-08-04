@@ -85,7 +85,8 @@ const CheckOutFormComponent = () => {
             check_out_date: checkOutDate,
             due_by_date: dueByDate,
             department_id: JSON.parse(departmentId),
-            company_id: JSON.parse(company)
+            company_id: JSON.parse(company),
+            asset_status: assetStatus
         }
         checkOut(formData).then((res: any) => {
             toast.success(res.data.result.msg)
@@ -165,7 +166,7 @@ const CheckOutFormComponent = () => {
                                         <option value=''>Select Status</option>
                                         <option value='Permanent'>Permanent</option>
                                         <option value='Temporary'>Temporary</option>
-                                        
+
                                     </Form.Select>
                                 </Form.Group>
                             </Col>

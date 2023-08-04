@@ -1,7 +1,7 @@
 import {Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
 import {BiDotsVerticalRounded} from "react-icons/bi";
-import {deleteCompany, getAllCompanies} from "@infralastic/global-state";
+import {deleteCompany, getAllCompanies, useGlobalSelector} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import EditCompanyModal from "../../../Modals/EditCompanyModal";
@@ -10,6 +10,7 @@ const AdminCompanyTable = () => {
   const [data, setData] = useState<any>([]);
   const [show, setShow] = useState(false)
   const [editId, setEditId] = useState(false)
+  const { userInfo } = useGlobalSelector((state) => state.user);
   const fetchCompanies = () => {
     const formData = {}
     getAllCompanies(formData).then((res: any) => {
@@ -19,7 +20,8 @@ const AdminCompanyTable = () => {
 
   const handleDelete = (id: any) => {
     const formData: any = {
-      company_id: id
+      company_id: id,
+      user_id: userInfo?.result?.user_id
     }
     deleteCompany(formData).then((res: any) => {
       toast.success(res.data.result?.msg)

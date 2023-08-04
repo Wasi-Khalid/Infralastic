@@ -12,6 +12,7 @@ const AdminUserForm = (id: any) => {
   const [roleData, setRoleData] = useState<any>([]);
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
+  const [password, setPassword] = useState<any>('');
   const [phone, setPhone] = useState<any>('');
   const router = useNavigate()
 
@@ -26,12 +27,17 @@ const AdminUserForm = (id: any) => {
     const formData = {
       name: userName,
       login: email,
-      password:"password",
+      password: password,
       phone: phone,
       role_id: JSON.parse(roles)
     }
     addAdminUser(formData).then((res: any) => {
-      toast.success(res.data.result.msg)
+      toast.success(res.data.result.msg);
+      if (res?.data?.result?.success === true) {
+        setTimeout(() => {
+          router(-1)
+        }, 3000)
+      }
     })
   }
   useEffect(() => {
@@ -75,6 +81,10 @@ const AdminUserForm = (id: any) => {
             <div className='d-flex align-items-center py-2 w-100'>
               <label className='w-25 fs-7' htmlFor="">Email *</label>
               <input onChange={(e) => setEmail(e.target.value)} className='w-75 form-control fs-7' type="text" placeholder='Enter Email'/>
+            </div>
+            <div className='d-flex align-items-center py-2 w-100'>
+              <label className='w-25 fs-7' htmlFor="">Password *</label>
+              <input onChange={(e) => setPassword(e.target.value)} className='w-75 form-control fs-7' type="password" placeholder='Enter Password'/>
             </div>
             <div className='d-flex align-items-center py-2 w-100'>
               <label className='w-25 fs-7' htmlFor="">Phone *</label>

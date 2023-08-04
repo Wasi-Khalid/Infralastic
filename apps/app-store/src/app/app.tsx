@@ -4,9 +4,7 @@ import ProductRoutes from "../routes/routes";
 import "react-toastify/dist/ReactToastify.css";
 import {Loader} from "@infralastic/loader";
 import {
-  getCartList,
-  getCartListById,
-  getWishList, getWishListById,
+  getWishListById,
   useGlobalDispatch,
   useGlobalSelector
 } from "@infralastic/global-state";

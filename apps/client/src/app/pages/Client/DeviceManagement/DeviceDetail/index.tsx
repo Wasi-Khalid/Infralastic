@@ -86,7 +86,7 @@ const DeviceDetail = () => {
         <Col md={6}>
           <SoftwareComponent item={hostData} />
           <br/>
-          <SecurityComponent item={hostData} />
+          <SecurityComponent hostId={hostId} />
         </Col>
         <Col md={6}>
           <HardwareComponent item={hostData} />

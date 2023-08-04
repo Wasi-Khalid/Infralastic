@@ -1,12 +1,21 @@
 import {Card} from "react-bootstrap";
+import {getAntivirus} from "@infralastic/global-state";
+import {useEffect} from "react";
 
-const SecurityComponent = ({item}: {item: any}) => {
+const SecurityComponent = ({hostId}: {hostId: any}) => {
 
   const fetchAntivirus = () => {
     const formData: any = {
-
+      hostId: JSON.parse(hostId)
     }
+    getAntivirus(formData).then((res: any) => {
+      console.log(res)
+    })
   }
+
+  useEffect(() => {
+    fetchAntivirus()
+  }, [hostId])
   return(
     <div>
       <Card>

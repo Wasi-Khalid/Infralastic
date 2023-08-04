@@ -14,6 +14,7 @@ const EditUserModal = (props:UserModal) => {
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
   const [phone, setPhone] = useState<any>('');
+  const [password, setPassword] = useState<any>('');
 
   function fetchUserById(){
     const formData = {
@@ -37,7 +38,7 @@ const EditUserModal = (props:UserModal) => {
     const formData = {
       name: userName,
       login: email,
-      password:"password",
+      password: password,
       phone: phone,
       role_id: JSON.parse(roles),
       user_id: props.id
@@ -97,6 +98,16 @@ const EditUserModal = (props:UserModal) => {
                       type="text"
                       value={email}
                       placeholder='Enter Email'
+                    />
+                  </div>
+                  <div className='d-flex align-items-center py-2 w-100'>
+                    <label className='w-25 fs-7' htmlFor="">Password *</label>
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      className='w-75 form-control fs-7'
+                      type="password"
+                      value={password}
+                      placeholder='Enter Password'
                     />
                   </div>
                   <div className='d-flex align-items-center py-2 w-100'>

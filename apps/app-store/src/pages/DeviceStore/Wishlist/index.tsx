@@ -3,18 +3,21 @@ import { useEffect, useState } from "react";
 import { Card, Table } from "react-bootstrap";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { toast } from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import {BiArrowBack} from "react-icons/bi";
 
 
 
 const WishList = () => {
     const dispatch = useGlobalDispatch()
-    const [wishData,setwishData ] = useState<any>(null)
+    const [wishData,setWishData ] = useState<any>(null)
+    const router = useNavigate();
     const getWish = () => {
         const formData: any = {
           wishlist_no: 1
         }
         dispatch(getWishListById(formData)).then((res: any) => {
-          setwishData(res?.payload?.wishlist_details)
+          setWishData(res?.payload?.wishlist_details)
           console.log(res?.payload?.wishlist_details)
         })
       }
@@ -41,7 +44,7 @@ const WishList = () => {
                 }
               }
             }));
-            setwishData((prevCartItems: any) =>
+            setWishData((prevCartItems: any) =>
               prevCartItems.filter((item: any) => item?.product_id !== id)
             );
           })
@@ -67,12 +70,20 @@ const WishList = () => {
           console.log(error)
         }
       }
-      
+
   return(
          <div>
         <Card>
+          <div className='position-absolute back-btn'>
+            <button
+              className='bg-theme-danger border-0 text-white d-flex align-items-center p-2 rounded-circle'
+              onClick={() => router(-1)}
+            >
+              <BiArrowBack />
+            </button>
+          </div>
             <Card.Body>
-            <h5 className="theme-font my 3">Wish List</h5>  
+            <h5 className="theme-font my-3">Wish List</h5>
                 <Table striped className='theme-font' id='departmentTable'>
                     <thead className='p-3'>
                     <tr className='fs-7'>
@@ -115,9 +126,9 @@ const WishList = () => {
                 </Table>
             </Card.Body>
         </Card>
-      
+
     </div>
-    
+
   )
 }
 export default WishList;

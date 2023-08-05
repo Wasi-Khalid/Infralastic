@@ -195,7 +195,7 @@ const AssetFormComponent = () => {
       }
       getAssetById(formData).then((res: any) => {
         setAssetId(res.data.result.asset_unique_id);
-        setCategory(res.data.result.category_name);
+        setCategory(res.data.result.category_id);
         setDescription(res.data.result.asset_name);
         setManufacturer(res.data.result.manufacturer);
         setDeviceModel(res.data.result.device_model);
@@ -212,7 +212,7 @@ const AssetFormComponent = () => {
         setPurchaseFrom(res.data.result.purchase_from !== '' ? res.data.result.purchase_from : 'Not Added');
         setEndOfLifeDate(res.data.result.end_of_life_date);
         setNextServiceDate(res.data.result.next_service_date)
-        setLocation(res.data.result.location_name);
+        setLocation(res.data.result.location_id);
         setDateAdded(res.data.result.date_added);
         setImageFile(res.data.result.image_url)
       })

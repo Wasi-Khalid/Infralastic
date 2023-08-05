@@ -34,13 +34,13 @@ const AssetTable = () => {
     const [showEntries, setShowEntries] = useState<number>(10);
     const startIndex = (page - 1) * showEntries;
     const endIndex = startIndex + showEntries;
-    const slicedData = assets.slice(startIndex, endIndex);
+    const slicedData = assets ? assets?.slice(startIndex, endIndex) : [];
 
     const getDepartment = () => {
         const config: any = {}
         try {
             dispatch(fetchAllDepartment(config)).then(async (res: any) => {
-                setDepartment(res.payload.departments_details)
+                setDepartment(res?.payload?.departments_details)
             });
         } catch (err: any) {
             console.error(err);
@@ -51,26 +51,36 @@ const AssetTable = () => {
         company_id: 1
       }
       getAllCategories(formData).then((res: any) => {
-        setCategoryData(res.data.result.asset_details)
+        setCategoryData(res?.data?.result?.asset_details)
       })
     }
-    function fetchAssets() {
-      const formData: any = {
-        company_id: JSON.parse(id),
-        page_no: page
-      }
-      getAssetByCompanyId(formData).then((res: any) => {
-        setAssets(res.data.result.asset_details);
-        setOriginalData(res.data.result.asset_details);
+  function fetchAssets() {
+    const formData = {
+      company_id: JSON.parse(id),
+      page_no: page
+    };
+
+    getAssetByCompanyId(formData)
+      .then((res) => {
+        if (res.data.success) {
+          setAssets(res.data.result.asset_details);
+          setOriginalData(res.data.result.asset_details);
+        } else {
+          toast.error(res.data.msg);
+        }
       })
-    }
+      .catch((error) => {
+        // Handle any API request error
+        console.error(error);
+      });
+  }
 
     function handleDelete(id: any) {
         const formData: any = {
             asset_unique_id: id
         }
         deleteAsset(formData).then((res: any) => {
-            toast.success(res.data.result.msg)
+            toast.success(res?.data?.result.msg)
             setTimeout(() => {
                 window.location.reload();
             }, 3000)
@@ -80,7 +90,7 @@ const AssetTable = () => {
     const fetchLocation = () => {
       const config = {}
       getLocation(config).then((res: any) => {
-        setLocation(res.data.result.location_details)
+        setLocation(res?.data?.result?.location_details)
       })
     }
 

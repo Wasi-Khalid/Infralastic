@@ -156,6 +156,7 @@ const AssetFormComponent = () => {
                       next_service_date: nextServiceDate,
                       date_added: dateAdded,
                       time_added: timeAdded,
+                      user_id: userInfo?.result?.user_id,
                       location_id: JSON.parse(location),
                       category_id: JSON.parse(category),
                       image_url: url

@@ -3,7 +3,7 @@ import {Card, Dropdown, DropdownButton, Table} from "react-bootstrap";
 import {HiChevronUpDown} from "react-icons/hi2";
 import {BiDotsVerticalRounded} from "react-icons/bi";
 import {useEffect, useState} from "react";
-import {createSearchParams, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {confirmAllAssets, confirmAsset, getUnconfirmedAssets} from "@infralastic/global-state";
 import {toast} from "react-toastify";
 import Swal from 'sweetalert2'
@@ -50,12 +50,7 @@ const ConfirmAssetComponent = () => {
                 toast.success(res.data.result.msg);
                 fetchAllUnconfirmedAssets();
                 setTimeout(() => {
-                  router({
-                    pathname: '/asset-detail',
-                    search: `?${createSearchParams({
-                      company_id: item?.company_id
-                    })}`
-                  })
+                    router('/all-assets')
                   }, 3000)
               })
         });

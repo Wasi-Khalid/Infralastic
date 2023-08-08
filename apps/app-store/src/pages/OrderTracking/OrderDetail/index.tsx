@@ -114,7 +114,7 @@ const OrderDetail = () => {
                     </div>
                     <div className='d-flex flex-column w-25 align-items-end'>
                       <p className='text-end'>Delivery expected by Jun 27</p>
-                      {activeStep !== 3 && 
+                      {activeStep !== 3 &&
                         <button onClick={()=>deleteOrder()} className='bg-theme-danger border-0 text-white theme-font px-3 py-2 rounded mb-2 w-75'>Cancel Order</button>
                       }
                       <button className='theme-border-danger theme-danger theme-font px-3 py-2 rounded w-75'>Need Help</button>
@@ -143,6 +143,7 @@ const OrderDetail = () => {
                   <img src={fake} width='71' height='65' alt=""/>
                   <div className='d-flex flex-column px-3'>
                     <p className='mb-2 theme-font'>{productData?.[0]?.first_name + " " + productData?.[0]?.last_name}</p>
+                    <p className='mb-2 theme-font'>{productData?.[0]?.address}</p>
                     <p className='mb-1 fs-7 theme-font text-muted'>{productData?.[0]?.country_name + "," + productData?.[0]?.state_name + "," + productData?.[0]?.zip_code}</p>
                     <p className='mb-2 fs-5 theme-danger theme-font text-muted '>Total: ${calculateTotalCost(productData)}</p>
                   </div>

@@ -573,7 +573,7 @@ const DeviceCheckout = () => {
                     <InputGroup.Text className='bg-theme-danger text-white theme-font border-0' id="basic-addon2">Redeem</InputGroup.Text>
                   </InputGroup>
                 </Card.Body>
-              </Card> 
+              </Card>
               <br/>
               {/* <Card className='p-3 shadow'>
                 <Card.Body>

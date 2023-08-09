@@ -46,6 +46,7 @@ import AdminRoleForm from "../components/Client/Admin/AdminRoleForm";
 import CompanySettingTable from "../components/Client/Admin/CompanySettingTable";
 import CompanySettingForm from "../components/Client/Admin/CompanySettingForm";
 import AssetCheckinCheckoutTab from "../pages/Client/AssetDevices/CheckinCheckoutTab";
+import UserProfile from "../pages/UserProfile";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -242,6 +243,10 @@ const AppRoutes = () => {
               <Route
                     path="/alerts"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Alerts />} />}
+                />
+                <Route
+                    path="/user-profile"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserProfile />} />}
                 />
             </Routes>
         </>

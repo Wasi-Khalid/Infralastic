@@ -27,8 +27,7 @@ const Invoice = () => {
       const formattedDate = date.toISOString().split('T')[0]; // Format date as "YYYY-MM-DD"
       setInvoiceDate(formattedDate);
     };
-
-    fetchCurrentDate();
+   fetchCurrentDate();
   }, []);
   const calculateTotalCost = (data: any) => {
     let totalCost = 0;
@@ -45,7 +44,6 @@ const Invoice = () => {
       })}`
     });
   }
-
   return (
     <Container>
       <Row>
@@ -81,7 +79,7 @@ const Invoice = () => {
               </tr>
             </tbody>
             ))}
-             
+
           </Table>
         </Col>
       </Row>

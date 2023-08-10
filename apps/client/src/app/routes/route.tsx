@@ -47,6 +47,9 @@ import CompanySettingTable from "../components/Client/Admin/CompanySettingTable"
 import CompanySettingForm from "../components/Client/Admin/CompanySettingForm";
 import AssetCheckinCheckoutTab from "../pages/Client/AssetDevices/CheckinCheckoutTab";
 import UserProfile from "../pages/UserProfile";
+import Smtp from "../pages/Client/Admin/OutputServer";
+import OutputServer from "../pages/Client/Admin/OutputServer";
+import IncomingServer from "../pages/Client/Admin/IncomingServer";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -247,6 +250,14 @@ const AppRoutes = () => {
                 <Route
                     path="/user-profile"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserProfile />} />}
+                />
+                <Route
+                    path="/output-server"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<OutputServer/>} />}
+                />
+                <Route
+                    path="/incoming-server"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<IncomingServer/>} />}
                 />
             </Routes>
         </>

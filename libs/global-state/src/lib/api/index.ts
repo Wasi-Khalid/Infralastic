@@ -241,3 +241,10 @@ export const cancleOrder = (formData: any) =>
 export const archiveAsset = (formData: any) =>
   API.post('/api/archive_asset_api', formData)
 
+
+  export const addOutgoingMail = (formData: any) =>
+  API.post('/api/add_outgoing_mail_api', formData)
+
+  export const addIncomingMail = (formData: any) =>
+  API.post('/api/add_incoming_mail_api', formData)
+

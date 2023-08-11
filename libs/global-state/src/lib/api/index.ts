@@ -202,6 +202,9 @@ export const getCompanyById = (formData: any) =>
 export const addRoleControl = (formData: any) =>
   API.post('/api/add_role_access_api', formData)
 
+export const getAllModels = (formData: any) =>
+  API.post('/api/get_models_api', formData)
+
 export const updateRoleControl = (formData: any) =>
   API.post('/api/update_role_access_api', formData)
 
@@ -242,9 +245,9 @@ export const archiveAsset = (formData: any) =>
   API.post('/api/archive_asset_api', formData)
 
 
-  export const addOutgoingMail = (formData: any) =>
-  API.post('/api/add_outgoing_mail_api', formData)
+export const addOutgoingMail = (formData: any) =>
+API.post('/api/add_outgoing_mail_api', formData)
 
-  export const addIncomingMail = (formData: any) =>
-  API.post('/api/add_incoming_mail_api', formData)
+export const addIncomingMail = (formData: any) =>
+API.post('/api/add_incoming_mail_api', formData)
 

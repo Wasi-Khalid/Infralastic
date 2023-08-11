@@ -1,6 +1,6 @@
 import {Card, Table} from "react-bootstrap";
-import {addRoleControl, useGlobalSelector} from "@infralastic/global-state";
-import {useState} from "react";
+import {addRoleControl, getAllModels, useGlobalSelector} from "@infralastic/global-state";
+import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import {BiArrowBack} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
@@ -23,10 +23,54 @@ const AdminRoleForm = () => {
   const handleAccessControlChange = (moduleIndex: any, field: any) => {
     setAccessControl((prevAccessControl: any) => {
       const updatedControl = [...prevAccessControl];
-      updatedControl[moduleIndex][field] = !updatedControl[moduleIndex][field];
+
+      if (field === "fullControl" && updatedControl[moduleIndex][field]) {
+        updatedControl[moduleIndex].read = true;
+        updatedControl[moduleIndex].write = true;
+        updatedControl[moduleIndex].create = true;
+        updatedControl[moduleIndex].delete = true;
+        updatedControl[moduleIndex].no_access = false;
+      } else if (field === "no_access" && updatedControl[moduleIndex][field]) {
+        updatedControl[moduleIndex].read = false;
+        updatedControl[moduleIndex].write = false;
+        updatedControl[moduleIndex].create = false;
+        updatedControl[moduleIndex].delete = false;
+        updatedControl[moduleIndex].fullControl = false;
+      } else {
+        updatedControl[moduleIndex][field] = !updatedControl[moduleIndex][field];
+
+        if (
+          !updatedControl[moduleIndex].read ||
+          !updatedControl[moduleIndex].write ||
+          !updatedControl[moduleIndex].create ||
+          !updatedControl[moduleIndex].delete
+        ) {
+          updatedControl[moduleIndex].fullControl = false;
+        }
+
+        if (
+          updatedControl[moduleIndex].read &&
+          updatedControl[moduleIndex].write &&
+          updatedControl[moduleIndex].create &&
+          updatedControl[moduleIndex].delete
+        ) {
+          updatedControl[moduleIndex].fullControl = true;
+        }
+
+        if (
+          updatedControl[moduleIndex].read ||
+          updatedControl[moduleIndex].write ||
+          updatedControl[moduleIndex].create ||
+          updatedControl[moduleIndex].delete
+        ) {
+          updatedControl[moduleIndex].no_access = false;
+        }
+      }
+
       return updatedControl;
     });
   };
+
   function handleSubmit() {
     const formData: any = {
       role_name: role,
@@ -41,6 +85,25 @@ const AdminRoleForm = () => {
       }, 3000)
     })
   }
+
+  function fetchAllModels() {
+    const config: any = {}
+    getAllModels(config).then((res: any) => {
+      const initialAccessControl = res?.data?.result?.model_details.map((model: any) => ({
+        model_id: model?.model_id,
+        module_name: model?.model_name,
+        read: false,
+        write: false,
+        create: false,
+        delete: false,
+      }));
+      setAccessControl(initialAccessControl);
+    });
+  }
+
+  useEffect(() => {
+    fetchAllModels();
+  }, [])
   return(
     <div>
       <br/>
@@ -93,110 +156,6 @@ const AdminRoleForm = () => {
               </tr>
             </thead>
             <tbody>
-            <>
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>Enrollment</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>Profile Management</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>App Management</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>Content Management</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>Group Management</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-            {/*  <tr>*/}
-            {/*  <td>*/}
-            {/*    <h6 className='text-muted fs-7 m-0'>Inventory</h6>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*  <td>*/}
-            {/*    <input type="checkbox" className='form-check'/>*/}
-            {/*  </td>*/}
-            {/*</tr>*/}
-              </>
             {accessControl.map((module, index) => (
             <tr key={module.model_id}>
               <td>

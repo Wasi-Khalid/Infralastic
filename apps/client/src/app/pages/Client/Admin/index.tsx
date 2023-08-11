@@ -71,6 +71,22 @@ const Admin = () => {
                 click={() => router('/global-setting')}
               />
             </Col>
+            <Col md={3}>
+              <SettingCard
+                icon={<AiOutlineSetting size={20} />}
+                name='OUTPUT SERVER'
+                description='Lorem ipsum dolor sit amet consectetur. Fringilla ipsum amet turpis tempor.'
+                click={() => router('/output-server')}
+              />
+            </Col>
+            <Col md={3}>
+              <SettingCard
+                icon={<AiOutlineSetting size={20} />}
+                name='INCOMING SERVER'
+                description='Lorem ipsum dolor sit amet consectetur. Fringilla ipsum amet turpis tempor.'
+                click={() => router('/incoming-server')}
+              />
+            </Col>
           </Row>
         </Card.Body>
       </Card>

@@ -1,7 +1,10 @@
 import './app-detail.scss';
 import {Card, Col, Row} from "react-bootstrap";
-import fake from "../../../../../../assets/app-store/dropbox.png"
+import fake from "../../../../../../assets/app-store/dropbox.png";
+import dropbox from "../../../../../../assets/app-store/dropboxCard.png";
+import avatar from "../../../../../../assets/Avatar.png";
 import {useState} from "react";
+import {BiDotsHorizontalRounded} from "react-icons/bi";
 
 const AppDetail = () => {
   const [active1, setActive1] = useState(true);
@@ -47,6 +50,7 @@ const AppDetail = () => {
               <div className="p-2">
                 <p className='theme-font theme-danger'>Dropbox Pricing</p>
                 <p>Overall Rating 4.35</p>
+                <p className='theme-danger text-decoration-underline theme-font'>Write a Review</p>
                 <p></p>
               </div>
             </Card.Body>
@@ -113,9 +117,43 @@ const AppDetail = () => {
                   Faucibus massa fermentum enim tincidunt sed. Sapien metus magna ridiculus praesent feugiat mattis dolor. Mi urna urna cursus morbi cursus. Semper elit viverra semper adipiscing elementum mattis quis maecenas. Gravida et ut venenatis vel.
                   Sapien sit imperdiet dui eget adipiscing libero. Nisi sit suspendisse montes viverra eget ultricies. Eget mauris egestas lacus magna pretium eget at egestas convallis. Libero ante cras eu sit sem. Mauris auctor risus sed sit gravida non morbi mauris venenatis. Nibh posuere nibh ullamcorper in est.
                 </p>
-                <button>
-
+                <button className='w-100 bg-theme-danger text-white border-0 rounded theme-font py-2'>
+                  <BiDotsHorizontalRounded size={18} className='mx-1' />less
                 </button>
+              </div>
+            </Card.Body>
+          </Card>
+          <br/>
+          <Card className='p-0'>
+            <Card.Body className='p-0'>
+              <img src={dropbox} className='w-100' alt=""/>
+            </Card.Body>
+          </Card>
+          <br/>
+          <Card>
+            <Card.Body>
+              <div className="p-2 theme-font">
+                <h5>Most Recent Reviews</h5>
+                <br/>
+                <Card>
+                  <Card.Body>
+                  <p className='theme-danger '>"Dropbox is very helpful for me as a musician"</p>
+                  <div className="row">
+                    <div className="col-md-1">
+                      <div className="d-flex w-100 justify-content-end">
+                        <img src={avatar} width='38' height='38' alt=""/>
+                      </div>
+                    </div>
+                    <div className="col-md-11">
+                      <h5 className='mb-2'>Peter C.</h5>
+                      <p className='theme-font'>Dropbox is an excellent storage system and helps keep all of my documents intact, ready, and available for use. I can trust this service to store all my music and digital paperwork and expect it to be there later, which is important considering the information I lost due to a lack of protection from other services.</p>
+                    </div>
+                  </div>
+                  <button className='w-100 bg-transparent theme-danger border-0 rounded theme-font py-2'>
+                    <BiDotsHorizontalRounded size={18} className='mx-1' />Expand
+                  </button>
+                </Card.Body>
+                </Card>
               </div>
             </Card.Body>
           </Card>

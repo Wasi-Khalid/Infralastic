@@ -1,7 +1,24 @@
 import { Card, Button } from "react-bootstrap";
 import "./user-delete-account-component.scss"
+import {deleteAdminUser, useGlobalSelector} from "@infralastic/global-state";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 
 const UserDeleteAccountComponent = () => {
+  const { userInfo } = useGlobalSelector((state) => state.user);
+  const router = useNavigate()
+  function handleDelete() {
+      const formData = {
+        user_id: userInfo?.result?.user_id
+      }
+      deleteAdminUser(formData).then((res: any) => {
+        toast.success(res?.data?.result?.msg)
+        setTimeout(() => {
+          router('/login')
+          localStorage.clear()
+        }, 3000)
+      })
+    }
     return (
         <Card className="shadow border-0">
             <Card.Body>
@@ -20,7 +37,10 @@ const UserDeleteAccountComponent = () => {
                         </label>
                     </div>
                     <div className="d-flex justify-content-end mt-4">
-                        <Button className="bg-theme-danger border-0 px-3">Deactivate Account</Button>
+                        <Button
+                          className="bg-theme-danger border-0 px-3"
+                          onClick={() => handleDelete()}
+                        >Deactivate Account</Button>
                     </div>
                 </div>
             </Card.Body>

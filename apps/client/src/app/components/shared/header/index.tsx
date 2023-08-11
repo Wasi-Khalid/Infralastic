@@ -52,7 +52,11 @@ const HeaderComponent = () => {
                           id="dropdown-item-button"
                           title={<img className='mx-2 rounded-circle bg-theme-danger' src={avatar} width={32} height={32} alt=""/>}
                       >
-                          <Dropdown.Item className='theme-font' as="button">My Profile</Dropdown.Item>
+                          <Dropdown.Item
+                            className='theme-font'
+                            as="button"
+                            onClick={() => router('/user-profile')}
+                          >My Profile</Dropdown.Item>
                           <Dropdown.Item className='theme-font' as="button">Setting</Dropdown.Item>
                           <hr className='m-1'/>
                           <Dropdown.Item className='theme-font' as="button">Setting</Dropdown.Item>

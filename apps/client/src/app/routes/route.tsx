@@ -46,6 +46,7 @@ import AdminRoleForm from "../components/Client/Admin/AdminRoleForm";
 import CompanySettingTable from "../components/Client/Admin/CompanySettingTable";
 import CompanySettingForm from "../components/Client/Admin/CompanySettingForm";
 import AssetCheckinCheckoutTab from "../pages/Client/AssetDevices/CheckinCheckoutTab";
+import AppDetail from "../pages/Client/ProductStore/AppStore/AppDetail";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -154,6 +155,10 @@ const AppRoutes = () => {
               <Route
                     path="/app-store"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AppStore />} />}
+                />
+              <Route
+                    path="/app-detail"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AppDetail />} />}
                 />
               <Route
                     path="/device-store"

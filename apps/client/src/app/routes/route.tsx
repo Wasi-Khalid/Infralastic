@@ -50,6 +50,7 @@ import IncomingServer from "../pages/Client/Admin/IncomingServer";
 import OutputServer from "../pages/Client/Admin/OutputServer";
 import UserProfile from "../pages/UserProfile";
 import AppDetail from "../pages/Client/ProductStore/AppStore/AppDetail";
+import DeviceResponse from "../pages/Client/DeviceManagement/DeviceResponse";
 
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
@@ -214,6 +215,10 @@ const AppRoutes = () => {
               <Route
                     path="/device-detail"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceDetail />} />}
+                />
+              <Route
+                    path="/device-response"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceResponse />} />}
                 />
               <Route
                     path="/reports"

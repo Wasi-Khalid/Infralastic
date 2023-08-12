@@ -32,6 +32,9 @@ export const acceptSaltMinion = (formData: any) =>
 export const executeSaltCommands = (formData: any) =>
   API.post(`/salt/executeCmd`, formData)
 
+export const executeSaltCommandsPowerShell = (formData: any) =>
+  API.post(`/salt/executePowershell`, formData)
+
 export const getIpAddress = (config: any) =>
   axios.get('https://ipgeolocation.abstractapi.com/v1/', config)
 

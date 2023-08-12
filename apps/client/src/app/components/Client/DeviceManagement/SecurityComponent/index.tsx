@@ -14,7 +14,7 @@ const SecurityComponent = ({hostId}: {hostId: any}) => {
   }
 
   useEffect(() => {
-    fetchAntivirus()
+    // fetchAntivirus()
   }, [hostId])
   return(
     <div>

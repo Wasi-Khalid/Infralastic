@@ -10,9 +10,11 @@ import image6 from '../../../../../assets/device-managment/general.png';
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
 import {CiEdit} from "react-icons/ci";
 import {executeSaltCommands} from "@infralastic/global-state";
+import {createSearchParams, useNavigate} from "react-router-dom";
 
 
 const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
+  const router = useNavigate();
   function executeCommand(query: any) {
     const formData: any = {
       minionId: minionId,
@@ -45,9 +47,9 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
            </div>
            <div className="w-50">
              <div className='d-flex align-items-center justify-content-end'>
-               <div className='mx-1'>
+               <div className=''>
                  <Dropdown>
-                   <Dropdown.Toggle className='bg-transparent border-0'>
+                   <Dropdown.Toggle className='bg-transparent border-0 p-0'>
                      <button className='bg-theme-danger text-white border-0 theme-font py-2 px-3 rounded'>
                        <BsFileEarmarkArrowUp size={18} className='me-1' /> Connect
                      </button>
@@ -72,12 +74,33 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
                    <Dropdown.Menu className='theme-font fs-7 text-muted'>
                      <Dropdown.Item href="#/action-1">Service Manager</Dropdown.Item>
                      <Dropdown.Item
-                       onClick={() => executeCommand('tasklist')}
-                       href="#/action-2">Task Manager</Dropdown.Item>
+                       onClick={() => router({
+                         pathname: '/device-response',
+                         search: `?${createSearchParams({
+                           command: 'tasklist',
+                           id: minionId
+                         })}`
+                       })}
+                       >Task Manager</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Software Inventory</Dropdown.Item>
                      <Dropdown.Item
-                       onClick={() => executeCommand('net user')}
-                       href="#/action-3">Users</Dropdown.Item>
+                       onClick={() => router({
+                         pathname: '/device-response',
+                         search: `?${createSearchParams({
+                           command: 'net user',
+                           id: minionId
+                         })}`
+                       })}
+                       >Users</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => router({
+                         pathname: '/device-response',
+                         search: `?${createSearchParams({
+                           command: 'Get-PhysicalDisk',
+                           id: minionId
+                         })}`
+                       })}
+                       >Disk Info</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Software Installation</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Patch Management</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Event Viewer</Dropdown.Item>
@@ -89,10 +112,10 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
                      <Dropdown.Item href="#/action-3">Registry Editor</Dropdown.Item>
                      <Dropdown.Item
                        onClick={() => executeCommand('shutdown /r /t 0')}
-                       href="#/action-3">Restart</Dropdown.Item>
+                       >Restart</Dropdown.Item>
                      <Dropdown.Item
                        onClick={() => executeCommand('shutdown /s /f /t 0')}
-                       href="#/action-3">Shutdown</Dropdown.Item>
+                       >Shutdown</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">HelpDesk Agent</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Webroot</Dropdown.Item>
                    </Dropdown.Menu>

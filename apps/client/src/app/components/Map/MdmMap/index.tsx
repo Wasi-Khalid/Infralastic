@@ -30,10 +30,20 @@ const MdmMap: React.FC<IMapProps> = ({ mapboxToken, lat, lng, isLoading }) => {
     height: '100%',
   });
 
+  useEffect(() => {
+    setViewport({
+      ...viewport,
+      latitude: lat,
+      longitude: lng,
+    });
+  }, [lat, lng]);
+
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
+
 
   return (
     <ReactMapGL

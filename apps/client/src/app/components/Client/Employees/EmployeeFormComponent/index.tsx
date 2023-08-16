@@ -155,6 +155,15 @@ const EmployeeFormComponent = () => {
         setImageFile(URL.createObjectURL(e.target.files[0]));
     }
 
+    useEffect(() => {
+      if (company) {
+        const selectedCompany = companyData.find((item: any) => item.company_id === parseInt(company, 10));
+        if (selectedCompany) {
+          setLocation(selectedCompany?.location_id);
+        }
+      }
+    }, [company, companyData]);
+
     const handleSubmit = () => {
       const storageRef = ref(storage, `employees/${file?.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -426,6 +435,7 @@ const EmployeeFormComponent = () => {
                                             aria-label="Default select example"
                                             onChange={(e) => setLocation(e.target.value)}
                                             disabled={company === ''}
+                                            value={location}
                                         >
                                           <option value=''>Select Location</option>
                                           {companyData?.filter((item: any) => item?.company_id == company).map((item: any) => (

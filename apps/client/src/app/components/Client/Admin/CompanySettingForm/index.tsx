@@ -33,6 +33,22 @@ const CompanySettingForm = () => {
   }
 
   function handleSubmit() {
+
+    if (name.trim() === '') {
+      toast.error('Name field cannot be empty');
+      return;
+    }
+
+    if (latitude !== '' && (parseFloat(latitude) < -90 || parseFloat(latitude) > 90)) {
+      toast.error('Latitude must be between -90 and 90 degrees');
+      return;
+    }
+
+    if (longitude !== '' && (parseFloat(longitude) < -90 || parseFloat(longitude) > 90)) {
+      toast.error('Longitude must be between -90 and 90 degrees');
+      return;
+    }
+
     const storageRef = ref(storage, `company/${file?.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
@@ -98,11 +114,11 @@ const CompanySettingForm = () => {
                 <input onChange={(e) => setWebUrl(e.target.value)} className='w-75 form-control fs-7' type="text" placeholder='Enter Web URL'/>
               </div>
               <div className='d-flex align-items-center py-2 w-100'>
-                <label className='w-25 fs-7' htmlFor="">Latitude</label>
+                <label className='w-25 fs-7' htmlFor="">Latitude *</label>
                 <input onChange={(e) => setLatitude(e.target.value)} className='w-75 form-control fs-7' type="number" placeholder='Enter Latitude'/>
               </div>
               <div className='d-flex align-items-center py-2 w-100'>
-                <label className='w-25 fs-7' htmlFor="">Longitude</label>
+                <label className='w-25 fs-7' htmlFor="">Longitude *</label>
                 <input onChange={(e) => setLongitude(e.target.value)} className='w-75 form-control fs-7' type="number" placeholder='Enter Longitude'/>
               </div>
               <div className='d-flex align-items-center py-2 w-100'>

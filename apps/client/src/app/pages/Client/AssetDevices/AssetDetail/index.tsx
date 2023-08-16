@@ -7,7 +7,6 @@ const AssetDetail = () => {
     const [location, setLocation] = useState(false);
     const [employee, setEmployee] = useState(false);
     const [reports, setReports] = useState(false);
-    const [checkincheckout, setCheckinCheckout] = useState(false);
 
     return(
         <>

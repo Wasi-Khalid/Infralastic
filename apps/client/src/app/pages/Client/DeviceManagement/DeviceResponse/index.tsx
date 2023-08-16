@@ -9,7 +9,6 @@ const TerminalView = ({ terminalData }: {terminalData: any}) => {
     <div className="bg-dark text-white">
       {terminalData.map((line: any, index: any) => (
         <pre key={index} className="terminal-line p-2">
-
           {line}
         </pre>
       ))}

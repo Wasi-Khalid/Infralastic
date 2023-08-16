@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import SiteCard from "../Client/AssetDevices/SiteCard";
 import {fetchAllCompany, getSites, useGlobalDispatch} from "@infralastic/global-state";
 
+
 interface IViewport {
     latitude: number;
     longitude: number;
@@ -58,10 +59,6 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
         height: '100%',
     });
 
-  function isValidCoordinate(cord: any) {
-    return typeof cord === 'number' && !isNaN(cord) && cord >= -90 && cord <= 90;
-  }
-
     return (
         <ReactMapGL
             mapStyle={MapStyle}
@@ -69,24 +66,28 @@ const Map: React.FC<IMapProps> = ({ mapboxToken, query }) => {
             mapboxAccessToken={mapboxToken}
             onMove={(e: any) => setViewport(e.viewState)}
         >
-            {location?.map((item: any) => (
-                <Marker
-                  key={item?.company_id}
-                  children={
-                        <div>
-                            <SiteCard
-                                name={item?.company_name}
-                                image={item?.image_url}
-                                address={'Lorem Ipsum'}
-                                total={item?.company_assets.length}
-                                company_id={item?.company_id}
-                            />
-                        </div>
-                    }
-                  longitude={isValidCoordinate(item?.longitude) ? item?.longitude : 0}
-                  latitude={isValidCoordinate(item?.latitude) ? item?.latitude : 0}
-                />
-            ))}
+          {location?.map((item: any) => {
+            const longitude = (item?.longitude !== '') ? parseFloat(item.longitude) : 0;
+            const latitude = (item?.latitude !== '') ? parseFloat(item.latitude) : 0;
+
+            return (
+              <Marker
+                key={item?.company_id}
+                longitude={longitude}
+                latitude={latitude}
+              >
+                <div>
+                  <SiteCard
+                    name={item?.company_name}
+                    image={item?.image_url}
+                    address={'Lorem Ipsum'}
+                    total={item?.company_assets.length}
+                    company_id={item?.company_id}
+                  />
+                </div>
+              </Marker>
+            );
+          })}
         </ReactMapGL>
     );
 };

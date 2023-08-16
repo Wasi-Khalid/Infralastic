@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_yXJAvSnKDyCHvUCgPc8Vg7q6ptKwC7Y",
-  authDomain: "infralastic-2030c.firebaseapp.com",
-  projectId: "infralastic-2030c",
-  storageBucket: "infralastic-2030c.appspot.com",
-  messagingSenderId: "870226706731",
-  appId: "1:870226706731:web:1c14e269a8aab33c8dc56e"
+  apiKey: "AIzaSyDRgiKzophEU2p19Tvcex5LtTQkAJ70rvY",
+  authDomain: "infra-5e79d.firebaseapp.com",
+  projectId: "infra-5e79d",
+  storageBucket: "infra-5e79d.appspot.com",
+  messagingSenderId: "850095653480",
+  appId: "1:850095653480:web:18a6be91544d58855e31dd"
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);

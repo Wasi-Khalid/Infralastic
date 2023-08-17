@@ -27,6 +27,9 @@ export const getEmployee = (formData: any) =>
 export const getManager = (formData: any) =>
   API.post('/api/get_manager_api', formData)
 
+export const getJobDesignationById = (formData: any) =>
+  API.post('/api/get_job_by_dept_id', formData)
+
 export const getCompanyEmployee = (formData: any) =>
   API.post('/api/get_company_employee', formData)
 

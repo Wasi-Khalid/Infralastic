@@ -36,7 +36,7 @@ const Admin = () => {
                 icon={<AiOutlineSetting size={20} />}
                 name='Email Configuration'
                 description='Configure automatic notifications to users based on specific events'
-                click={() => router('/global-setting')}
+                click={() => router('/email-configuration')}
               />
             </Col>
             <Col md={3}>
@@ -44,7 +44,7 @@ const Admin = () => {
                 icon={<AiOutlineSetting size={20} />}
                 name='Audit Log'
                 description='Lorem ipsum dolor sit amet consectetur. Habitant sodales rhoncus euismod enim.'
-                click={() => router('/global-setting')}
+                click={() => router('/audit-log')}
               />
             </Col>
             <Col md={3}>
@@ -52,7 +52,7 @@ const Admin = () => {
                 icon={<AiOutlineSetting size={20} />}
                 name='LDAP'
                 description='Lorem ipsum dolor sit amet consectetur. Ornare sapien felis sit elementum.'
-                click={() => router('/global-setting')}
+                click={() => router('/ldap')}
               />
             </Col>
             <Col md={3}>

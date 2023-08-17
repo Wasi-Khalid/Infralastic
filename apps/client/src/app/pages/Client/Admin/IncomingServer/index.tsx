@@ -71,11 +71,11 @@ function handleSubmit() {
                     <div className="w-100 d-flex justify-content-end">
                     <button className="btn btn-secondary mx-2">Cancel</button>
                     <button 
-                    className="btn bg-theme-danger border-0 text-white"
-                    type="button"
-                    onClick={()=> handleSubmit()}
-                    >Save</button>
-                    </div>
+                            className="btn bg-theme-danger border-0 text-white"
+                            type="button"
+                            onClick={()=> handleSubmit()}
+                            >Save</button>
+                        </div>
                 </Form>
                 </Container>
             </Card.Body>

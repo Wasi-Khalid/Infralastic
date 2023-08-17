@@ -51,7 +51,12 @@ import OutputServer from "../pages/Client/Admin/OutputServer";
 import UserProfile from "../pages/UserProfile";
 import AppDetail from "../pages/Client/ProductStore/AppStore/AppDetail";
 import DeviceResponse from "../pages/Client/DeviceManagement/DeviceResponse";
-
+import EmailConfiguration from "../pages/Client/Admin/EmailConfiguration";
+import AuditLog from "../pages/Client/Admin/AuditLog";
+import PlansBillings from "../pages/Client/Admin/Plans-Billings";
+import Ldap from "../pages/Client/Admin/Ldap";
+import Saml from "../pages/Client/Admin/Saml";
+import Oauth from "../pages/Client/Admin/Oauth";
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
         isAuthenticated: localStorage.getItem('token') ? true : false,
@@ -267,6 +272,30 @@ const AppRoutes = () => {
                 <Route
                     path="/incoming-server"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<IncomingServer/>} />}
+                />
+                <Route
+                    path="/email-configuration"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<EmailConfiguration/>} />}
+                />
+                <Route
+                    path="/audit-log"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AuditLog/>} />}
+                />
+                <Route
+                    path="/plans-billings"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<PlansBillings/>} />}
+                />
+                <Route
+                    path="/ldap"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Ldap/>} />}
+                />
+                <Route
+                    path="/saml"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Saml/>} />}
+                />
+                <Route
+                    path="/oauth"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth/>} />}
                 />
             </Routes>
         </>

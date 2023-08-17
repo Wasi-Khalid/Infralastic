@@ -22,6 +22,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
     const [company, setCompany] = useState<any>('');
     const [departmentData, setDepartmentData] = useState<any>([]);
     const [jobData, setJobData] = useState<any>([]);
+    const [department, setDepartment] = useState<any>('');
     const fetchLocation = () => {
         const config = {}
         getLocation(config).then((res: any) => {
@@ -38,10 +39,13 @@ const EmployeeFilterComponent = (props: filterProps) => {
             console.error(err);
         }
     }
-    function handleCompany(e: any )
-    {
+    function handleCompany(e: any ) {
         props.company(e.target.value)
         setCompany(e.target.value)
+    }
+    function handleDepartment(e: any ) {
+        props.department(e.target.value)
+        setDepartment(e.target.value)
     }
     const getDepartment = () => {
         const config: any = {}
@@ -59,6 +63,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
         setJobData(res?.data.result?.job_details)
       })
     }
+
     useEffect(() => {
         fetchLocation();
         getCompany();
@@ -114,7 +119,7 @@ const EmployeeFilterComponent = (props: filterProps) => {
                                 className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '
                                 aria-label="Default select example"
                                 required={true}
-                                onChange={(e: any) => props.department(e.target.value)}
+                                onChange={(e: any) => handleDepartment(e)}
                               >
                                 <option value=''>Select Department</option>
                                 {departmentData?.filter((item:any) => item.company_name == company).map((item: any) => (
@@ -132,10 +137,11 @@ const EmployeeFilterComponent = (props: filterProps) => {
                                 className='py-2 ps-0 fs-7 theme-font text-muted border-start-0 '
                                 aria-label="Default select example"
                                 required={true}
+                                disabled={department === ""}
                                 onChange={(e: any) => props.job(e.target.value)}
                               >
                                 <option value=''>Select Designation</option>
-                                {jobData?.map((item: any) => (
+                                {jobData?.filter((item: any) => item.department_name == department)?.map((item: any) => (
                                   <option value={item.job_name} className='theme-font fs-7'>{item?.job_name}</option>
                                 ))}
                             </Form.Select>

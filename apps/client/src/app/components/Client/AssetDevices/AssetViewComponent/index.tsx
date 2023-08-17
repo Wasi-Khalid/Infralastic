@@ -98,18 +98,18 @@ const AssetViewComponent = () => {
                                   <h5 className='m-0 mt-2 theme-font'>Lenovo Think Pad</h5>
                               </div>
                             </div>
-                            <div className=" w-50">
-                                {(checkInNotes !== false && checkInNotes !== '') &&<>
-                                    <h5 className='theme-font'>CheckIn Notes</h5>
-                                    <p>{checkInNotes}</p>
-                                  </>
-                                }
-                                {(checkOutNotes !== false && checkOutNotes !== '') &&<>
-                                    <h5 className='theme-font'>CheckOut Notes</h5>
-                                    <p>{checkOutNotes}</p>
-                                  </>
-                                }
-                            </div>
+                            {/*<div className=" w-50">*/}
+                            {/*    {(checkInNotes !== false && checkInNotes !== '') &&<>*/}
+                            {/*        <h5 className='theme-font'>CheckIn Notes</h5>*/}
+                            {/*        <p>{checkInNotes}</p>*/}
+                            {/*      </>*/}
+                            {/*    }*/}
+                            {/*    {(checkOutNotes !== false && checkOutNotes !== '') &&<>*/}
+                            {/*        <h5 className='theme-font'>CheckOut Notes</h5>*/}
+                            {/*        <p>{checkOutNotes}</p>*/}
+                            {/*      </>*/}
+                            {/*    }*/}
+                            {/*</div>*/}
                           </div>
                       </div>
                       <hr className='my-4'/>

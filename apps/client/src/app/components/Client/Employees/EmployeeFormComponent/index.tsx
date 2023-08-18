@@ -29,7 +29,7 @@ const EmployeeFormComponent = () => {
     const [company, setCompany] = useState<any>('');
     const [phone, setPhone] = useState('');
     const [department, setDepartment] = useState<any>(null);
-    const [manager, setManager] = useState<any>(null);
+    const [manager, setManager] = useState<any>(0);
     const [location, setLocation] = useState<any>(null);
     const [file, setFile] = useState<any>(null);
     const [imageFile, setImageFile] = useState('');

@@ -17,7 +17,7 @@ const Reports = () => {
   function fetchPurchaseData() {
     const config: any = {}
     dispatch(fetchAllBudgetReport(config)).then((res: any) => {
-      setPurchaseData(res.payload?.budget_data)
+      setPurchaseData(res?.payload?.budget_data)
     })
   }
 

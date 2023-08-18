@@ -89,7 +89,14 @@ const EmailConfiguration = () => {
                         </div>
                         <div className="w-25 d-flex align-items-center">
                             <div className="d-flex">
-                                <input className="" type="radio" />
+                                <input
+                                  type="radio"
+                                  name='mail'
+                                  onClick={() => {
+                                    setIncoming(true)
+                                    setOutgoing(false)
+                                  }}
+                                />
                             </div>
                             <div className="d-flex align-items-center px-2">
                                 <h6 className="m-0">Incoming</h6>
@@ -97,7 +104,14 @@ const EmailConfiguration = () => {
                         </div>
                         <div className="w-25 d-flex align-items-center">
                             <div className="d-flex">
-                                <input className="" type="radio" />
+                                <input
+                                  type="radio"
+                                  name='mail'
+                                  onClick={() => {
+                                    setIncoming(false)
+                                    setOutgoing(true)
+                                  }}
+                                />
                             </div>
                             <div className="d-flex align-items-center px-2">
                                 <h6 className="m-0">Outgoing</h6>
@@ -110,14 +124,32 @@ const EmailConfiguration = () => {
                         <h5>Email Service</h5>
                         <br/>
                         <div className="">
-                        <button className="mx-1 p-2 user-color border-0 theme-danger"><IoLogoMicrosoft className="user-color" size={35}/></button>
-                        <button className="mx-3 p-2 user-color border-0 theme-danger"><IoLogoGoogle className="user-color" size={35}/></button>
+                          <button
+                            className="mx-1 p-2 user-color border-0 theme-danger">
+                            <IoLogoMicrosoft className="user-color" size={35}/>
+                          </button>
+                          <button className="mx-3 p-2 user-color border-0 theme-danger">
+                            <IoLogoGoogle className="user-color" size={35}/>
+                          </button>
                         </div>
                     </div>
                     <br/>
                     <div className="w-100 d-flex justify-content-end">
                       <button className="btn btn-secondary mx-1">Cancel</button>
-                      <button className="btn btn-primary bg-theme-danger border-0 mx-1">Save</button>
+                      {incoming &&
+                        <button
+                          className="btn btn-primary bg-theme-danger border-0 mx-1"
+                          type='button'
+                          onClick={() => handleIncoming()}
+                        >Incoming Save</button>
+                      }
+                      {outgoing &&
+                        <button
+                          className="btn btn-primary bg-theme-danger border-0 mx-1"
+                          type='button'
+                          onClick={() => handleOutgoing()}
+                        >Outgoing Save</button>
+                      }
                     </div>
                     </Form>
                     </Container>

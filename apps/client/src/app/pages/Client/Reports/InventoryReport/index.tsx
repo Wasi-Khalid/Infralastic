@@ -85,7 +85,7 @@ const InventoryReport = () => {
 
   const calculateTotalCost = (data: any) => {
     let totalCost = 0;
-    data.forEach((item: any) => {
+    data?.forEach((item: any) => {
       totalCost += parseFloat(item.cost);
     });
     return totalCost.toFixed(2);

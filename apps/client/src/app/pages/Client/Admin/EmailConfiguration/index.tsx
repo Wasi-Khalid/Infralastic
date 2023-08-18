@@ -1,53 +1,86 @@
 import { Card, Container, Form } from "react-bootstrap";
 import { IoLogoGoogle } from "react-icons/io";
 import { IoLogoMicrosoft } from "react-icons/io5";
+import {useState} from "react";
+import {addIncomingMail, addOutgoingMail} from "@infralastic/global-state";
 
 const EmailConfiguration = () => {
+  const [description , setDescription] = useState('')
+  const [user , setUser] = useState('');
+  const [password , setPassword] = useState('');
+  const [incoming, setIncoming] = useState(false)
+  const [outgoing, setOutgoing] = useState(false)
+
+  function handleIncoming() {
+    const formData = {
+      description: description,
+      smtp_user: user,
+      smtp_pass: password
+    }
+    addIncomingMail(formData).then((res:any) => {
+      console.log(res)
+    })
+  }
+
+  function handleOutgoing() {
+    const formData = {
+      description: description,
+      smtp_user: user,
+      smtp_pass: password
+    }
+    addOutgoingMail(formData).then((res:any) => {
+      console.log(res)
+    })
+  }
     return(
         <div className="">
+          <br/>
+          <br/>
             <Card className="rounded-4">
                 <Card.Body>
                 <br/>
-                <h4 className="Theme-font mb-0">Email Configuration</h4>
-                <h6 className="Theme-font text-muted">Enter Decrtiption here</h6>
+                  <div className="px-3">
+                    <h4 className="theme-font">Email Configuration</h4>
+                    <h6 className="theme-font text-muted">Lorem ipsum dolor sit amet consectetur. Morbi amet ipsum facilisis.</h6>
+                  </div>
                 <br/>
                 <br/>
                 <Container>
                     <Form>
                     <div className="w-100 d-flex">
-                        <div className="w-25">
-                            <h6>Name</h6>
-                        </div>
-                        <input
-                        type="text"
+                      <div className="w-25">
+                        <h6 className="theme-font">Description</h6>
+                      </div>
+                      <input
                         className="form-control"
-                        placeholder="Enter Your Name"
-                        >
-                        </input>
+                        type="text"
+                        placeholder="Enter Description"
+                        onChange={(e: any) => setDescription(e.target.value)}
+                      />
                     </div>
                     <br/>
                     <div className="w-100 d-flex">
-                        <div className="w-25">
-                            <h6>Your HelpDesk Email</h6>
-                        </div>
-                        <input
-                        type="text"
+                      <div className="w-25">
+                        <h6 className="theme-font">SMTP User</h6>
+                      </div>
+                      <input
                         className="form-control"
-                        placeholder="Enter Your Email"
-                        >
-                        </input>
+                        type="text"
+                        placeholder="Enter User E-mail"
+                        onChange={(e: any) => setUser(e.target.value)}
+                      />
                     </div>
                     <br/>
                     <div className="w-100 d-flex">
-                        <div className="w-25">
-                            <h6>Assign To Group</h6>
-                        </div>
-                        <Form.Select className="text-muted" aria-label="Select Group ">
-                        <option>Select Group</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        </Form.Select>
+                      <div className="w-25">
+                        <h6 className="theme-font">SMTP Password</h6>
+                      </div>
+                      <input
+                        className="form-control"
+                        type="Password"
+                        placeholder="Enter Password Secret"
+                        onChange={(e: any) => setPassword(e.target.value)}
+                      />
                     </div>
                     <br/>
                     <div className="w-100 d-flex">
@@ -56,65 +89,18 @@ const EmailConfiguration = () => {
                         </div>
                         <div className="w-25 d-flex align-items-center">
                             <div className="d-flex">
-                                <input
-                                className=""
-                                type="radio"
-                                />
+                                <input className="" type="radio" />
                             </div>
                             <div className="d-flex align-items-center px-2">
-                                <h6 className="m-0">Default</h6>
+                                <h6 className="m-0">Incoming</h6>
                             </div>
                         </div>
                         <div className="w-25 d-flex align-items-center">
                             <div className="d-flex">
-                                <input
-                                className=""
-                                type="radio"
-                                />
+                                <input className="" type="radio" />
                             </div>
                             <div className="d-flex align-items-center px-2">
-                                <h6 className="m-0">Use Your Own Mail Server</h6>
-                            </div>
-                        </div>
-                        </div>
-                        <br/>
-                        <div className="w-100 d-flex">
-                        <div className="w-25 theme-Danger">
-                            <h6 className="theme-font theme-danger">Email System</h6>
-                        </div>
-                        <div className="w-25 d-flex align-items-center">
-                            <div className="d-flex">
-                                <input
-                                className=""
-                                type="radio"
-                                />
-                            </div>
-                            <div className="d-flex align-items-center px-2">
-                                <h6 className="m-0">Incoming & Outgoing </h6>
-                            </div>
-                        </div>
-                        <div className="w-25 d-flex align-items-center">
-                            <div className="d-flex">
-                                <input
-                                className=""
-                                type="radio"
-                                />
-                            </div>
-                            <div className="d-flex align-items-center px-2">
-                                <h6 className="m-0">Use Your Own Mail Server</h6>
-                            </div>
-                        </div>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                    <div className="w-100 d-flex">
-                            <div className="w-100 d-flex">
-                            <input
-                            className="me-2"
-                            type="checkbox"
-                            ></input>
-                            <h6 className="m-0">Delete Emails From After Fetching?</h6>
+                                <h6 className="m-0">Outgoing</h6>
                             </div>
                         </div>
                     </div>
@@ -130,8 +116,8 @@ const EmailConfiguration = () => {
                     </div>
                     <br/>
                     <div className="w-100 d-flex justify-content-end">
-                    <button className="btn btn-secondary mx-1">Cancel</button>
-                    <button className="btn btn-primary bg-theme-danger border-0 mx-1">Save</button>
+                      <button className="btn btn-secondary mx-1">Cancel</button>
+                      <button className="btn btn-primary bg-theme-danger border-0 mx-1">Save</button>
                     </div>
                     </Form>
                     </Container>

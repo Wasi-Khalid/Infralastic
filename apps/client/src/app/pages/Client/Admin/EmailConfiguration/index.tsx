@@ -8,7 +8,7 @@ const EmailConfiguration = () => {
             <Card className="rounded-4">
                 <Card.Body>
                 <br/>
-                <h4 className="Theme-font">Email Configuration</h4>
+                <h4 className="Theme-font mb-0">Email Configuration</h4>
                 <h6 className="Theme-font text-muted">Enter Decrtiption here</h6>
                 <br/>
                 <br/>

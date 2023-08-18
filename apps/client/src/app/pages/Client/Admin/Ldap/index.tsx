@@ -5,7 +5,7 @@ const Ldap = () => {
         <div className="">
             <Card className="rounded-4">
                 <Card.Body>
-                <h5>LDAP/AD</h5>
+                <h5 className="mb-0">LDAP/AD</h5>
                 <h6 className="text-muted">description written here</h6>
                 <br/>
                 <Container>
@@ -21,6 +21,7 @@ const Ldap = () => {
                         </div>
                         </div>
                         </div>
+                        <br/>
                         <div className="w-100 d-flex">
                         <div className="w-25">
                             <h6 className="mb-0">LDAP Password Sync</h6>

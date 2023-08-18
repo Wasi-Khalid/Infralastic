@@ -60,15 +60,15 @@ const Admin = () => {
                 icon={<AiOutlineSetting size={20} />}
                 name='SAML'
                 description='Lorem ipsum dolor sit amet consectetur. Fringilla ipsum amet turpis tempor.'
-                click={() => router('/global-setting')}
+                click={() => router('/saml')}
               />
             </Col>
             <Col md={3}>
               <SettingCard
                 icon={<AiOutlineSetting size={20} />}
-                name='OAUTH'
+                name='0AUTH'
                 description='Lorem ipsum dolor sit amet consectetur. Fringilla ipsum amet turpis tempor.'
-                click={() => router('/global-setting')}
+                click={() => router('/0auth')}
               />
             </Col>
             <Col md={3}>

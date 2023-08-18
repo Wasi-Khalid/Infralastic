@@ -294,7 +294,7 @@ const AppRoutes = () => {
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Saml/>} />}
                 />
                 <Route
-                    path="/oauth"
+                    path="/0auth"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth/>} />}
                 />
             </Routes>

@@ -7,7 +7,7 @@ import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
 import {useEffect, useState} from "react";
-import {acceptSaltMinion, getHosts, getSaltInstaller, getSaltMinion} from "@infralastic/global-state";
+import {acceptSaltMinion, getChocInstaller, getHosts, getSaltInstaller, getSaltMinion} from "@infralastic/global-state";
 import {HiDownload} from "react-icons/hi";
 import {LuSettings2} from "react-icons/lu";
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
@@ -36,6 +36,22 @@ const DeviceManagement = () => {
     fetchHosts();
     // fetchSaltMinion();
   }, [])
+
+  function handleInstaller(name: any) {
+    const formData: any = {
+      minionId: name
+    }
+    getChocInstaller(formData).then((res) => {
+      if(res.data.status) {
+        toast.success('Connected Successfully')
+      }
+    })
+  }
+
+  function handleSubmit(name: any) {
+    handleAccept(name);
+    handleInstaller(name)
+  }
 
   function handleAccept(name: any) {
     const formData: any = {
@@ -176,7 +192,7 @@ const DeviceManagement = () => {
                 <td>
                   <button
                     className='theme-border-danger bg-transparent theme-danger theme-font p-2 px-3 rounded'
-                    onClick={() => handleAccept(item?.minionId)}
+                    onClick={() => handleSubmit(item?.minionId)}
                   >
                     <BsFileEarmarkArrowUp size={18} className='me-1' /> Connect
                   </button>

@@ -38,3 +38,6 @@ export const executeSaltCommandsPowerShell = (formData: any) =>
 export const getIpAddress = (config: any) =>
   axios.get('https://ipgeolocation.abstractapi.com/v1/', config)
 
+export const getChocInstaller = (config: any) =>
+  axios.get('/salt/installChocolatey', config)
+

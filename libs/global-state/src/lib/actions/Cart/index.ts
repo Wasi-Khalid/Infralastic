@@ -121,14 +121,14 @@ export const getWishListById = createAsyncThunk(
 export const addToWishList = createAsyncThunk(
   "wish/add",
   async (
-    {wishlist_no, product_id}
-      : { wishlist_no: any, product_id: any},
+    {wishlist_no, product_id, user_id}
+      : { wishlist_no: any, product_id: any, user_id: any},
     { getState, rejectWithValue }
   ) => {
     try {
       const { cart }: any = getState();
       let data = {};
-      await api.addWishList({wishlist_no, product_id}).then((res: any) => {
+      await api.addWishList({wishlist_no, product_id, user_id}).then((res: any) => {
         data = res.data.result;
       });
       return data;

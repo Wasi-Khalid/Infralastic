@@ -14,10 +14,11 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {IoBasketOutline} from "react-icons/io5";
 import {AiOutlineHeart} from "react-icons/ai";
 import {Dropdown} from "react-bootstrap";
-import {Link, useLocation} from "react-router-dom";
+import {createSearchParams, Link, useLocation, useNavigate} from "react-router-dom";
 
 function App() {
   const dispatch = useGlobalDispatch();
+  const router = useNavigate()
   const userLoading = useGlobalSelector((state) => state.device.loading);
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
   const wishInfo = useGlobalSelector((state) => state.cart.wishInfo);
@@ -25,6 +26,8 @@ function App() {
   const [totalProductQuantity, setTotalProductQuantity] = useState<number>(0);
   const [wishCount, setWishCount] = useState<any>(null)
   const [cartCount, setCartCount] = useState<any>(null)
+  const queryParameters = new URLSearchParams(window.location.search);
+  const id = queryParameters.get("user_id");
   const getWish = () => {
     const formData: any = {
       wishlist_no: 1
@@ -90,7 +93,14 @@ function App() {
                 <Dropdown.Menu className='m-0 p-0'>
                   <div className="w-100">
                     <Link to='/wishlist-page'>
-                      <button className='bg-theme-danger border-0 text-white rounded px-3 py-1 w-100'
+                      <button
+                        className='bg-theme-danger border-0 text-white rounded px-3 py-1 w-100'
+                        onClick={() => router({
+                          pathname: '/wishlist-page',
+                          search: `?${createSearchParams({
+                            user_id: JSON.stringify(id)
+                          })}`
+                        })}
                       >View WishList</button>
                     </Link>
                   </div>

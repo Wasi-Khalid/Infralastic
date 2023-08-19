@@ -19,6 +19,7 @@ const DeviceDetail  = () => {
   const [allProductData, setAllProductData] = useState<any>(null);
 
   const id: any = searchParams.get('productId')
+  const userId: any = searchParams.get('userId')
 
   const fetchProduct = () => {
     const fromData = {
@@ -53,7 +54,8 @@ const DeviceDetail  = () => {
   const addWishlist = (id: any) => {
     const formData: any = {
       wishlist_no: 1,
-      product_id: id
+      product_id: id,
+      user_id: userId
     }
     dispatch(addToWishList(formData)).then((res: any) => {
       if (res?.payload?.success === true) {
@@ -230,6 +232,7 @@ const DeviceDetail  = () => {
                       })}`
                     })}
                     image={item?.image}
+                    userId={userId}
                     productId={item?.product_id}
                     description={item?.product_name}
                     cost={item?.price}

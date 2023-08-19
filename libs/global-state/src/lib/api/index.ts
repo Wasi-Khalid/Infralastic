@@ -174,6 +174,9 @@ export const deleteCartList = (formData: any) =>
 export const removeCartProduct = (formData: any) =>
   API.post('/api/remove_cart_list_product', formData)
 
+export const getCatalogList = (formData: any) =>
+  API.post('/api/get_catalog_data', formData)
+
 
 
 

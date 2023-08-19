@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, Table } from "react-bootstrap";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { toast } from "react-toastify";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {BiArrowBack} from "react-icons/bi";
 
 
@@ -11,6 +11,8 @@ import {BiArrowBack} from "react-icons/bi";
 const WishList = () => {
     const dispatch = useGlobalDispatch()
     const [wishData,setWishData ] = useState<any>(null)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const id: any = searchParams.get('user_id')
     const router = useNavigate();
     const getWish = () => {
         const formData: any = {

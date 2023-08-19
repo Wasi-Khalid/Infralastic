@@ -22,12 +22,15 @@ interface productProps {
   cost: string;
   click: any;
   purchase: any;
+  userId: any
 }
 
 const ProductCard = (props: productProps) => {
   const router = useNavigate();
   const dispatch = useGlobalDispatch();
   const [wish, setWish] = useState(false);
+  const queryParameters = new URLSearchParams(window.location.search);
+  const user_id = queryParameters.get("user_id");
   const [{ isDragging }, drag] = useDrag<any, any, { isDragging: boolean }>({
     item: {
       type: ItemTypes.BOX,
@@ -43,7 +46,8 @@ const ProductCard = (props: productProps) => {
   const addWishlist = (id: any) => {
     const formData: any = {
       wishlist_no: 1,
-      product_id: id
+      product_id: id,
+      user_id: props?.userId
     }
     dispatch(addToWishList(formData)).then((res: any) => {
       if (res?.payload?.success === true) {

@@ -58,6 +58,8 @@ import Ldap from "../pages/Client/Admin/Ldap";
 import Saml from "../pages/Client/Admin/Saml";
 import Oauth from "../pages/Client/Admin/Oauth";
 import EditProfile from "../pages/UserProfile/EditProfile";
+import DeviceCmd from "../pages/Client/DeviceManagement/DeviceCmd";
+import DevicePowerShell from "../pages/Client/DeviceManagement/DevicePowerShell";
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
         isAuthenticated: localStorage.getItem('token') ? true : false,
@@ -262,45 +264,57 @@ const AppRoutes = () => {
                     path="/alerts"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Alerts />} />}
                 />
-                <Route
+              <Route
                     path="/user-profile"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserProfile />} />}
-                />
-                <Route
+              />
+              <Route
                     path="/edit-profile"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<EditProfile />} />}
-                />
-                <Route
+              />
+              <Route
                     path="/output-server"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<OutputServer/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/incoming-server"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<IncomingServer/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/email-configuration"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<EmailConfiguration/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/audit-log"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<AuditLog/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/plans-billings"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<PlansBillings/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/ldap"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Ldap/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/saml"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Saml/>} />}
-                />
-                <Route
+              />
+              <Route
                     path="/0auth"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth/>} />}
+              />
+              <Route
+                    path="/0auth"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth/>} />}
+                />
+              <Route
+                    path="/device-cmd"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DeviceCmd/>} />}
+                />
+              <Route
+                    path="/device-powershell"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DevicePowerShell/>} />}
                 />
             </Routes>
         </>

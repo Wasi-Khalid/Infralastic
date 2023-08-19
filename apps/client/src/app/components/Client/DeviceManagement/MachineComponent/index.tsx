@@ -105,8 +105,22 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
                      <Dropdown.Item href="#/action-3">Patch Management</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Event Viewer</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">User Activity</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Command Prompt</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Power Shell</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => router({
+                         pathname: '/device-cmd',
+                         search: `?${createSearchParams({
+                           id: minionId
+                         })}`
+                       })}
+                     >Command Prompt</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => router({
+                         pathname: '/device-powershell',
+                         search: `?${createSearchParams({
+                           id: minionId
+                         })}`
+                       })}
+                     >Power Shell</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Run Script</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">File Transfer</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Registry Editor</Dropdown.Item>

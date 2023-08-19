@@ -57,6 +57,7 @@ import PlansBillings from "../pages/Client/Admin/Plans-Billings";
 import Ldap from "../pages/Client/Admin/Ldap";
 import Saml from "../pages/Client/Admin/Saml";
 import Oauth from "../pages/Client/Admin/Oauth";
+import EditProfile from "../pages/UserProfile/EditProfile";
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
         isAuthenticated: localStorage.getItem('token') ? true : false,
@@ -264,6 +265,10 @@ const AppRoutes = () => {
                 <Route
                     path="/user-profile"
                     element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<UserProfile />} />}
+                />
+                <Route
+                    path="/edit-profile"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<EditProfile />} />}
                 />
                 <Route
                     path="/output-server"

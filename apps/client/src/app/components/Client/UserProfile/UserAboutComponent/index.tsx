@@ -10,20 +10,20 @@ const UserAboutComponent = () => {
   return (
         <Card className="shadow border-0">
             <Card.Body>
-                <div className="w-500 theme-font">
-                    <h6 className="text-muted">About</h6>
+                <div className="theme-font">
+                    <h5 className=" text-muted">About</h5>
                     <div>
                         <div className="">
-                        <div className="theme-font"><span className="theme-danger "><BsPerson className="mx-1" /></span><span className='text-muted'>Full Name:</span> {userInfo?.result?.user_name}</div>
-                        <div className="theme-font"><span className="theme-danger"><GoCheck className="mx-1" /></span><span className='text-muted'>Status:</span> Active</div>
-                        <div className="theme-font"><span className="theme-danger"><MdOutlineManageAccounts className="mx-1" /></span><span className='text-muted'> Role:</span> {userInfo?.result?.role_name}</div>
+                        <div className="theme-font"><span className="theme-danger"><BsPerson className="mx-1" size={18} /></span><span className='text-muted'>Full Name:</span> {userInfo?.result?.user_name ? userInfo?.result?.user_name : userInfo?.user_name}</div>
+                        <div className="theme-font"><span className="theme-danger"><GoCheck className="mx-1" size={18} /></span><span className='text-muted'>Status:</span> Active</div>
+                        <div className="theme-font"><span className="theme-danger"><MdOutlineManageAccounts className="mx-1" size={18}  /></span><span className='text-muted'> Role:</span> {userInfo?.result?.role_name ? userInfo?.result?.role_name : userInfo?.role_name}</div>
                         </div>
                     </div>
                     <br />
-                    <div className="theme-font ">
-                    <h6 className="text-muted mb-1">Contact</h6>
+                    <div className="theme-font">
+                    <h5 className="text-muted mb-1">Contact</h5>
                         <div>
-                        <div className="theme-font"><span className="theme-danger"><AiOutlineMail className="mx-1"/></span>{userInfo?.result?.user_login}</div>
+                        <div className="theme-font"><span className="theme-danger"><AiOutlineMail size={18} className="mx-1"/></span>{userInfo?.result?.user_login ? userInfo?.result?.user_login : userInfo?.user_loginxx  }</div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {ChangePasswordActionType, LoginActionType, RegisterActionType, ResetActionType} from '../constants/user';
+import {
+  ChangePasswordActionType,
+  LoginActionType,
+  RegisterActionType,
+  ResetActionType,
+  UpdateUserActionType
+} from '../constants/user';
 
 const initialState: any = {
     loading: false,
@@ -59,6 +65,17 @@ const userSlice = createSlice({
             state.userInfo = payload;
         },
         [ChangePasswordActionType.UserChangePasswordFail]: (state, { payload }) => {
+            state.loading = false;
+            state.error = payload;
+        },
+        [UpdateUserActionType.UpdateUserPending]: (state) => {
+            state.loading = true;
+        },
+        [UpdateUserActionType.UpdateUserSuccess]: (state, { payload }) => {
+            state.loading = false;
+            state.userInfo = payload;
+        },
+        [UpdateUserActionType.UpdateUserFail]: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
         },

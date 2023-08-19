@@ -7,34 +7,46 @@ import AccountsComponent from "../../components/Client/UserProfile/UserAccountsC
 import UserAuthenticationComponent from "../../components/Client/UserProfile/UserAuthenticationComponent";
 import UserRecentDeviceTableComponent from "../../components/Client/UserProfile/UserRecentDeviceTableComponent";
 import UserDeleteAccountComponent from "../../components/Client/UserProfile/UserDeleteAccountComponent";
+import {getUserById, useGlobalSelector} from "@infralastic/global-state";
+import {useEffect, useState} from "react";
 const UserProfile = () => {
-const router = useNavigate();
-   
+  const router = useNavigate();
+  const { userInfo } = useGlobalSelector((state) => state.user);
+  const [userData, setUserData] = useState<any>(null)
+  const fetchUser = () => {
+    const formData: any = {
+      user_id: userInfo?.result?.user_id
+    }
+    getUserById(formData).then((res: any) => {
+      setUserData(res?.data?.result);
+    })
+  }
 
-return (
-    <div>
-        <UserCoverComponent />
-        <Row>
-            <Col md={3}>
-                <UserAboutComponent/>
-                <br/>
-                <AccountsComponent/>
-            </Col>
-            <Col md={9}>
-                <UserActivityTimeLineComponent/>
-                <br/>
-                <UserAuthenticationComponent/>
-                <br/>
-            </Col>
-            <Col md={12}>
-                <UserRecentDeviceTableComponent/>
-                <br/>
-                <UserDeleteAccountComponent/>
-            </Col>
-            
-        </Row>
-    </div>
-)
+  useEffect(() => {
+    fetchUser();
+  }, [])
+  return (
+      <div>
+          <UserCoverComponent />
+          <Row>
+              <Col md={3}>
+                  <UserAboutComponent/>
+              </Col>
+              <Col md={9}>
+                  <UserActivityTimeLineComponent/>
+                  <br/>
+                  <UserAuthenticationComponent/>
+                  <br/>
+              </Col>
+              <Col md={12}>
+                  <UserRecentDeviceTableComponent/>
+                  {/*<br/>*/}
+                  {/*<UserDeleteAccountComponent/>*/}
+              </Col>
+
+          </Row>
+      </div>
+  )
 }
 export default UserProfile;
 

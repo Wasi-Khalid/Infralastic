@@ -1,4 +1,4 @@
-import {userChangePassword, userLogin, userRegister, userReset} from "../../actions/Auth";
+import {userChangePassword, userLogin, userRegister, userReset, userUpdate} from "../../actions/Auth";
 
 export const LoginActionType: any = {
   UserLoginPending: [userLogin.pending],
@@ -19,4 +19,9 @@ export const ChangePasswordActionType: any = {
   UserChangePasswordPending: [userChangePassword.pending],
   UserChangePasswordSuccess: [userChangePassword.fulfilled],
   UserChangePasswordFail: [userChangePassword.rejected],
+}
+export const UpdateUserActionType: any = {
+  UpdateUserPending: [userUpdate.pending],
+  UpdateUserSuccess: [userUpdate.fulfilled],
+  UpdateUserFail: [userUpdate.rejected],
 }

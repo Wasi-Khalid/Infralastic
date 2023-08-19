@@ -1,14 +1,15 @@
 import './header.scss'
 import {InputGroup, Form, DropdownButton, Dropdown} from "react-bootstrap";
 import {BiBell, BiSearch} from "react-icons/bi";
-import {IoBasketOutline} from "react-icons/io5";
 import {AiOutlineAppstoreAdd} from "react-icons/ai";
 import {CiHeadphones} from "react-icons/ci";
-import avatar from '../../../../assets/Avatar.png'
 import {useNavigate} from "react-router-dom";
+import {useGlobalSelector} from "@infralastic/global-state";
 
 const HeaderComponent = () => {
   const router = useNavigate();
+  const { userInfo } = useGlobalSelector((state) => state.user);
+
   const logout = async () => {
     localStorage.clear();
     await router("/login");
@@ -50,7 +51,7 @@ const HeaderComponent = () => {
                       <DropdownButton
                           className="bg-transparent custom-btn"
                           id="dropdown-item-button"
-                          title={<img className='mx-2 rounded-circle bg-theme-danger' src={avatar} width={32} height={32} alt=""/>}
+                          title={<img className='mx-2 rounded-circle bg-theme-danger' src={userInfo?.result?.image_url ? userInfo?.result?.image_url : userInfo?.image_url} width={32} height={32} alt=""/>}
                       >
                           <Dropdown.Item
                             className='theme-font'

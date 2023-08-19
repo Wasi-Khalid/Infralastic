@@ -98,3 +98,26 @@ export const userChangePassword = createAsyncThunk(
     }
   }
 );
+export const userUpdate = createAsyncThunk(
+  "user/update",
+  async (
+      { name, user_id, login, password, phone, role_id, image_url, cover_url}:
+        { name: any, user_id: any, login: any, password: any, phone: any, role_id: any, image_url: any, cover_url: any },
+    { getState, rejectWithValue }
+  ) => {
+    try {
+      const { user }: any = getState();
+      let data = {};
+      await api.updateAdminUser({name, user_id, login, password, phone, role_id, image_url, cover_url}).then((res: any) => {
+        data = res.data.result;
+      });
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

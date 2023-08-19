@@ -8,7 +8,7 @@ import {useGlobalSelector} from "@infralastic/global-state";
 const UserAboutComponent = () => {
   const { userInfo } = useGlobalSelector((state) => state.user);
   return (
-        <Card className="shadow border-0">
+        <Card className="h-75 shadow border-0">
             <Card.Body>
                 <div className="theme-font">
                     <h5 className=" text-muted">About</h5>

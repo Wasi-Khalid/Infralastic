@@ -12,7 +12,7 @@ const UserCoverComponent = () => {
 
   return (
         <div className="w-100 background-cover my-3 shadow border-0">
-            <div className="w-100 position-relative cover-edit d-flex justify-content-end theme-danger"> <BiEdit size={24} /></div>
+            <div className="w-100 position-relative cover-edit d-flex justify-content-end theme-danger"> <BiEdit size={26} className="me-3" /></div>
             <div className="w-100">
                 <img className="w-100" src={userInfo?.result?.cover_url ? userInfo?.result?.cover_url : userInfo?.cover_url} alt="" height={'347'} />
             </div>

@@ -17,8 +17,8 @@ const StatsComponent = () => {
                         <div className='d-flex'>
                             <img width='50' height='50' src={icon1} alt=""/>
                             <div className='px-3'>
-                                <h5 className='mb-1'>667</h5>
-                                <p className='fs-7 fw-light text-muted'>Total&nbsp;Assets</p>
+                                <h5 className='mb-1'>60</h5>
+                                <p className='fs-7 fw-light text-muted'>Total&nbsp;App&nbsp;License</p>
                             </div>
                         </div>
                     </div>
@@ -42,8 +42,8 @@ const StatsComponent = () => {
                         <div className='d-flex'>
                             <img width='50' height='50' src={icon4} alt=""/>
                             <div className='px-3'>
-                                <h5 className='mb-1'>60</h5>
-                                <p className='fs-7 fw-light text-muted'>Active&nbsp;Devices</p>
+                                <h5 className='mb-1'>667</h5>
+                                <p className='fs-7 fw-light text-muted'>Total&nbsp;Assets</p>
                             </div>
                         </div>
                     </div>

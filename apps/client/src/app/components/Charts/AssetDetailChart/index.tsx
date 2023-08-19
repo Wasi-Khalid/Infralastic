@@ -25,7 +25,7 @@ export const options: any = {
     maintainAspectRatio: false,
 };
 export const data = {
-    labels: ['License Used', 'Active Devices', 'Blocked', 'Total Employees'],
+    labels: ['License Used', 'Active License', 'Blocked', 'Total Employees'],
     datasets: [
         {
             label: 'Total Percentage',

@@ -8,7 +8,7 @@ const TimelineComponent = () => {
               <Row className='h-100 overflow-auto'>
                   <Col md={1}></Col>
                   <Col md={11}>
-                      <h5 className='mb-4 theme-font'>Activity Timeline</h5>
+                      <h5 className='mb-4 theme-font'>Audit Activity</h5>
                       <div className='d-flex flex-column h-100'>
                           <div>
                               <h6 className='theme-font'>New asset</h6>

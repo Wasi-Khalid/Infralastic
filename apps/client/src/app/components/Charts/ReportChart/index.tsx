@@ -42,14 +42,19 @@ export const data = {
     labels,
     datasets: [
         {
-            label: 'New Reports',
+            label: 'Assets',
             data: [12, 19, 3, 5, 2, 3, 9, 10, 15],
             backgroundColor: '#F81521',
         },
         {
-            label: 'Previous Reports',
+            label: 'Department',
             data: [10, 20, 5, 3, 8, 9, 15, 20, 15],
             backgroundColor: 'rgba(248, 21, 33, 0.15)',
+        },
+        {
+            label: 'Employee',
+            data: [12, 19, 3, 5, 2, 3, 9, 10, 15],
+            backgroundColor: 'blue',
         },
     ],
 };

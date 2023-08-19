@@ -4,33 +4,34 @@ import icon2 from '../../../../../assets/icons/reportIcon1.png';
 import icon3 from '../../../../../assets/icons/reportIcon2.png';
 import {FaPlus} from "react-icons/fa";
 import ReportChart from "../../../Charts/ReportChart";
+import { Dropdown, Form } from 'react-bootstrap';
 
 const ReportsComponent = () => {
   return(
       <div>
           <div className="shadow bg-white rounded p-3">
-              <h5 className='theme-font mb-1'>Reports for all things</h5>
-              <p className='fs-7 fw-light text-muted '>Monthly Overview</p>
-              <div className='d-flex'>
-                  <div className="reports d-flex flex-column align-items-center justify-content-center mx-2 p-3">
-                      <img src={icon1} alt=""/>
-                      <p className='m-0 mt-1 theme-font fs-7'>Assets</p>
-                  </div>
-                  <div className="reports d-flex flex-column align-items-center justify-content-center p-3 mx-2">
-                      <img src={icon3} alt=""/>
-                      <p className='m-0 mt-1 theme-font fs-7'>Faulted</p>
-                  </div>
-                  <div className="reports d-flex flex-column align-items-center justify-content-center p-3 mx-2">
-                      <img src={icon2} alt=""/>
-                      <p className='m-0 mt-1 theme-font fs-7'>New&nbsp;Added</p>
-                  </div>
-                  <div className="reports d-flex flex-column align-items-center justify-content-center p-3 mx-2">
-                      <FaPlus className='text-secondary' />
-                  </div>
+            <div className="w-100">
+                <div className="d-flex w-100">
+                <div className="d-flex flex-column w-50">
+              <h5 className='theme-font mb-1 w-50'>Reports for all things</h5>
+              <p className='fs-7 fw-light text-muted w-50'>Monthly Overview</p>
               </div>
+              <div className='d-flex justify-content-end w-50'>
+                <div className="">
+              <Form.Select aria-label="Default select example">
+              <option value="0">Select Filter</option>
+              <option value="1">Assets</option>
+              <option value="2">Department</option>
+              <option value="3">Employee</option>
+              </Form.Select>
+              </div>
+              </div>
+              </div>
+
               <div className='chart-height'>
-                  <ReportChart />
-              </div>
+              <ReportChart />
+            </div>
+            </div>
           </div>
       </div>
   )

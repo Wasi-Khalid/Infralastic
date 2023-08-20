@@ -17,7 +17,7 @@ const ResetPassword = () => {
     const handleSubmit = () => {
         const formData: any = {
             login: email,
-            link: 'http://localhost:3000/change-password',
+            link: 'https://infralastic-capp.infralastic.com/change-password',
         };
         try {
             dispatch(userReset(formData)).then(async (res:any) => {

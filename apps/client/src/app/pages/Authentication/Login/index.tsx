@@ -92,7 +92,6 @@ const Login = () => {
                             <div className='text-center py-3'>
                                 <a
                                     className='text-black text-muted fs-7'
-                                    href=""
                                     onClick={() => router('/reset-password')}
                                 >Reset Password?</a>
                             </div>

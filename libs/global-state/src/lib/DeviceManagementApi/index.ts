@@ -5,7 +5,7 @@ const API = axios.create({
     'Access-Control-Allow-Origin': '*',
     'key': 'U2FsdGVkX1+8sut0u1BvDE5mJAvJ1L2E78kiwVPtMMo='
   },
-  baseURL: 'https://flt01.infralastic.com'
+  baseURL: 'http://flt01.infralastic.com:5000'
 });
 
 export const getHosts = (formData: any) =>
@@ -26,6 +26,9 @@ export const getAntivirus = (formData: any) =>
 export const getSaltMinion = (config: any) =>
   API.get(`/salt/getMinionIds`, config)
 
+export const getChocInstaller = (formData: any) =>
+  API.post('/salt/installChocolatey', formData)
+
 export const acceptSaltMinion = (formData: any) =>
   API.post(`/salt/acceptMinion`, formData)
 
@@ -37,7 +40,4 @@ export const executeSaltCommandsPowerShell = (formData: any) =>
 
 export const getIpAddress = (config: any) =>
   axios.get('https://ipgeolocation.abstractapi.com/v1/', config)
-
-export const getChocInstaller = (config: any) =>
-  axios.get('/salt/installChocolatey', config)
 

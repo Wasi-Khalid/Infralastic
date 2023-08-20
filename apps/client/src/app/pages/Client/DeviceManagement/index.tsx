@@ -42,15 +42,16 @@ const DeviceManagement = () => {
       minionId: name
     }
     getChocInstaller(formData).then((res) => {
+      debugger;
       if(res.data.status) {
-        toast.success('Connected Successfully')
+        toast.success(res.data.data.message)
       }
     })
   }
 
-  function handleSubmit(name: any) {
-    handleAccept(name);
-    handleInstaller(name)
+  async function handleSubmit(name: any) {
+    await handleInstaller(name);
+    await handleAccept(name);
   }
 
   function handleAccept(name: any) {

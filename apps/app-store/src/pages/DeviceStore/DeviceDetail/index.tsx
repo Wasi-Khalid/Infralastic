@@ -6,7 +6,7 @@ import {
   addToWishList,
   fetchAllProductList,
   fetchProductById,
-  useGlobalDispatch
+  useGlobalDispatch, useGlobalSelector
 } from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import {BiArrowBack} from "react-icons/bi";
@@ -17,9 +17,9 @@ const DeviceDetail  = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [productData, setProductData] = useState<any>(null);
   const [allProductData, setAllProductData] = useState<any>(null);
+  const { deviceUser } = useGlobalSelector((state) => state.deviceUser);
 
   const id: any = searchParams.get('productId')
-  const userId: any = searchParams.get('userId')
 
   const fetchProduct = () => {
     const fromData = {
@@ -53,9 +53,9 @@ const DeviceDetail  = () => {
 
   const addWishlist = (id: any) => {
     const formData: any = {
-      wishlist_no: 1,
+      wishlist_no: deviceUser,
       product_id: id,
-      user_id: userId
+      user_id: deviceUser
     }
     dispatch(addToWishList(formData)).then((res: any) => {
       if (res?.payload?.success === true) {
@@ -232,7 +232,7 @@ const DeviceDetail  = () => {
                       })}`
                     })}
                     image={item?.image}
-                    userId={userId}
+                    userId={deviceUser}
                     productId={item?.product_id}
                     description={item?.product_name}
                     cost={item?.price}

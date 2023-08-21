@@ -6,7 +6,8 @@ import {Loader} from "@infralastic/loader";
 import {
   getWishListById,
   useGlobalDispatch,
-  useGlobalSelector
+  useGlobalSelector,
+  fetchUser
 } from "@infralastic/global-state";
 import {ToastContainer} from "react-toastify";
 import {DndProvider} from "react-dnd";
@@ -18,26 +19,39 @@ import {createSearchParams, Link, useLocation, useNavigate} from "react-router-d
 
 function App() {
   const dispatch = useGlobalDispatch();
-  const router = useNavigate()
+  const router = useNavigate();
   const userLoading = useGlobalSelector((state) => state.device.loading);
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
   const wishInfo = useGlobalSelector((state) => state.cart.wishInfo);
+  const userDeviceLoading = useGlobalSelector((state) => state.deviceUser.loading);
   const location = useLocation();
   const [totalProductQuantity, setTotalProductQuantity] = useState<number>(0);
   const [wishCount, setWishCount] = useState<any>(null)
   const [cartCount, setCartCount] = useState<any>(null)
   const queryParameters = new URLSearchParams(window.location.search);
   const id = queryParameters.get("user_id");
+
   const getWish = () => {
     const formData: any = {
-      wishlist_no: 1
+      wishlist_no: id
     }
     dispatch(getWishListById(formData)).then((res: any) => {
       setWishCount(res?.payload?.wishlist_details)
     })
   }
+
+  const getUser = () => {
+    const formData = {
+      user_id: id
+    }
+    dispatch(fetchUser(formData)).then((res: any) => {
+      console.log(res)
+    })
+  }
+
   useEffect(() => {
     getWish();
+    getUser()
   }, [])
 
 
@@ -110,7 +124,7 @@ function App() {
           </div>
         }
         <ToastContainer autoClose={2000} />
-        <Loader visible={userLoading} />
+        <Loader visible={userLoading || userDeviceLoading} />
         <ProductRoutes />
       </div>
     </DndProvider>

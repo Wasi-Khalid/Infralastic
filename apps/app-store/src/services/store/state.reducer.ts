@@ -3,7 +3,7 @@ import deviceReducer from "./reducers/device.reducer";
 
 
 const rootReducers = combineReducers({
-    device: deviceReducer,
+    device: deviceReducer
 })
 
 export default rootReducers;

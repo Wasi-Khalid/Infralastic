@@ -8,6 +8,7 @@ import assetReducer from "./reducers/asset.reducer";
 import deviceReducer from "./reducers/device.reducer";
 import orderReducer from "./reducers/order.reducer";
 import reportReducer from "./reducers/report.reducer";
+import deviceUserReducer from "./reducers/userDevice.reducer";
 
 
 
@@ -20,7 +21,8 @@ const rootReducers = combineReducers({
   asset: assetReducer,
   device: deviceReducer,
   order: orderReducer,
-  report: reportReducer
+  report: reportReducer,
+  deviceUser: deviceUserReducer
 })
 
 export default rootReducers;

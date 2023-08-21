@@ -1,4 +1,10 @@
-import { addToCartList, getWishListById, useGlobalDispatch, wishRemove } from "@infralastic/global-state";
+import {
+  addToCartList,
+  getWishListById,
+  useGlobalDispatch,
+  useGlobalSelector,
+  wishRemove
+} from "@infralastic/global-state";
 import { useEffect, useState } from "react";
 import { Card, Table } from "react-bootstrap";
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
@@ -11,12 +17,11 @@ import {BiArrowBack} from "react-icons/bi";
 const WishList = () => {
     const dispatch = useGlobalDispatch()
     const [wishData,setWishData ] = useState<any>(null)
-    const [searchParams, setSearchParams] = useSearchParams();
-    const id: any = searchParams.get('user_id')
+    const { deviceUser } = useGlobalSelector((state) => state.deviceUser);
     const router = useNavigate();
     const getWish = () => {
         const formData: any = {
-          wishlist_no: 1
+          wishlist_no: deviceUser
         }
         dispatch(getWishListById(formData)).then((res: any) => {
           setWishData(res?.payload?.wishlist_details)
@@ -28,7 +33,7 @@ const WishList = () => {
       }, [])
       const handleWishRemove = async (id: any) => {
         const formData: any = {
-          wishlist_no: 1,
+          wishlist_no: deviceUser,
           product_id: id
         }
         try {
@@ -57,7 +62,7 @@ const WishList = () => {
 
       const handleAddCart = async (id: any, wish: boolean) => {
         const formData = {
-          cartlist_no: 1,
+          cartlist_no: deviceUser,
           product_id: id
         }
         try {

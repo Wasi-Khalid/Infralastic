@@ -45,7 +45,7 @@ const ProductCard = (props: productProps) => {
 
   const addWishlist = (id: any) => {
     const formData: any = {
-      wishlist_no: 1,
+      wishlist_no: props?.userId,
       product_id: id,
       user_id: props?.userId
     }

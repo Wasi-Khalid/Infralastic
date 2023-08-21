@@ -3,7 +3,13 @@ import { Card, Col, Row } from "react-bootstrap";
 import ProductCard from "../ProductCard";
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from "react";
-import {addWishList, fetchAllProductList, getCatalogList, useGlobalDispatch} from "@infralastic/global-state";
+import {
+  addWishList,
+  fetchAllProductList,
+  getCatalogList,
+  useGlobalDispatch,
+  useGlobalSelector
+} from "@infralastic/global-state";
 import bogus from "../../../assets/products/product_5.png";
 import bogus1 from "../../../assets/products/product_2.png";
 import bogus2 from "../../../assets/products/product_3.png";
@@ -29,12 +35,11 @@ const AllDevices = (props: filterInterface) => {
   const [originalData, setOriginalData] = useState<any>([]);
   const [productData, setProductData] = useState<any>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const queryParameters = new URLSearchParams(window.location.search);
-  const id = queryParameters.get("user_id");
+  const { deviceUser } = useGlobalSelector((state) => state.deviceUser);
 
   const getProductCatalogue = () => {
     const formData = {
-      user_id: id
+      user_id: deviceUser
     }
     getCatalogList(formData).then((res: any) => {
       console.log(res)
@@ -142,10 +147,10 @@ const AllDevices = (props: filterInterface) => {
                     pathname: '/device-detail',
                     search: `?${createSearchParams({
                       productId: item?.product_id,
-                      userId: JSON.stringify(id)
+                      userId: JSON.stringify(deviceUser)
                     })}`
                   })}
-                  userId={id}
+                  userId={deviceUser}
                   image={item?.image}
                   productId={item?.product_id}
                   description={item?.product_name}

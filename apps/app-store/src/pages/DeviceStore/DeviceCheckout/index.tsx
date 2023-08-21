@@ -38,6 +38,7 @@ const DeviceCheckout = () => {
   const [locationData, setLocationData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const cartInfo = useGlobalSelector((state) => state.cart.cartInfo);
+  const { deviceUser } = useGlobalSelector((state) => state.deviceUser);
   const wishInfo = useGlobalSelector((state) => state.cart.wishInfo);
   const totalCost = cartInfo?.cart_details?.reduce((total: number, item: any) => total + item?.price, 0) || 0;
 
@@ -80,11 +81,11 @@ const DeviceCheckout = () => {
       zip_code: zip,
       country_id: JSON.parse(country),
       state_id: state,
-      user: 1,
+      user: deviceUser,
       product_ids: product,
       company_id: 1,
       company_name:"My Company",
-      cartlist_no: 1
+      cartlist_no: deviceUser
     }
     checkoutOrder(formData).then((res: any) => {
       if (res.data?.result?.success === true) {
@@ -107,7 +108,7 @@ const DeviceCheckout = () => {
 
   const handleDelete = async (id: any) => {
     const formData: any = {
-      cartlist_no: 1,
+      cartlist_no: deviceUser,
       product_id: id,
     };
     try {
@@ -143,7 +144,7 @@ const DeviceCheckout = () => {
 
   const handleRemove = async (id: any) => {
     const formData: any = {
-      cartlist_no: 1,
+      cartlist_no: deviceUser,
       product_id: id,
     };
     try {
@@ -172,7 +173,7 @@ const DeviceCheckout = () => {
 
   const handleWishRemove = async (id: any) => {
     const formData: any = {
-      wishlist_no: 1,
+      wishlist_no: deviceUser,
       product_id: id
     }
     try {
@@ -201,7 +202,7 @@ const DeviceCheckout = () => {
 
   const handleAddCart = async (id: any, wish: boolean) => {
     const formData = {
-      cartlist_no: 1,
+      cartlist_no: deviceUser,
       product_id: id
     }
     try {

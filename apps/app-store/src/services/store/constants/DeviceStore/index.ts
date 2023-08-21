@@ -1,4 +1,4 @@
-import { fetchProductList } from "../../actions/DeviceStore";
+import {fetchProductList} from "../../actions/DeviceStore";
 
 export const ProductActionType: any = {
   ProductPending: [fetchProductList.pending],

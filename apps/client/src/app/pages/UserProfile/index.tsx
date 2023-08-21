@@ -5,10 +5,10 @@ import { Col, Row } from "react-bootstrap";
 import UserActivityTimeLineComponent from "../../components/Client/UserProfile/UserActivityTimeLineComponent";
 import AccountsComponent from "../../components/Client/UserProfile/UserAccountsComponent";
 import UserAuthenticationComponent from "../../components/Client/UserProfile/UserAuthenticationComponent";
-import UserRecentDeviceTableComponent from "../../components/Client/UserProfile/UserRecentDeviceTableComponent";
 import UserDeleteAccountComponent from "../../components/Client/UserProfile/UserDeleteAccountComponent";
 import {getUserById, useGlobalSelector} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
+import UserRecentDeviceTableComponent from "../../components/Client/UserProfile/UserRecentDeviceTableComponent";
 const UserProfile = () => {
   const router = useNavigate();
   const { userInfo } = useGlobalSelector((state) => state.user);

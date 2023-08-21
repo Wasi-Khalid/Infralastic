@@ -3,9 +3,7 @@ import UserCoverComponent from "../../components/Client/UserProfile/UserCoverCom
 import UserAboutComponent from "../../components/Client/UserProfile/UserAboutComponent";
 import { Col, Row } from "react-bootstrap";
 import UserActivityTimeLineComponent from "../../components/Client/UserProfile/UserActivityTimeLineComponent";
-import AccountsComponent from "../../components/Client/UserProfile/UserAccountsComponent";
 import UserAuthenticationComponent from "../../components/Client/UserProfile/UserAuthenticationComponent";
-import UserDeleteAccountComponent from "../../components/Client/UserProfile/UserDeleteAccountComponent";
 import {getUserById, useGlobalSelector} from "@infralastic/global-state";
 import {useEffect, useState} from "react";
 import UserRecentDeviceTableComponent from "../../components/Client/UserProfile/UserRecentDeviceTableComponent";

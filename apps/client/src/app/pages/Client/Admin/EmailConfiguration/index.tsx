@@ -3,6 +3,7 @@ import { IoLogoGoogle } from "react-icons/io";
 import { IoLogoMicrosoft } from "react-icons/io5";
 import {useState} from "react";
 import {addIncomingMail, addOutgoingMail} from "@infralastic/global-state";
+import {toast} from "react-toastify";
 
 const EmailConfiguration = () => {
   const [description , setDescription] = useState('')
@@ -18,7 +19,7 @@ const EmailConfiguration = () => {
       smtp_pass: password
     }
     addIncomingMail(formData).then((res:any) => {
-      console.log(res)
+      toast.success(res?.data?.result?.msg)
     })
   }
 
@@ -29,7 +30,7 @@ const EmailConfiguration = () => {
       smtp_pass: password
     }
     addOutgoingMail(formData).then((res:any) => {
-      console.log(res)
+      toast.success(res?.data?.result?.msg)
     })
   }
     return(

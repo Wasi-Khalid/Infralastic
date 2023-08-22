@@ -6,10 +6,11 @@ const DeviceStore = () => {
 
   // Generate the iframe URL with the user_id parameter
   const iframeUrl = `https://infralastic-shop.infralastic.com/device-store?user_id=${userInfo?.result?.user_id}`;
+  const iframeUrl2 = `http://localhost:3001/device-store?user_id=${userInfo?.result?.user_id}`;
 
   return (
     <div className="h-100 py-3">
-\      <iframe src={iframeUrl} className="w-100 h-100" />
+      <iframe src={iframeUrl} className="w-100 h-100" />
     </div>
   );
 };

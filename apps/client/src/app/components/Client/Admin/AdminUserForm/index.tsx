@@ -93,7 +93,8 @@ const AdminUserForm = (id: any) => {
                     phone: phone,
                     role_id: JSON.parse(roles),
                     image_url: userImageUrl,
-                    cover_url: coverImageUrl
+                    cover_url: coverImageUrl,
+                    link : "https://infralastic-capp.infralastic.com/change-password"
                   };
 
                   try {

@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import './login.scss';
 import {useGlobalDispatch, useGlobalSelector, userLogin} from "@infralastic/global-state";
 import {toast} from "react-toastify";
+import {useAuth0} from "@auth0/auth0-react";
 
 
 const Login = () => {
@@ -16,6 +17,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const router = useNavigate()
     const dispatch = useGlobalDispatch();
+    const { loginWithRedirect } = useAuth0();
     const { userInfo } = useGlobalSelector((state) => state.user);
 
 
@@ -104,6 +106,7 @@ const Login = () => {
                                     <img src={google} className='w-75' alt=""/>
                                 </div>
                             </div>
+                            <button onClick={() => loginWithRedirect()}>Log In</button>
                             <div>
                                 <p className='fs-7 text-center py-3'>By clicking <span className='fw-bold'>“Login”</span>  you agree to <span className='theme-danger'>Infralastic’s</span> user Terms of Services and <span className='theme-danger'>Privacy Policy</span></p>
                             </div>

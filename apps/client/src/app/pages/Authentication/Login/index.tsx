@@ -106,7 +106,9 @@ const Login = () => {
                                     <img src={google} className='w-75' alt=""/>
                                 </div>
                             </div>
-                            <button onClick={() => loginWithRedirect()}>Log In</button>
+                            <button
+                              className='bg-theme-danger border-0 text-white py-1 theme-font my-2 rounded'
+                              onClick={() => loginWithRedirect()}>Authorize Using 0Auth</button>
                             <div>
                                 <p className='fs-7 text-center py-3'>By clicking <span className='fw-bold'>“Login”</span>  you agree to <span className='theme-danger'>Infralastic’s</span> user Terms of Services and <span className='theme-danger'>Privacy Policy</span></p>
                             </div>

@@ -2,7 +2,7 @@ import './agent-modal.scss';
 import {Button, Col, Modal, ProgressBar, Row} from "react-bootstrap";
 import {StepLabel, Stepper, Typography, Step} from "@mui/material";
 import React, {useState} from "react";
-import {getInstaller, getSaltInstaller} from "@infralastic/global-state";
+import {generateRmmInstaller, getInstaller, getRmmClient, getSaltInstaller} from "@infralastic/global-state";
 
 interface AgentModal {
   show: any;
@@ -11,6 +11,7 @@ interface AgentModal {
 const AgentModal = (props: AgentModal) => {
   const [activeStep, setActiveStep] = useState(0);
   const [installer, setInstaller] = useState<any>('');
+  const [clientData, setClientData] = useState<any>([]);
 
   const steps = [
     {
@@ -20,6 +21,45 @@ const AgentModal = (props: AgentModal) => {
       label: 'Download'
     }
   ];
+
+  function fetchRmmClient() {
+    const config: any = {}
+    getRmmClient(config).then((res: any) => {
+      setClientData(res?.data?.data)
+    })
+  }
+
+  function generateInstaller() {
+    const formData: any = {
+      clientId:1,
+      siteId:1,
+      platform:"windows",
+      osType:"amd64"
+    }
+    generateRmmInstaller(formData)
+      .then((res) => {
+        const hexData = res.data.data;
+        const byteArray = new Uint8Array(hexData.match(/.{1,2}/g).map((byte: any) => parseInt(byte, 16)));
+
+        const blob = new Blob([byteArray], { type: "application/octet-stream" });
+
+        const downloadUrl = URL.createObjectURL(blob);
+
+        const downloadLink = document.createElement("a");
+        downloadLink.style.display = "none";
+        downloadLink.href = downloadUrl;
+        downloadLink.download = "RmmInstaller.exe"; // Set the desired filename
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        // Clean up the Blob URL
+        URL.revokeObjectURL(downloadUrl);
+      })
+      .catch((error) => {
+        console.error('Error occurred during installer generation:', error);
+      });
+  }
 
   const openInstallerUrl = (installerUrl: any) => {
     const newTab: any = window.open(installerUrl, '_blank');
@@ -58,6 +98,7 @@ const AgentModal = (props: AgentModal) => {
   function fetchInstaller() {
     handleInstaller();
     handleSaltInstaller();
+    generateInstaller();
     window.close();
   }
   return(

@@ -26,6 +26,12 @@ export const getAntivirus = (formData: any) =>
 export const getSaltMinion = (config: any) =>
   API.get(`/salt/getMinionIds`, config)
 
+export const getRmmClient = (config: any) =>
+  API.get(`/tactical/getClients`, config)
+
+export const generateRmmInstaller = (config: any) =>
+  API.post(`/tactical/generateInstaller`, config)
+
 export const getChocInstaller = (formData: any) =>
   API.post('/salt/installChocolatey', formData)
 

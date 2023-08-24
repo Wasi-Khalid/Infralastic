@@ -7,7 +7,13 @@ import bogus from '../../../../assets/Facebook.png'
 import {createSearchParams, useNavigate} from "react-router-dom";
 import AgentModal from "../../../components/Modals/AgentModal";
 import {useEffect, useState} from "react";
-import {acceptSaltMinion, getChocInstaller, getHosts, getSaltInstaller, getSaltMinion} from "@infralastic/global-state";
+import {
+  acceptSaltMinion,
+  getChocInstaller,
+  getHosts,
+  getSaltInstaller,
+  getSaltMinion
+} from "@infralastic/global-state";
 import {HiDownload} from "react-icons/hi";
 import {LuSettings2} from "react-icons/lu";
 import {BsFileEarmarkArrowUp} from "react-icons/bs";
@@ -16,7 +22,7 @@ import {toast} from "react-toastify";
 const DeviceManagement = () => {
   const router = useNavigate();
   const [show, setShow] = useState(false);
-  const [data, setData] = useState<any>([])
+  const [data, setData] = useState<any>([]);
 
   function fetchHosts() {
     const config = {}
@@ -42,7 +48,6 @@ const DeviceManagement = () => {
       minionId: name
     }
     getChocInstaller(formData).then((res) => {
-      debugger;
       if(res.data.status) {
         toast.success(res.data.data.message)
       }

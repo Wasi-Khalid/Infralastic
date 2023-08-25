@@ -20,8 +20,7 @@ const Login = () => {
     const { loginWithRedirect } = useAuth0();
     const { userInfo } = useGlobalSelector((state) => state.user);
 
-
-    // const checkFleet = () => {
+  // const checkFleet = () => {
     //   axios.get('http://fleet.flashcitytours.com/user').then((res: any)  => {
     //     console.log(res)
     //   })

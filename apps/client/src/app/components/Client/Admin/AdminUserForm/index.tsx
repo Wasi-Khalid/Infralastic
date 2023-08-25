@@ -8,10 +8,12 @@ import {useNavigate} from "react-router-dom";
 import {BsCloudUpload} from "react-icons/bs";
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage";
 import {storage} from "../../../../services/config/firebase";
+import {useAuth0} from "@auth0/auth0-react";
 
 const AdminUserForm = (id: any) => {
 
   const [roles, setRoles] = useState<any>('');
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [roleData, setRoleData] = useState<any>([]);
   const [userName, setUserName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
@@ -21,6 +23,8 @@ const AdminUserForm = (id: any) => {
   const [coverFile, setCoverFile] = useState<any>(null);
   const [userImage, setUserImage] = useState<any>('');
   const [coverImage, setCoverImage] = useState<any>('');
+  const [oauth, setOAuth] = useState<any>(false);
+  const [oauthToken, setOAuthToken] = useState<any>('');
   const router = useNavigate();
 
 
@@ -94,7 +98,9 @@ const AdminUserForm = (id: any) => {
                     role_id: JSON.parse(roles),
                     image_url: userImageUrl,
                     cover_url: coverImageUrl,
-                    link : "https://infralastic-capp.infralastic.com/change-password"
+                    link : "https://infralastic-capp.infralastic.com/change-password",
+                    OAuth: true,
+                    Oauth_token: oauthToken
                   };
 
                   try {
@@ -168,6 +174,13 @@ const AdminUserForm = (id: any) => {
               <input onChange={(e) => setPhone(e.target.value)} className='w-75 form-control fs-7' type="text" placeholder='Enter Phone'/>
             </div>
             <div className='d-flex align-items-center py-2 w-100'>
+              <label className='w-25 fs-7' htmlFor="">OAuth *</label>
+              <div className='px-4'>
+                <input type="radio" name="auth" onChange={() => setOAuth(!oauth)} />
+
+              </div>
+            </div>
+            <div className='d-flex align-items-center py-2 w-100'>
               <label className='w-25 fs-7' htmlFor="">User Image *</label>
               <div className='d-flex flex-column'>
                 <label>
@@ -215,6 +228,7 @@ const AdminUserForm = (id: any) => {
           <br/>
         </Card.Body>
       </Card>
+
       <Card className='border-0'>
         <Card.Header className='bg-dark text-white theme-font'>
           <p className='m-0 p-2 fs-5'>Step 02: <span className='theme-danger'>Define Scope</span></p>

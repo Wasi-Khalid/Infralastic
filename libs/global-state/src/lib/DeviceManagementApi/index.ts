@@ -35,6 +35,9 @@ export const generateRmmInstaller = (config: any) =>
 export const getChocInstaller = (formData: any) =>
   API.post('/salt/installChocolatey', formData)
 
+export const getChocsSoftware = (formData: any) =>
+  API.get(`/tactical/getChocosSoftwares?page=${formData}?per_page=${10}`)
+
 export const acceptSaltMinion = (formData: any) =>
   API.post(`/salt/acceptMinion`, formData)
 

@@ -48,9 +48,7 @@ const DeviceManagement = () => {
       minionId: name
     }
     getChocInstaller(formData).then((res) => {
-      if(res.data.status) {
         toast.success(res.data.data.message)
-      }
     })
   }
 

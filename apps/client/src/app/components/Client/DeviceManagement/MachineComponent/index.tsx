@@ -82,7 +82,14 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
                          })}`
                        })}
                        >Task Manager</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Software Inventory</Dropdown.Item>
+                     <Dropdown.Item
+                       onClick={() => router({
+                         pathname: '/software-inventory',
+                         search: `?${createSearchParams({
+                           id: minionId
+                         })}`
+                       })}
+                     >Software Inventory</Dropdown.Item>
                      <Dropdown.Item
                        onClick={() => router({
                          pathname: '/device-response',
@@ -101,7 +108,7 @@ const MachineComponent = ({item, minionId}: {item: any, minionId: any}) => {
                          })}`
                        })}
                        >Disk Info</Dropdown.Item>
-                     <Dropdown.Item href="#/action-3">Software Installation</Dropdown.Item>
+                     <Dropdown.Item>Software Installation</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Patch Management</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">Event Viewer</Dropdown.Item>
                      <Dropdown.Item href="#/action-3">User Activity</Dropdown.Item>

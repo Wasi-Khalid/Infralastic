@@ -60,6 +60,8 @@ import Oauth from "../pages/Client/Admin/Oauth";
 import EditProfile from "../pages/UserProfile/EditProfile";
 import DeviceCmd from "../pages/Client/DeviceManagement/DeviceCmd";
 import DevicePowerShell from "../pages/Client/DeviceManagement/DevicePowerShell";
+import SoftwareInstallation from "../pages/Client/DeviceManagement/SoftwareInstallation";
+import SoftwareInventory from "../pages/Client/DeviceManagement/SoftwareInstallation";
 const AppRoutes = () => {
     const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
         isAuthenticated: localStorage.getItem('token') ? true : false,
@@ -306,7 +308,11 @@ const AppRoutes = () => {
               />
               <Route
                     path="/0auth"
-                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth/>} />}
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Oauth />} />}
+                />
+              <Route
+                    path="/software-inventory"
+                    element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<SoftwareInventory />} />}
                 />
               <Route
                     path="/device-cmd"
